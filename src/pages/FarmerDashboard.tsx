@@ -12,21 +12,33 @@ import {
   Clock,
   Cloud,
   CloudRain,
-  Sun
+  Sun,
+  MapPin
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { RecentActivity } from "@/components/dashboard/RecentActivity";
 import { CropPortfolioCard } from "@/components/dashboard/CropPortfolioCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useEffect } from "react";
+import { MobileLayout } from "@/components/mobile/MobileLayout";
+import { CameraCapture } from "@/components/mobile/CameraCapture";
+import { useGeolocation } from "@/hooks/useGeolocation";
+import { useToast } from "@/hooks/use-toast";
 
 const FarmerDashboard = () => {
   const [loading, setLoading] = useState(true);
+  const { position, getCurrentPosition } = useGeolocation();
+  const { toast } = useToast();
   
   // Simulate loading
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1000);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Get location on mount
+  useEffect(() => {
+    getCurrentPosition();
   }, []);
 
   // Mock data - in real app, fetch from API
@@ -115,48 +127,56 @@ const FarmerDashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
-        <header className="bg-gradient-to-r from-primary to-primary-light text-primary-foreground py-6 shadow-lg">
-          <div className="container mx-auto px-4">
-            <Skeleton className="h-10 w-64 bg-white/20" />
+      <MobileLayout title="Dashboard">
+        <div className="min-h-screen bg-background">
+          <header className="bg-gradient-to-r from-primary to-primary-light text-primary-foreground py-6 shadow-lg">
+            <div className="container mx-auto px-4">
+              <Skeleton className="h-10 w-64 bg-white/20" />
+            </div>
+          </header>
+          <div className="container mx-auto px-4 py-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+              {[1, 2, 3].map((i) => (
+                <Skeleton key={i} className="h-32" />
+              ))}
+            </div>
+            <Skeleton className="h-96 mb-8" />
           </div>
-        </header>
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-32" />
-            ))}
-          </div>
-          <Skeleton className="h-96 mb-8" />
         </div>
-      </div>
+      </MobileLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <MobileLayout title={`Welcome, ${farmerName}!`} showBottomNav={true}>
+      <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="bg-gradient-to-r from-primary to-primary-light text-primary-foreground py-6 shadow-lg">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">Welcome back, {farmerName}! 👋</h1>
-              <div className="flex items-center gap-4 text-primary-foreground/90">
-                <div className="flex items-center gap-2">
-                  <Sprout className="h-4 w-4" />
-                  <span>Current Season: {currentSeason}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  {getWeatherIcon()}
-                  <span className="capitalize">{weatherCondition}</span>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold mb-2">Welcome back, {farmerName}! 👋</h1>
+                <div className="flex flex-wrap items-center gap-3 text-sm md:text-base text-primary-foreground/90">
+                  <div className="flex items-center gap-2">
+                    <Sprout className="h-4 w-4" />
+                    <span>{currentSeason}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {getWeatherIcon()}
+                    <span className="capitalize">{weatherCondition}</span>
+                  </div>
+                  {position && (
+                    <div className="flex items-center gap-2">
+                      <MapPin className="h-4 w-4" />
+                      <span className="text-xs">
+                        {position.coords.latitude.toFixed(2)}°, {position.coords.longitude.toFixed(2)}°
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
-            <Link to="/">
-              <Button variant="outline" className="bg-white/10 backdrop-blur-sm border-white/30 text-primary-foreground hover:bg-white/20">
-                Home
-              </Button>
-            </Link>
           </div>
         </div>
       </header>
@@ -264,6 +284,9 @@ const FarmerDashboard = () => {
               )}
             </div>
 
+            {/* Camera Quick Access */}
+            <CameraCapture cropId="quick-update" />
+
             {/* Recent Activity */}
             <RecentActivity />
           </div>
@@ -348,7 +371,8 @@ const FarmerDashboard = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </MobileLayout>
   );
 };
 

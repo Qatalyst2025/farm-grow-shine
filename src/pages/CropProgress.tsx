@@ -9,10 +9,21 @@ import { PhotoJournal } from "@/components/crop-progress/PhotoJournal";
 import { DataLoggingForm } from "@/components/crop-progress/DataLoggingForm";
 import { HealthMonitoring } from "@/components/crop-progress/HealthMonitoring";
 import { ProgressIndicators } from "@/components/crop-progress/ProgressIndicators";
+import { MobileLayout } from "@/components/mobile/MobileLayout";
+import { CameraCapture } from "@/components/mobile/CameraCapture";
+import { PullToRefresh } from "@/components/mobile/PullToRefresh";
 
 const CropProgress = () => {
   const { cropId } = useParams();
   const [activeTab, setActiveTab] = useState("overview");
+  const [refreshing, setRefreshing] = useState(false);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    // Simulate data refresh
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setRefreshing(false);
+  };
 
   // Mock crop data - in real app, fetch from API/database
   const crop = {
@@ -40,7 +51,9 @@ const CropProgress = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <MobileLayout title={`${crop.name} Progress`} showBottomNav={true}>
+      <PullToRefresh onRefresh={handleRefresh}>
+        <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="bg-gradient-to-r from-primary to-primary-light text-primary-foreground py-6 shadow-lg">
         <div className="container mx-auto px-4">
@@ -97,7 +110,10 @@ const CropProgress = () => {
           </TabsContent>
 
           <TabsContent value="photos" className="mt-6">
-            <PhotoJournal cropId={crop.id} />
+            <CameraCapture cropId={crop.id} />
+            <div className="mt-6">
+              <PhotoJournal cropId={crop.id} />
+            </div>
           </TabsContent>
 
           <TabsContent value="updates" className="mt-6">
@@ -109,7 +125,9 @@ const CropProgress = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
+        </div>
+      </PullToRefresh>
+    </MobileLayout>
   );
 };
 

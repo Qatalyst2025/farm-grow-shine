@@ -16,10 +16,16 @@ import { MapView } from "@/components/marketplace/MapView";
 import { FilterSidebar } from "@/components/marketplace/FilterSidebar";
 import { CropListingCard } from "@/components/marketplace/CropListingCard";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { MobileLayout } from "@/components/mobile/MobileLayout";
+import { PullToRefresh } from "@/components/mobile/PullToRefresh";
 
 const Marketplace = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [showMap, setShowMap] = useState(true);
+
+  const handleRefresh = async () => {
+    await new Promise(resolve => setTimeout(resolve, 1500));
+  };
 
   // Mock listings
   const listings = [
@@ -91,7 +97,9 @@ const Marketplace = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <MobileLayout title="Marketplace" showBottomNav={true}>
+      <PullToRefresh onRefresh={handleRefresh}>
+        <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="bg-gradient-to-r from-primary to-success text-primary-foreground py-6 shadow-lg sticky top-0 z-40">
         <div className="container mx-auto px-4">
@@ -238,7 +246,9 @@ const Marketplace = () => {
           </div>
         </div>
       </div>
-    </div>
+        </div>
+      </PullToRefresh>
+    </MobileLayout>
   );
 };
 
