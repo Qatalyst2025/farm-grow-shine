@@ -3,6 +3,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
+import { AccessibilityMenu } from "@/components/accessibility/AccessibilityMenu";
 import Index from "./pages/Index";
 import FarmerDashboard from "./pages/FarmerDashboard";
 import LoanApplication from "./pages/LoanApplication";
@@ -18,25 +20,28 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/farmer" element={<FarmerDashboard />} />
-          <Route path="/farmer/apply-loan" element={<LoanApplication />} />
-          <Route path="/farmer/success" element={<LoanSuccess />} />
-          <Route path="/farmer/crops/:cropId" element={<CropProgress />} />
-          <Route path="/farmer/learn" element={<LearningCenter />} />
-          <Route path="/farmer/cooperative" element={<CooperativeManagement />} />
-          <Route path="/marketplace" element={<Marketplace />} />
-          <Route path="/buyer/profile" element={<BuyerProfile />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AccessibilityProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/farmer" element={<FarmerDashboard />} />
+            <Route path="/farmer/apply-loan" element={<LoanApplication />} />
+            <Route path="/farmer/success" element={<LoanSuccess />} />
+            <Route path="/farmer/crops/:cropId" element={<CropProgress />} />
+            <Route path="/farmer/learn" element={<LearningCenter />} />
+            <Route path="/farmer/cooperative" element={<CooperativeManagement />} />
+            <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="/buyer/profile" element={<BuyerProfile />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <AccessibilityMenu />
+        </BrowserRouter>
+      </TooltipProvider>
+    </AccessibilityProvider>
   </QueryClientProvider>
 );
 

@@ -1,0 +1,99 @@
+{
+  "common": {
+    "welcome": "Bem-vindo",
+    "login": "Entrar",
+    "logout": "Sair",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "close": "Fechar",
+    "search": "Pesquisar",
+    "filter": "Filtrar",
+    "loading": "Carregando...",
+    "error": "Erro",
+    "success": "Sucesso"
+  },
+  "nav": {
+    "home": "Início",
+    "myCrops": "Minhas Culturas",
+    "loans": "Empréstimos",
+    "market": "Mercado",
+    "profile": "Perfil",
+    "learn": "Aprender",
+    "cooperative": "Cooperativa"
+  },
+  "dashboard": {
+    "title": "Painel do Agricultor",
+    "totalRevenue": "Receita Total",
+    "activeCrops": "Culturas Ativas",
+    "pendingOrders": "Pedidos Pendentes",
+    "cropHealth": "Saúde das Culturas",
+    "location": "Sua Localização",
+    "quickActions": "Ações Rápidas",
+    "takePhoto": "Tirar Foto",
+    "recentActivity": "Atividade Recente"
+  },
+  "crops": {
+    "progress": "Progresso da Cultura",
+    "health": "Estado de Saúde",
+    "planted": "Plantado",
+    "harvest": "Colheita Prevista",
+    "timeline": "Cronograma de Crescimento",
+    "addPhoto": "Adicionar Foto",
+    "logData": "Registrar Dados",
+    "viewJournal": "Ver Diário"
+  },
+  "loans": {
+    "apply": "Solicitar Empréstimo",
+    "amount": "Valor do Empréstimo",
+    "purpose": "Finalidade",
+    "term": "Prazo do Empréstimo",
+    "submit": "Enviar Solicitação",
+    "status": "Status da Solicitação",
+    "approved": "Aprovado",
+    "pending": "Pendente"
+  },
+  "marketplace": {
+    "title": "Mercado",
+    "buyNow": "Comprar Agora",
+    "addToCart": "Adicionar ao Carrinho",
+    "price": "Preço",
+    "quantity": "Quantidade",
+    "seller": "Vendedor",
+    "location": "Localização"
+  },
+  "accessibility": {
+    "menu": "Configurações de Acessibilidade",
+    "highContrast": "Modo Alto Contraste",
+    "textSize": "Tamanho do Texto",
+    "reducedMotion": "Reduzir Movimento",
+    "language": "Idioma",
+    "small": "Pequeno",
+    "medium": "Médio",
+    "large": "Grande",
+    "extraLarge": "Extra Grande"
+  },
+  "voice": {
+    "listening": "Ouvindo...",
+    "tapToSpeak": "Toque para falar",
+    "commands": {
+      "takePhoto": "Tirar foto",
+      "applyLoan": "Solicitar empréstimo",
+      "viewCrops": "Ver minhas culturas",
+      "goToMarket": "Ir ao mercado"
+    }
+  },
+  "errors": {
+    "required": "Este campo é obrigatório",
+    "invalidEmail": "Por favor, insira um e-mail válido",
+    "invalidPhone": "Por favor, insira um número de telefone válido",
+    "networkError": "Erro de rede. Verifique sua conexão.",
+    "tryAgain": "Por favor, tente novamente"
+  },
+  "offline": {
+    "youAreOffline": "Você está offline",
+    "pending": "pendente",
+    "syncingData": "Sincronizando dados..."
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "common": {
+    "welcome": "مرحبا",
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "close": "إغلاق",
+    "search": "بحث",
+    "filter": "تصفية",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجاح"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "myCrops": "محاصيلي",
+    "loans": "القروض",
+    "market": "السوق",
+    "profile": "الملف الشخصي",
+    "learn": "تعلم",
+    "cooperative": "التعاونية"
+  },
+  "dashboard": {
+    "title": "لوحة تحكم المزارع",
+    "totalRevenue": "إجمالي الإيرادات",
+    "activeCrops": "المحاصيل النشطة",
+    "pendingOrders": "الطلبات المعلقة",
+    "cropHealth": "صحة المحاصيل",
+    "location": "موقعك",
+    "quickActions": "إجراءات سريعة",
+    "takePhoto": "التقط صورة",
+    "recentActivity": "النشاط الأخير"
+  },
+  "crops": {
+    "progress": "تقدم المحاصيل",
+    "health": "حالة الصحة",
+    "planted": "مزروع",
+    "harvest": "الحصاد المتوقع",
+    "timeline": "جدول النمو",
+    "addPhoto": "إضافة صورة",
+    "logData": "تسجيل البيانات",
+    "viewJournal": "عرض اليومية"
+  },
+  "loans": {
+    "apply": "التقدم للحصول على قرض",
+    "amount": "مبلغ القرض",
+    "purpose": "الغرض",
+    "term": "مدة القرض",
+    "submit": "إرسال الطلب",
+    "status": "حالة الطلب",
+    "approved": "تمت الموافقة",
+    "pending": "قيد الانتظار"
+  },
+  "marketplace": {
+    "title": "السوق",
+    "buyNow": "اشتر الآن",
+    "addToCart": "أضف إلى السلة",
+    "price": "السعر",
+    "quantity": "الكمية",
+    "seller": "البائع",
+    "location": "الموقع"
+  },
+  "accessibility": {
+    "menu": "إعدادات إمكانية الوصول",
+    "highContrast": "وضع التباين العالي",
+    "textSize": "حجم النص",
+    "reducedMotion": "تقليل الحركة",
+    "language": "اللغة",
+    "small": "صغير",
+    "medium": "متوسط",
+    "large": "كبير",
+    "extraLarge": "كبير جداً"
+  },
+  "voice": {
+    "listening": "يستمع...",
+    "tapToSpeak": "اضغط للتحدث",
+    "commands": {
+      "takePhoto": "التقط صورة",
+      "applyLoan": "تقدم للحصول على قرض",
+      "viewCrops": "عرض محاصيلي",
+      "goToMarket": "اذهب إلى السوق"
+    }
+  },
+  "errors": {
+    "required": "هذا الحقل مطلوب",
+    "invalidEmail": "يرجى إدخال بريد إلكتروني صالح",
+    "invalidPhone": "يرجى إدخال رقم هاتف صالح",
+    "networkError": "خطأ في الشبكة. يرجى التحقق من اتصالك.",
+    "tryAgain": "يرجى المحاولة مرة أخرى"
+  },
+  "offline": {
+    "youAreOffline": "أنت غير متصل",
+    "pending": "قيد الانتظار",
+    "syncingData": "مزامنة البيانات..."
+  }
+}
