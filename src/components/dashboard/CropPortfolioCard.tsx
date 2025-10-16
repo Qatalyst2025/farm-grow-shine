@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { AlertCircle, Eye, Camera, ShoppingCart } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface CropPortfolioCardProps {
   crop: {
@@ -44,10 +45,12 @@ export const CropPortfolioCard = ({ crop }: CropPortfolioCardProps) => {
       </div>
 
       <div className="flex gap-2">
-        <Button variant="outline" size="sm" className="flex-1 group/btn">
-          <Eye className="h-4 w-4 mr-1" />
-          Details
-        </Button>
+        <Link to={`/farmer/crops/${crop.id}`} className="flex-1">
+          <Button variant="outline" size="sm" className="w-full group/btn">
+            <Eye className="h-4 w-4 mr-1" />
+            Details
+          </Button>
+        </Link>
         <Button variant="outline" size="sm" className="flex-1 group/btn">
           <Camera className="h-4 w-4 mr-1" />
           Update
