@@ -10,6 +10,7 @@ import LoanSuccess from "./pages/LoanSuccess";
 import Marketplace from "./pages/Marketplace";
 import BuyerProfile from "./pages/BuyerProfile";
 import CropProgress from "./pages/CropProgress";
+import LearningCenter from "./pages/LearningCenter";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/farmer/apply-loan" element={<LoanApplication />} />
           <Route path="/farmer/success" element={<LoanSuccess />} />
           <Route path="/farmer/crops/:cropId" element={<CropProgress />} />
+          <Route path="/farmer/learn" element={<LearningCenter />} />
           <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/buyer/profile" element={<BuyerProfile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
