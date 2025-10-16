@@ -77,12 +77,12 @@ const FarmerDashboard = () => {
     },
     {
       id: 3,
-      title: "New Offer Available!",
-      description: "A buyer is interested in your maize harvest",
+      title: "Explore the Marketplace",
+      description: "See buyer offers for your crops and connect with customers",
       icon: Package,
       color: "success",
-      link: "/farmer/marketplace",
-      priority: 1
+      link: "/marketplace",
+      priority: 2
     }
   ];
 

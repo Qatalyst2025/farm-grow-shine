@@ -34,7 +34,7 @@ const Index = () => {
                   <Sprout className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Link to="/buyer">
+              <Link to="/marketplace">
                 <Button size="lg" variant="outline" className="bg-white/10 backdrop-blur-sm text-primary-foreground border-white/30 hover:bg-white/20 text-lg px-8 py-6">
                   I'm a Buyer
                   <Users className="ml-2 h-5 w-5" />
