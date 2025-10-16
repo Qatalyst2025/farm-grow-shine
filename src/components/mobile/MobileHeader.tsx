@@ -2,6 +2,7 @@ import { ArrowLeft, Bell, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import { Logo } from "@/components/ui/logo";
 
 interface MobileHeaderProps {
   title?: string;
@@ -9,14 +10,16 @@ interface MobileHeaderProps {
   showNotifications?: boolean;
   showSearch?: boolean;
   notificationCount?: number;
+  showLogo?: boolean;
 }
 
 export const MobileHeader = ({ 
-  title = "FarmChain",
+  title = "AgriLinka",
   showBack = false,
   showNotifications = true,
   showSearch = false,
-  notificationCount = 0
+  notificationCount = 0,
+  showLogo = false
 }: MobileHeaderProps) => {
   const navigate = useNavigate();
 
@@ -34,7 +37,11 @@ export const MobileHeader = ({
               <ArrowLeft className="h-5 w-5" />
             </Button>
           )}
-          <h1 className="text-lg font-bold text-foreground truncate">{title}</h1>
+          {showLogo ? (
+            <Logo size="sm" showText={false} />
+          ) : (
+            <h1 className="text-lg font-bold text-foreground truncate">{title}</h1>
+          )}
         </div>
 
         <div className="flex items-center gap-2">

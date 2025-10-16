@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
+import { Logo } from "@/components/ui/logo";
 import { 
   Sprout, 
   MapPin, 
@@ -81,7 +82,10 @@ const LoanApplication = () => {
       <header className="bg-gradient-to-r from-primary to-primary-light text-primary-foreground py-6 shadow-lg">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold">Your Path to Growth 🌱</h1>
+            <div className="flex items-center gap-4">
+              <Logo size="md" className="[&_span]:text-primary-foreground" showText={false} />
+              <h1 className="text-3xl font-bold">Your Path to Growth 🌱</h1>
+            </div>
             <Link to="/farmer">
               <Button variant="outline" className="bg-white/10 backdrop-blur-sm border-white/30 text-primary-foreground hover:bg-white/20">
                 <ArrowLeft className="mr-2 h-4 w-4" />
