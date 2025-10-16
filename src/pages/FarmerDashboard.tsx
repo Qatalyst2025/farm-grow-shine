@@ -1,28 +1,60 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { 
   Sprout, 
   TrendingUp, 
   DollarSign, 
   Package,
-  AlertCircle,
   Camera,
   BookOpen,
   ArrowRight,
   CheckCircle2,
-  Clock
+  Clock,
+  Cloud,
+  CloudRain,
+  Sun
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { RecentActivity } from "@/components/dashboard/RecentActivity";
+import { CropPortfolioCard } from "@/components/dashboard/CropPortfolioCard";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useState, useEffect } from "react";
 
 const FarmerDashboard = () => {
+  const [loading, setLoading] = useState(true);
+  
+  // Simulate loading
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   // Mock data - in real app, fetch from API
   const farmerName = "Kwame";
   const currentSeason = "Planting Season";
+  const weatherCondition = "sunny"; // sunny, rainy, cloudy
   const financialScore = 78;
   const activeLoans = 1;
   const growingCrops = 3;
   const recentSales = 2;
+
+  const getWeatherIcon = () => {
+    if (weatherCondition === "sunny") return <Sun className="h-5 w-5" />;
+    if (weatherCondition === "rainy") return <CloudRain className="h-5 w-5" />;
+    return <Cloud className="h-5 w-5" />;
+  };
+
+  const getScoreColor = (score: number) => {
+    if (score >= 80) return "text-success";
+    if (score >= 60) return "text-warning";
+    return "text-destructive";
+  };
+
+  const getScoreLabel = (score: number) => {
+    if (score >= 80) return "Excellent";
+    if (score >= 60) return "Good";
+    return "Needs Improvement";
+  };
 
   const actionCards = [
     {
@@ -81,6 +113,26 @@ const FarmerDashboard = () => {
     }
   ];
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <header className="bg-gradient-to-r from-primary to-primary-light text-primary-foreground py-6 shadow-lg">
+          <div className="container mx-auto px-4">
+            <Skeleton className="h-10 w-64 bg-white/20" />
+          </div>
+        </header>
+        <div className="container mx-auto px-4 py-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            {[1, 2, 3].map((i) => (
+              <Skeleton key={i} className="h-32" />
+            ))}
+          </div>
+          <Skeleton className="h-96 mb-8" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -88,10 +140,16 @@ const FarmerDashboard = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold mb-1">Welcome back, {farmerName}! 👋</h1>
-              <div className="flex items-center gap-2 text-primary-foreground/80">
-                <Sprout className="h-4 w-4" />
-                <span>Current Season: {currentSeason}</span>
+              <h1 className="text-3xl font-bold mb-2">Welcome back, {farmerName}! 👋</h1>
+              <div className="flex items-center gap-4 text-primary-foreground/90">
+                <div className="flex items-center gap-2">
+                  <Sprout className="h-4 w-4" />
+                  <span>Current Season: {currentSeason}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {getWeatherIcon()}
+                  <span className="capitalize">{weatherCondition}</span>
+                </div>
               </div>
             </div>
             <Link to="/">
@@ -105,35 +163,38 @@ const FarmerDashboard = () => {
 
       <div className="container mx-auto px-4 py-8">
         {/* Quick Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          <Card className="p-6 border-l-4 border-l-primary hover:shadow-lg transition-shadow">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <Card className="p-6 border-l-4 border-l-primary hover:shadow-lg hover:scale-[1.02] transition-all cursor-pointer">
             <div className="flex items-center justify-between mb-2">
               <span className="text-muted-foreground">Active Loans</span>
               <DollarSign className="h-5 w-5 text-primary" />
             </div>
             <div className="text-3xl font-bold text-card-foreground">{activeLoans}</div>
+            <div className="text-sm text-muted-foreground mt-2">$500 total amount</div>
           </Card>
 
-          <Card className="p-6 border-l-4 border-l-success hover:shadow-lg transition-shadow">
+          <Card className="p-6 border-l-4 border-l-success hover:shadow-lg hover:scale-[1.02] transition-all cursor-pointer">
             <div className="flex items-center justify-between mb-2">
               <span className="text-muted-foreground">Growing Crops</span>
               <Sprout className="h-5 w-5 text-success" />
             </div>
             <div className="text-3xl font-bold text-card-foreground">{growingCrops}</div>
+            <div className="text-sm text-muted-foreground mt-2">$1,850 total value</div>
           </Card>
 
-          <Card className="p-6 border-l-4 border-l-secondary hover:shadow-lg transition-shadow">
+          <Card className="p-6 border-l-4 border-l-secondary hover:shadow-lg hover:scale-[1.02] transition-all cursor-pointer">
             <div className="flex items-center justify-between mb-2">
               <span className="text-muted-foreground">Recent Sales</span>
               <TrendingUp className="h-5 w-5 text-secondary" />
             </div>
             <div className="text-3xl font-bold text-card-foreground">{recentSales}</div>
+            <div className="text-sm text-muted-foreground mt-2">Last 30 days</div>
           </Card>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
-          <div className="md:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6">
             {/* Action Cards */}
             <div>
               <h2 className="text-2xl font-bold mb-4 text-foreground">Your Next Steps</h2>
@@ -183,36 +244,28 @@ const FarmerDashboard = () => {
                   <Button variant="outline" size="sm">View All</Button>
                 </Link>
               </div>
-              <div className="space-y-4">
-                {crops.map((crop) => (
-                  <Card key={crop.id} className="p-6 hover:shadow-lg transition-shadow">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h3 className="text-xl font-bold text-card-foreground mb-1">{crop.name}</h3>
-                        <p className="text-muted-foreground">{crop.stage}</p>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-2xl font-bold text-primary">{crop.value}</div>
-                        <span className="text-sm text-muted-foreground">Current Value</span>
-                      </div>
-                    </div>
-                    
-                    <div className="mb-3">
-                      <div className="flex justify-between text-sm mb-2">
-                        <span className="text-muted-foreground">Growth Progress</span>
-                        <span className="font-medium text-foreground">{crop.progress}%</span>
-                      </div>
-                      <Progress value={crop.progress} className="h-2" />
-                    </div>
-                    
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <AlertCircle className="h-4 w-4" />
-                      <span>{crop.nextMilestone}</span>
-                    </div>
-                  </Card>
-                ))}
-              </div>
+              {crops.length > 0 ? (
+                <div className="space-y-4">
+                  {crops.map((crop) => (
+                    <CropPortfolioCard key={crop.id} crop={crop} />
+                  ))}
+                </div>
+              ) : (
+                <Card className="p-12 text-center">
+                  <Sprout className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-xl font-bold mb-2">No crops yet</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Start your farming journey by applying for a loan!
+                  </p>
+                  <Link to="/farmer/apply-loan">
+                    <Button>Apply for Loan</Button>
+                  </Link>
+                </Card>
+              )}
             </div>
+
+            {/* Recent Activity */}
+            <RecentActivity />
           </div>
 
           {/* Sidebar */}
