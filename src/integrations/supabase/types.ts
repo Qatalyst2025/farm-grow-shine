@@ -49,6 +49,60 @@ export type Database = {
           },
         ]
       }
+      buyer_profiles: {
+        Row: {
+          average_order_size: number | null
+          buyer_type: string
+          company_name: string
+          created_at: string | null
+          id: string
+          location_lat: number | null
+          location_lng: number | null
+          max_distance_km: number | null
+          min_quality_score: number | null
+          preferred_certifications: string[] | null
+          preferred_crops: string[] | null
+          preferred_delivery_method: string | null
+          purchase_frequency: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          average_order_size?: number | null
+          buyer_type: string
+          company_name: string
+          created_at?: string | null
+          id?: string
+          location_lat?: number | null
+          location_lng?: number | null
+          max_distance_km?: number | null
+          min_quality_score?: number | null
+          preferred_certifications?: string[] | null
+          preferred_crops?: string[] | null
+          preferred_delivery_method?: string | null
+          purchase_frequency?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          average_order_size?: number | null
+          buyer_type?: string
+          company_name?: string
+          created_at?: string | null
+          id?: string
+          location_lat?: number | null
+          location_lng?: number | null
+          max_distance_km?: number | null
+          min_quality_score?: number | null
+          preferred_certifications?: string[] | null
+          preferred_crops?: string[] | null
+          preferred_delivery_method?: string | null
+          purchase_frequency?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       crop_alerts: {
         Row: {
           action_required: string | null
@@ -317,6 +371,76 @@ export type Database = {
           },
         ]
       }
+      farmer_buyer_matches: {
+        Row: {
+          buyer_id: string | null
+          created_at: string | null
+          crop_id: string | null
+          delivery_date: string | null
+          distance_km: number | null
+          farmer_id: string | null
+          id: string
+          match_reasons: Json | null
+          match_score: number
+          potential_revenue: number | null
+          recommended_price: number | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          buyer_id?: string | null
+          created_at?: string | null
+          crop_id?: string | null
+          delivery_date?: string | null
+          distance_km?: number | null
+          farmer_id?: string | null
+          id?: string
+          match_reasons?: Json | null
+          match_score: number
+          potential_revenue?: number | null
+          recommended_price?: number | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          buyer_id?: string | null
+          created_at?: string | null
+          crop_id?: string | null
+          delivery_date?: string | null
+          distance_km?: number | null
+          farmer_id?: string | null
+          id?: string
+          match_reasons?: Json | null
+          match_score?: number
+          potential_revenue?: number | null
+          recommended_price?: number | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "farmer_buyer_matches_buyer_id_fkey"
+            columns: ["buyer_id"]
+            isOneToOne: false
+            referencedRelation: "buyer_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "farmer_buyer_matches_crop_id_fkey"
+            columns: ["crop_id"]
+            isOneToOne: false
+            referencedRelation: "crops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "farmer_buyer_matches_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       farmer_profiles: {
         Row: {
           community_network_size: number | null
@@ -465,6 +589,173 @@ export type Database = {
             columns: ["trust_score_id"]
             isOneToOne: false
             referencedRelation: "farmer_trust_scores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      market_demand_forecasts: {
+        Row: {
+          confidence_score: number | null
+          created_at: string | null
+          crop_type: string
+          demand_trend: string | null
+          forecast_date: string
+          id: string
+          market_conditions: Json | null
+          predicted_demand_kg: number
+          predicted_price_per_kg: number
+          price_trend: string | null
+          seasonal_factor: number | null
+        }
+        Insert: {
+          confidence_score?: number | null
+          created_at?: string | null
+          crop_type: string
+          demand_trend?: string | null
+          forecast_date: string
+          id?: string
+          market_conditions?: Json | null
+          predicted_demand_kg: number
+          predicted_price_per_kg: number
+          price_trend?: string | null
+          seasonal_factor?: number | null
+        }
+        Update: {
+          confidence_score?: number | null
+          created_at?: string | null
+          crop_type?: string
+          demand_trend?: string | null
+          forecast_date?: string
+          id?: string
+          market_conditions?: Json | null
+          predicted_demand_kg?: number
+          predicted_price_per_kg?: number
+          price_trend?: string | null
+          seasonal_factor?: number | null
+        }
+        Relationships: []
+      }
+      planting_recommendations: {
+        Row: {
+          competition_level: string | null
+          confidence_score: number | null
+          created_at: string | null
+          crop_type: string
+          expected_harvest_date: string
+          expected_profit_per_acre: number | null
+          farmer_id: string | null
+          id: string
+          market_forecast: Json | null
+          predicted_demand_level: string | null
+          predicted_market_price: number | null
+          reasoning: Json | null
+          recommended_planting_date: string
+          status: string | null
+          weather_factors: Json | null
+        }
+        Insert: {
+          competition_level?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          crop_type: string
+          expected_harvest_date: string
+          expected_profit_per_acre?: number | null
+          farmer_id?: string | null
+          id?: string
+          market_forecast?: Json | null
+          predicted_demand_level?: string | null
+          predicted_market_price?: number | null
+          reasoning?: Json | null
+          recommended_planting_date: string
+          status?: string | null
+          weather_factors?: Json | null
+        }
+        Update: {
+          competition_level?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          crop_type?: string
+          expected_harvest_date?: string
+          expected_profit_per_acre?: number | null
+          farmer_id?: string | null
+          id?: string
+          market_forecast?: Json | null
+          predicted_demand_level?: string | null
+          predicted_market_price?: number | null
+          reasoning?: Json | null
+          recommended_planting_date?: string
+          status?: string | null
+          weather_factors?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "planting_recommendations_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      purchase_history: {
+        Row: {
+          buyer_id: string | null
+          certifications: string[] | null
+          created_at: string | null
+          crop_type: string
+          delivery_rating: number | null
+          farmer_id: string | null
+          id: string
+          price_per_kg: number
+          purchase_date: string
+          quality_rating: number | null
+          quantity_kg: number
+          season: string | null
+          total_amount: number
+        }
+        Insert: {
+          buyer_id?: string | null
+          certifications?: string[] | null
+          created_at?: string | null
+          crop_type: string
+          delivery_rating?: number | null
+          farmer_id?: string | null
+          id?: string
+          price_per_kg: number
+          purchase_date: string
+          quality_rating?: number | null
+          quantity_kg: number
+          season?: string | null
+          total_amount: number
+        }
+        Update: {
+          buyer_id?: string | null
+          certifications?: string[] | null
+          created_at?: string | null
+          crop_type?: string
+          delivery_rating?: number | null
+          farmer_id?: string | null
+          id?: string
+          price_per_kg?: number
+          purchase_date?: string
+          quality_rating?: number | null
+          quantity_kg?: number
+          season?: string | null
+          total_amount?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchase_history_buyer_id_fkey"
+            columns: ["buyer_id"]
+            isOneToOne: false
+            referencedRelation: "buyer_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchase_history_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
             referencedColumns: ["id"]
           },
         ]

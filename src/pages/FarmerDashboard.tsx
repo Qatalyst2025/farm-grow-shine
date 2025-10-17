@@ -17,10 +17,12 @@ import {
   Brain
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { RecentActivity } from "@/components/dashboard/RecentActivity";
 import { CropPortfolioCard } from "@/components/dashboard/CropPortfolioCard";
+import { RecentActivity } from "@/components/dashboard/RecentActivity";
+import { SmartRecommendations } from "@/components/marketplace/SmartRecommendations";
+import { supabase } from "@/integrations/supabase/client";
+import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useState, useEffect } from "react";
 import { MobileLayout } from "@/components/mobile/MobileLayout";
 import { CameraCapture } from "@/components/mobile/CameraCapture";
 import { useGeolocation } from "@/hooks/useGeolocation";
@@ -28,8 +30,25 @@ import { useToast } from "@/hooks/use-toast";
 
 const FarmerDashboard = () => {
   const [loading, setLoading] = useState(true);
+  const [farmerProfile, setFarmerProfile] = useState<any>(null);
   const { position, getCurrentPosition } = useGeolocation();
   const { toast } = useToast();
+  
+  // Fetch farmer profile
+  useEffect(() => {
+    const fetchFarmerProfile = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data } = await supabase
+          .from('farmer_profiles')
+          .select('*')
+          .eq('user_id', user.id)
+          .single();
+        setFarmerProfile(data);
+      }
+    };
+    fetchFarmerProfile();
+  }, []);
   
   // Simulate loading
   useEffect(() => {
@@ -380,6 +399,13 @@ const FarmerDashboard = () => {
             </Card>
           </div>
         </div>
+
+        {/* Smart Recommendations */}
+        {farmerProfile && (
+          <div className="mt-8">
+            <SmartRecommendations farmerId={farmerProfile.id} />
+          </div>
+        )}
       </div>
       </div>
     </MobileLayout>

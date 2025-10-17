@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { SmartRecommendations } from "@/components/marketplace/SmartRecommendations";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -22,6 +24,23 @@ import { PullToRefresh } from "@/components/mobile/PullToRefresh";
 const Marketplace = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [showMap, setShowMap] = useState(true);
+  const [farmerProfile, setFarmerProfile] = useState<any>(null);
+
+  // Fetch farmer profile for recommendations
+  useEffect(() => {
+    const fetchFarmerProfile = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data } = await supabase
+          .from('farmer_profiles')
+          .select('*')
+          .eq('user_id', user.id)
+          .maybeSingle();
+        setFarmerProfile(data);
+      }
+    };
+    fetchFarmerProfile();
+  }, []);
 
   const handleRefresh = async () => {
     await new Promise(resolve => setTimeout(resolve, 1500));
@@ -245,6 +264,13 @@ const Marketplace = () => {
             </div>
           </div>
         </div>
+
+        {/* Smart Recommendations for Farmers */}
+        {farmerProfile && (
+          <div className="mt-8">
+            <SmartRecommendations farmerId={farmerProfile.id} />
+          </div>
+        )}
       </div>
         </div>
       </PullToRefresh>
