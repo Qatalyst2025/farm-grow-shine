@@ -213,7 +213,7 @@ export const QualityVerification = ({ batchId }: QualityVerificationProps) => {
 
             <div className="space-y-2">
               <Label>Capture Images</Label>
-              <CameraCapture onCapture={handleImageCapture} />
+              <CameraCapture onPhotoCapture={handleImageCapture} />
               {capturedImages.length > 0 && (
                 <div className="grid grid-cols-3 gap-2 mt-2">
                   {capturedImages.map((img, index) => (
