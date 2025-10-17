@@ -20,6 +20,7 @@ import CropHealthMonitor from "./pages/CropHealthMonitor";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import VerificationCenter from "./pages/VerificationCenter";
+import CreditAssessment from "./pages/CreditAssessment";
 
 // Lazy load AIAdvisor to prevent i18n initialization issues
 const AIAdvisor = lazy(() => import("./pages/AIAdvisor"));
@@ -47,9 +48,10 @@ const App = () => (
               <Route path="/auth" element={<Auth />} />
               <Route path="/marketplace" element={<Marketplace />} />
               <Route path="/buyer/profile" element={<BuyerProfile />} />
-              <Route path="/verification" element={<VerificationCenter />} />
-              <Route path="/ai-advisor" element={<AIAdvisor />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="/verification" element={<VerificationCenter />} />
+            <Route path="/ai-advisor" element={<AIAdvisor />} />
+            <Route path="/credit-assessment" element={<CreditAssessment />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

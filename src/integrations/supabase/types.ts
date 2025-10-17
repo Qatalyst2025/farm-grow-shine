@@ -183,6 +183,311 @@ export type Database = {
         }
         Relationships: []
       }
+      credit_assessment_dimensions: {
+        Row: {
+          assessment_date: string
+          business_longevity_score: number | null
+          climate_risk_score: number | null
+          community_verification_score: number | null
+          created_at: string
+          crop_health_score: number | null
+          data_completeness: number | null
+          drought_exposure: number | null
+          farm_area_verified: boolean | null
+          farmer_id: string | null
+          financial_data: Json | null
+          flood_risk: number | null
+          historical_yield_score: number | null
+          id: string
+          land_use_efficiency: number | null
+          last_updated: string | null
+          mobile_money_score: number | null
+          network_strength: number | null
+          peer_endorsements: number | null
+          performance_data: Json | null
+          repayment_history_score: number | null
+          satellite_data: Json | null
+          savings_pattern: number | null
+          social_data: Json | null
+          transaction_consistency: number | null
+          weather_data: Json | null
+        }
+        Insert: {
+          assessment_date?: string
+          business_longevity_score?: number | null
+          climate_risk_score?: number | null
+          community_verification_score?: number | null
+          created_at?: string
+          crop_health_score?: number | null
+          data_completeness?: number | null
+          drought_exposure?: number | null
+          farm_area_verified?: boolean | null
+          farmer_id?: string | null
+          financial_data?: Json | null
+          flood_risk?: number | null
+          historical_yield_score?: number | null
+          id?: string
+          land_use_efficiency?: number | null
+          last_updated?: string | null
+          mobile_money_score?: number | null
+          network_strength?: number | null
+          peer_endorsements?: number | null
+          performance_data?: Json | null
+          repayment_history_score?: number | null
+          satellite_data?: Json | null
+          savings_pattern?: number | null
+          social_data?: Json | null
+          transaction_consistency?: number | null
+          weather_data?: Json | null
+        }
+        Update: {
+          assessment_date?: string
+          business_longevity_score?: number | null
+          climate_risk_score?: number | null
+          community_verification_score?: number | null
+          created_at?: string
+          crop_health_score?: number | null
+          data_completeness?: number | null
+          drought_exposure?: number | null
+          farm_area_verified?: boolean | null
+          farmer_id?: string | null
+          financial_data?: Json | null
+          flood_risk?: number | null
+          historical_yield_score?: number | null
+          id?: string
+          land_use_efficiency?: number | null
+          last_updated?: string | null
+          mobile_money_score?: number | null
+          network_strength?: number | null
+          peer_endorsements?: number | null
+          performance_data?: Json | null
+          repayment_history_score?: number | null
+          satellite_data?: Json | null
+          savings_pattern?: number | null
+          social_data?: Json | null
+          transaction_consistency?: number | null
+          weather_data?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credit_assessment_dimensions_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      credit_score_alerts: {
+        Row: {
+          action_required: string | null
+          affected_dimensions: Json | null
+          alert_type: string
+          created_at: string
+          farmer_id: string | null
+          id: string
+          is_read: boolean | null
+          message: string
+          score_id: string | null
+          severity: string
+          title: string
+        }
+        Insert: {
+          action_required?: string | null
+          affected_dimensions?: Json | null
+          alert_type: string
+          created_at?: string
+          farmer_id?: string | null
+          id?: string
+          is_read?: boolean | null
+          message: string
+          score_id?: string | null
+          severity: string
+          title: string
+        }
+        Update: {
+          action_required?: string | null
+          affected_dimensions?: Json | null
+          alert_type?: string
+          created_at?: string
+          farmer_id?: string | null
+          id?: string
+          is_read?: boolean | null
+          message?: string
+          score_id?: string | null
+          severity?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credit_score_alerts_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credit_score_alerts_score_id_fkey"
+            columns: ["score_id"]
+            isOneToOne: false
+            referencedRelation: "credit_scores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      credit_score_history: {
+        Row: {
+          change_reason: string | null
+          created_at: string
+          farmer_id: string | null
+          id: string
+          overall_score: number
+          risk_category: string
+          score_id: string | null
+          triggered_by: string | null
+        }
+        Insert: {
+          change_reason?: string | null
+          created_at?: string
+          farmer_id?: string | null
+          id?: string
+          overall_score: number
+          risk_category: string
+          score_id?: string | null
+          triggered_by?: string | null
+        }
+        Update: {
+          change_reason?: string | null
+          created_at?: string
+          farmer_id?: string | null
+          id?: string
+          overall_score?: number
+          risk_category?: string
+          score_id?: string | null
+          triggered_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credit_score_history_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credit_score_history_score_id_fkey"
+            columns: ["score_id"]
+            isOneToOne: false
+            referencedRelation: "credit_scores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      credit_scores: {
+        Row: {
+          assessment_id: string | null
+          confidence_interval_lower: number | null
+          confidence_interval_upper: number | null
+          confidence_score: number | null
+          created_at: string
+          expires_at: string | null
+          farmer_id: string | null
+          financial_weight: number | null
+          historical_weight: number | null
+          id: string
+          improvement_recommendations: Json | null
+          is_active: boolean | null
+          loan_term_months: number | null
+          max_loan_amount: number | null
+          model_confidence: string | null
+          model_version: string
+          overall_score: number
+          peer_comparison: Json | null
+          previous_score: number | null
+          recommended_interest_rate: number | null
+          risk_category: string
+          satellite_weight: number | null
+          score_change: number | null
+          score_factors: Json
+          score_trend: string | null
+          social_weight: number | null
+          weather_weight: number | null
+        }
+        Insert: {
+          assessment_id?: string | null
+          confidence_interval_lower?: number | null
+          confidence_interval_upper?: number | null
+          confidence_score?: number | null
+          created_at?: string
+          expires_at?: string | null
+          farmer_id?: string | null
+          financial_weight?: number | null
+          historical_weight?: number | null
+          id?: string
+          improvement_recommendations?: Json | null
+          is_active?: boolean | null
+          loan_term_months?: number | null
+          max_loan_amount?: number | null
+          model_confidence?: string | null
+          model_version: string
+          overall_score: number
+          peer_comparison?: Json | null
+          previous_score?: number | null
+          recommended_interest_rate?: number | null
+          risk_category: string
+          satellite_weight?: number | null
+          score_change?: number | null
+          score_factors: Json
+          score_trend?: string | null
+          social_weight?: number | null
+          weather_weight?: number | null
+        }
+        Update: {
+          assessment_id?: string | null
+          confidence_interval_lower?: number | null
+          confidence_interval_upper?: number | null
+          confidence_score?: number | null
+          created_at?: string
+          expires_at?: string | null
+          farmer_id?: string | null
+          financial_weight?: number | null
+          historical_weight?: number | null
+          id?: string
+          improvement_recommendations?: Json | null
+          is_active?: boolean | null
+          loan_term_months?: number | null
+          max_loan_amount?: number | null
+          model_confidence?: string | null
+          model_version?: string
+          overall_score?: number
+          peer_comparison?: Json | null
+          previous_score?: number | null
+          recommended_interest_rate?: number | null
+          risk_category?: string
+          satellite_weight?: number | null
+          score_change?: number | null
+          score_factors?: Json
+          score_trend?: string | null
+          social_weight?: number | null
+          weather_weight?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credit_scores_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "credit_assessment_dimensions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credit_scores_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       crop_alerts: {
         Row: {
           action_required: string | null
@@ -1073,6 +1378,59 @@ export type Database = {
           },
           {
             foreignKeyName: "purchase_history_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      score_improvement_goals: {
+        Row: {
+          action_items: Json
+          completed_at: string | null
+          created_at: string
+          current_value: number
+          deadline: string | null
+          dimension: string
+          farmer_id: string | null
+          id: string
+          progress_percentage: number | null
+          status: string | null
+          target_value: number
+          updated_at: string
+        }
+        Insert: {
+          action_items: Json
+          completed_at?: string | null
+          created_at?: string
+          current_value: number
+          deadline?: string | null
+          dimension: string
+          farmer_id?: string | null
+          id?: string
+          progress_percentage?: number | null
+          status?: string | null
+          target_value: number
+          updated_at?: string
+        }
+        Update: {
+          action_items?: Json
+          completed_at?: string | null
+          created_at?: string
+          current_value?: number
+          deadline?: string | null
+          dimension?: string
+          farmer_id?: string | null
+          id?: string
+          progress_percentage?: number | null
+          status?: string | null
+          target_value?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "score_improvement_goals_farmer_id_fkey"
             columns: ["farmer_id"]
             isOneToOne: false
             referencedRelation: "farmer_profiles"

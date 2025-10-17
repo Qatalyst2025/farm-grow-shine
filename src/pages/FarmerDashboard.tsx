@@ -117,6 +117,15 @@ const FarmerDashboard = () => {
       priority: 1
     },
     {
+      id: 10,
+      title: "AI Credit Assessment",
+      description: "View your multi-dimensional credit score with explainable AI insights",
+      icon: Brain,
+      color: "primary",
+      link: "/credit-assessment",
+      priority: 1
+    },
+    {
       id: 3,
       title: "AI Risk Assessment",
       description: "Get your AI-powered Farmer Trust Score and unlock better loan terms",
