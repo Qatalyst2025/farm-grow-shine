@@ -5,8 +5,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import {
   Send, TrendingUp, TrendingDown, Check, X,
-  FileUp, MapPin, Image as ImageIcon, Loader2
+  FileUp, MapPin, Image as ImageIcon, Loader2, Sparkles
 } from "lucide-react";
+import MessageTemplates from "./MessageTemplates";
 import {
   Select,
   SelectContent,
@@ -27,6 +28,7 @@ export default function NegotiationInput({ roomId, roomType }: NegotiationInputP
   const [message, setMessage] = useState("");
   const [offerAmount, setOfferAmount] = useState("");
   const [sending, setSending] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(false);
   const { toast } = useToast();
 
   const sendMessage = async () => {
@@ -178,6 +180,16 @@ export default function NegotiationInput({ roomId, roomType }: NegotiationInputP
 
       <div className="flex items-center gap-2">
         <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setShowTemplates(true)}
+          className="border-primary/20"
+        >
+          <Sparkles className="h-4 w-4 mr-1" />
+          Templates
+        </Button>
+
+        <Button
           onClick={sendMessage}
           disabled={sending}
           className="ml-auto bg-gradient-to-r from-primary to-secondary"
@@ -192,6 +204,12 @@ export default function NegotiationInput({ roomId, roomType }: NegotiationInputP
           )}
         </Button>
       </div>
+
+      <MessageTemplates
+        open={showTemplates}
+        onOpenChange={setShowTemplates}
+        onSelectTemplate={(template) => setMessage(template)}
+      />
     </div>
   );
 }

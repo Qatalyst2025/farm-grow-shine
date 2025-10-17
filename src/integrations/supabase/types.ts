@@ -132,6 +132,7 @@ export type Database = {
       buyer_profiles: {
         Row: {
           average_order_size: number | null
+          average_response_time: number | null
           buyer_type: string
           company_name: string
           created_at: string | null
@@ -144,11 +145,17 @@ export type Database = {
           preferred_crops: string[] | null
           preferred_delivery_method: string | null
           purchase_frequency: string | null
+          successful_deals: number | null
+          total_deals: number | null
+          trust_score: number | null
           updated_at: string | null
           user_id: string | null
+          verification_level: string | null
+          verified: boolean | null
         }
         Insert: {
           average_order_size?: number | null
+          average_response_time?: number | null
           buyer_type: string
           company_name: string
           created_at?: string | null
@@ -161,11 +168,17 @@ export type Database = {
           preferred_crops?: string[] | null
           preferred_delivery_method?: string | null
           purchase_frequency?: string | null
+          successful_deals?: number | null
+          total_deals?: number | null
+          trust_score?: number | null
           updated_at?: string | null
           user_id?: string | null
+          verification_level?: string | null
+          verified?: boolean | null
         }
         Update: {
           average_order_size?: number | null
+          average_response_time?: number | null
           buyer_type?: string
           company_name?: string
           created_at?: string | null
@@ -178,8 +191,13 @@ export type Database = {
           preferred_crops?: string[] | null
           preferred_delivery_method?: string | null
           purchase_frequency?: string | null
+          successful_deals?: number | null
+          total_deals?: number | null
+          trust_score?: number | null
           updated_at?: string | null
           user_id?: string | null
+          verification_level?: string | null
+          verified?: boolean | null
         }
         Relationships: []
       }
@@ -1156,6 +1174,7 @@ export type Database = {
       }
       farmer_profiles: {
         Row: {
+          average_response_time: number | null
           community_network_size: number | null
           created_at: string | null
           farm_location: string | null
@@ -1164,11 +1183,17 @@ export type Database = {
           id: string
           phone_number: string | null
           primary_crops: string[] | null
+          successful_deals: number | null
+          total_deals: number | null
+          trust_score: number | null
           updated_at: string | null
           user_id: string | null
+          verification_level: string | null
+          verified: boolean | null
           years_farming: number | null
         }
         Insert: {
+          average_response_time?: number | null
           community_network_size?: number | null
           created_at?: string | null
           farm_location?: string | null
@@ -1177,11 +1202,17 @@ export type Database = {
           id?: string
           phone_number?: string | null
           primary_crops?: string[] | null
+          successful_deals?: number | null
+          total_deals?: number | null
+          trust_score?: number | null
           updated_at?: string | null
           user_id?: string | null
+          verification_level?: string | null
+          verified?: boolean | null
           years_farming?: number | null
         }
         Update: {
+          average_response_time?: number | null
           community_network_size?: number | null
           created_at?: string | null
           farm_location?: string | null
@@ -1190,8 +1221,13 @@ export type Database = {
           id?: string
           phone_number?: string | null
           primary_crops?: string[] | null
+          successful_deals?: number | null
+          total_deals?: number | null
+          trust_score?: number | null
           updated_at?: string | null
           user_id?: string | null
+          verification_level?: string | null
+          verified?: boolean | null
           years_farming?: number | null
         }
         Relationships: []
@@ -1580,6 +1616,62 @@ export type Database = {
         }
         Relationships: []
       }
+      negotiation_contracts: {
+        Row: {
+          blockchain_contract_address: string | null
+          blockchain_tx_hash: string | null
+          buyer_signature: string | null
+          buyer_signed_at: string | null
+          contract_status: string | null
+          contract_terms: Json
+          created_at: string | null
+          deployed_at: string | null
+          farmer_signature: string | null
+          farmer_signed_at: string | null
+          id: string
+          room_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          blockchain_contract_address?: string | null
+          blockchain_tx_hash?: string | null
+          buyer_signature?: string | null
+          buyer_signed_at?: string | null
+          contract_status?: string | null
+          contract_terms: Json
+          created_at?: string | null
+          deployed_at?: string | null
+          farmer_signature?: string | null
+          farmer_signed_at?: string | null
+          id?: string
+          room_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          blockchain_contract_address?: string | null
+          blockchain_tx_hash?: string | null
+          buyer_signature?: string | null
+          buyer_signed_at?: string | null
+          contract_status?: string | null
+          contract_terms?: Json
+          created_at?: string | null
+          deployed_at?: string | null
+          farmer_signature?: string | null
+          farmer_signed_at?: string | null
+          id?: string
+          room_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "negotiation_contracts_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "negotiation_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       negotiation_documents: {
         Row: {
           blockchain_hash: string | null
@@ -1639,6 +1731,7 @@ export type Database = {
       negotiation_messages: {
         Row: {
           blockchain_hash: string | null
+          blockchain_timestamp: string | null
           content: string | null
           created_at: string | null
           document_type: string | null
@@ -1657,12 +1750,14 @@ export type Database = {
           quality_notes: string | null
           quality_photo_url: string | null
           quality_score: number | null
+          response_time_seconds: number | null
           room_id: string
           sender_id: string
           updated_at: string | null
         }
         Insert: {
           blockchain_hash?: string | null
+          blockchain_timestamp?: string | null
           content?: string | null
           created_at?: string | null
           document_type?: string | null
@@ -1681,12 +1776,14 @@ export type Database = {
           quality_notes?: string | null
           quality_photo_url?: string | null
           quality_score?: number | null
+          response_time_seconds?: number | null
           room_id: string
           sender_id: string
           updated_at?: string | null
         }
         Update: {
           blockchain_hash?: string | null
+          blockchain_timestamp?: string | null
           content?: string | null
           created_at?: string | null
           document_type?: string | null
@@ -1705,6 +1802,7 @@ export type Database = {
           quality_notes?: string | null
           quality_photo_url?: string | null
           quality_score?: number | null
+          response_time_seconds?: number | null
           room_id?: string
           sender_id?: string
           updated_at?: string | null

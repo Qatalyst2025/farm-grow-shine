@@ -4,16 +4,27 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   TrendingUp, TrendingDown, Check, X, HelpCircle,
-  FileText, MapPin, Image as ImageIcon, DollarSign
+  FileText, MapPin, Image as ImageIcon, DollarSign,
+  Shield, CheckCircle2, Clock, Zap
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 
 interface NegotiationMessageProps {
   message: any;
+  userType?: "farmer" | "buyer" | "system";
+  verified?: boolean;
+  trustScore?: number;
+  responseTime?: number;
 }
 
-export default function NegotiationMessage({ message }: NegotiationMessageProps) {
+export default function NegotiationMessage({ 
+  message, 
+  userType = "farmer",
+  verified = false,
+  trustScore = 0,
+  responseTime 
+}: NegotiationMessageProps) {
   const getMessageIcon = () => {
     switch (message.message_type) {
       case 'offer': return <TrendingUp className="h-4 w-4 text-green-600" />;
@@ -29,12 +40,19 @@ export default function NegotiationMessage({ message }: NegotiationMessageProps)
   };
 
   const getMessageColor = () => {
+    // User type color coding
+    const baseColor = 
+      userType === "buyer" ? "border-l-blue-500" :
+      userType === "farmer" ? "border-l-green-500" :
+      "border-l-amber-500";
+
+    // Message type overlay
     switch (message.message_type) {
-      case 'offer': return 'border-l-green-500 bg-green-50/50';
-      case 'counter_offer': return 'border-l-orange-500 bg-orange-50/50';
-      case 'accept': return 'border-l-green-600 bg-green-100/50';
-      case 'reject': return 'border-l-red-500 bg-red-50/50';
-      default: return 'border-l-primary bg-card';
+      case 'offer': return `${baseColor} bg-green-50/50 dark:bg-green-950/20`;
+      case 'counter_offer': return `${baseColor} bg-orange-50/50 dark:bg-orange-950/20`;
+      case 'accept': return `${baseColor} bg-green-100/50 dark:bg-green-900/20`;
+      case 'reject': return `${baseColor} bg-red-50/50 dark:bg-red-950/20`;
+      default: return `${baseColor} bg-card`;
     }
   };
 
@@ -51,17 +69,45 @@ export default function NegotiationMessage({ message }: NegotiationMessageProps)
         </Avatar>
 
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="font-semibold text-sm">
-              User {message.sender_id.slice(0, 6)}
-            </span>
+          <div className="flex items-center gap-2 mb-2 flex-wrap">
+            <div className="flex items-center gap-1">
+              <span className="font-semibold text-sm capitalize">
+                {userType}
+              </span>
+              {verified && (
+                <CheckCircle2 className="h-4 w-4 text-green-600" />
+              )}
+            </div>
+
             <Badge variant="outline" className="text-xs">
               {getMessageIcon()}
               <span className="ml-1 capitalize">{message.message_type.replace('_', ' ')}</span>
             </Badge>
+
+            {trustScore > 0 && (
+              <Badge variant="outline" className="text-xs bg-amber-50 dark:bg-amber-950/20">
+                <Zap className="h-3 w-3 mr-1 text-amber-600" />
+                {trustScore.toFixed(1)} Trust
+              </Badge>
+            )}
+
             <span className="text-xs text-muted-foreground">
               {formatDistanceToNow(new Date(message.created_at), { addSuffix: true })}
             </span>
+
+            {responseTime && (
+              <Badge variant="outline" className="text-xs">
+                <Clock className="h-3 w-3 mr-1" />
+                {responseTime}s response
+              </Badge>
+            )}
+
+            {message.blockchain_hash && (
+              <Badge variant="outline" className="text-xs bg-green-50 dark:bg-green-950/20">
+                <Shield className="h-3 w-3 mr-1 text-green-600" />
+                Blockchain
+              </Badge>
+            )}
           </div>
 
           {/* Offer/Counter-Offer Display */}

@@ -4,11 +4,13 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Shield, DollarSign } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { FileText, Shield, DollarSign, FileSignature } from "lucide-react";
 import NegotiationMessage from "./NegotiationMessage";
 import NegotiationInput from "./NegotiationInput";
 import PaymentMilestones from "./PaymentMilestones";
 import DocumentsList from "./DocumentsList";
+import ContractGenerator from "./ContractGenerator";
 import { useToast } from "@/hooks/use-toast";
 
 interface NegotiationRoomProps {
@@ -42,9 +44,23 @@ export default function NegotiationRoom({ roomId }: NegotiationRoomProps) {
   const [roomInfo, setRoomInfo] = useState<RoomInfo | null>(null);
   const [showDocuments, setShowDocuments] = useState(false);
   const [showMilestones, setShowMilestones] = useState(false);
+  const [showContract, setShowContract] = useState(false);
   const [loading, setLoading] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+
+  // Calculate negotiation progress
+  const negotiationProgress = () => {
+    if (!messages.length) return 0;
+    const hasOffer = messages.some(m => m.message_type === 'offer');
+    const hasCounter = messages.some(m => m.message_type === 'counter_offer');
+    const hasAccept = messages.some(m => m.message_type === 'accept');
+    
+    if (hasAccept) return 100;
+    if (hasCounter) return 66;
+    if (hasOffer) return 33;
+    return 10;
+  };
 
   useEffect(() => {
     loadRoom();
@@ -162,6 +178,15 @@ export default function NegotiationRoom({ roomId }: NegotiationRoomProps) {
           </div>
         )}
 
+        {/* Negotiation Progress */}
+        <div className="mt-3 pt-3 border-t">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-medium text-muted-foreground">Negotiation Progress</span>
+            <span className="text-xs font-bold">{negotiationProgress()}%</span>
+          </div>
+          <Progress value={negotiationProgress()} className="h-2" />
+        </div>
+
         {/* Action Buttons */}
         <div className="flex gap-2 mt-3">
           <Button
@@ -180,6 +205,15 @@ export default function NegotiationRoom({ roomId }: NegotiationRoomProps) {
             <DollarSign className="h-4 w-4 mr-1" />
             Payments
           </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowContract(!showContract)}
+            className={showContract ? "bg-primary/10" : ""}
+          >
+            <FileSignature className="h-4 w-4 mr-1" />
+            Contract
+          </Button>
         </div>
       </div>
 
@@ -194,6 +228,17 @@ export default function NegotiationRoom({ roomId }: NegotiationRoomProps) {
       {showMilestones && (
         <div className="border-b bg-muted/30">
           <PaymentMilestones roomId={roomId} />
+        </div>
+      )}
+
+      {/* Contract Generator */}
+      {showContract && (
+        <div className="border-b bg-muted/30">
+          <ContractGenerator 
+            roomId={roomId} 
+            messages={messages}
+            roomInfo={roomInfo}
+          />
         </div>
       )}
 
