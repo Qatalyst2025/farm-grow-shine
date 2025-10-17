@@ -13,7 +13,8 @@ import {
   Cloud,
   CloudRain,
   Sun,
-  MapPin
+  MapPin,
+  Brain
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { RecentActivity } from "@/components/dashboard/RecentActivity";
@@ -71,6 +72,15 @@ const FarmerDashboard = () => {
   const actionCards = [
     {
       id: 1,
+      title: "AI Risk Assessment",
+      description: "Get your AI-powered Farmer Trust Score and unlock better loan terms",
+      icon: Brain,
+      color: "secondary",
+      link: "/farmer/risk-assessment",
+      priority: 1
+    },
+    {
+      id: 2,
       title: "Continue Your Loan Application",
       description: "You're 2 steps away from getting funded!",
       icon: Clock,
@@ -79,7 +89,7 @@ const FarmerDashboard = () => {
       priority: 1
     },
     {
-      id: 2,
+      id: 3,
       title: "Update Your Crop Progress",
       description: "Add photos to increase your financial score by 5 points",
       icon: Camera,
@@ -88,7 +98,7 @@ const FarmerDashboard = () => {
       priority: 2
     },
     {
-      id: 3,
+      id: 4,
       title: "Explore the Marketplace",
       description: "See buyer offers for your crops and connect with customers",
       icon: Package,

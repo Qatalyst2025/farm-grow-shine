@@ -14,6 +14,8 @@ import BuyerProfile from "./pages/BuyerProfile";
 import CropProgress from "./pages/CropProgress";
 import LearningCenter from "./pages/LearningCenter";
 import CooperativeManagement from "./pages/CooperativeManagement";
+import RiskAssessment from "./pages/RiskAssessment";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +35,8 @@ const App = () => (
             <Route path="/farmer/crops/:cropId" element={<CropProgress />} />
             <Route path="/farmer/learn" element={<LearningCenter />} />
             <Route path="/farmer/cooperative" element={<CooperativeManagement />} />
+            <Route path="/farmer/risk-assessment" element={<RiskAssessment />} />
+            <Route path="/auth" element={<Auth />} />
             <Route path="/marketplace" element={<Marketplace />} />
             <Route path="/buyer/profile" element={<BuyerProfile />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
