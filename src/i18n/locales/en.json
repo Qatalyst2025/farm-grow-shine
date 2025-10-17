@@ -84,6 +84,16 @@
       "goToMarket": "Go to marketplace"
     }
   },
+  "aiAdvisor": {
+    "title": "AI Agricultural Advisor",
+    "subtitle": "Your personal farming assistant",
+    "askAnything": "Ask me anything about farming!",
+    "canHelp": "I can help with planting, pest control, weather, and more.",
+    "quickTips": "Daily Farming Tip",
+    "successStories": "Success Stories from Farmers Like You",
+    "learningPath": "Your Learning Path",
+    "nextTip": "Next Tip"
+  },
   "errors": {
     "required": "This field is required",
     "invalidEmail": "Please enter a valid email",

@@ -84,6 +84,16 @@
       "goToMarket": "Nenda sokoni"
     }
   },
+  "aiAdvisor": {
+    "title": "Mshauri wa Kilimo wa AI",
+    "subtitle": "Msaidizi wako binafsi wa kilimo",
+    "askAnything": "Niulize chochote kuhusu kilimo!",
+    "canHelp": "Ninaweza kusaidia na kupanda, kudhibiti wadudu, hali ya hewa, na zaidi.",
+    "quickTips": "Kidokezo cha Kilimo cha Kila Siku",
+    "successStories": "Hadithi za Mafanikio kutoka kwa Wakulima Kama Wewe",
+    "learningPath": "Njia Yako ya Kujifunza",
+    "nextTip": "Kidokezo Kijacho"
+  },
   "errors": {
     "required": "Sehemu hii inahitajika",
     "invalidEmail": "Tafadhali weka barua pepe halali",

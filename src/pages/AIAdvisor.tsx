@@ -5,8 +5,11 @@ import { MobileLayout } from '@/components/mobile/MobileLayout';
 import { AIAdvisorChat } from '@/components/learning/AIAdvisorChat';
 import { FarmingPlanViewer } from '@/components/learning/FarmingPlanViewer';
 import { AlertsDashboard } from '@/components/learning/AlertsDashboard';
+import { QuickTips } from '@/components/learning/QuickTips';
+import { SuccessStories } from '@/components/learning/SuccessStories';
+import { LearningPath } from '@/components/learning/LearningPath';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MessageSquare, FileText, Bell } from 'lucide-react';
+import { MessageSquare, FileText, Bell, Lightbulb, GraduationCap } from 'lucide-react';
 
 export default function AIAdvisor() {
   const navigate = useNavigate();
@@ -50,10 +53,18 @@ export default function AIAdvisor() {
         </div>
 
         <Tabs defaultValue="chat" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="chat">
               <MessageSquare className="h-4 w-4 mr-2" />
               Chat
+            </TabsTrigger>
+            <TabsTrigger value="tips">
+              <Lightbulb className="h-4 w-4 mr-2" />
+              Tips
+            </TabsTrigger>
+            <TabsTrigger value="learn">
+              <GraduationCap className="h-4 w-4 mr-2" />
+              Learn
             </TabsTrigger>
             <TabsTrigger value="plans">
               <FileText className="h-4 w-4 mr-2" />
@@ -67,6 +78,15 @@ export default function AIAdvisor() {
 
           <TabsContent value="chat" className="mt-6">
             <AIAdvisorChat farmerId={farmerId} />
+          </TabsContent>
+
+          <TabsContent value="tips" className="mt-6 space-y-6">
+            <QuickTips farmerId={farmerId} />
+            <SuccessStories />
+          </TabsContent>
+
+          <TabsContent value="learn" className="mt-6">
+            <LearningPath level="beginner" />
           </TabsContent>
 
           <TabsContent value="plans" className="mt-6">
