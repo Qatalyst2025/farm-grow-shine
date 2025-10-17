@@ -14,7 +14,193 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      assessment_data_sources: {
+        Row: {
+          confidence_score: number | null
+          created_at: string | null
+          data_json: Json
+          data_type: string
+          farmer_id: string | null
+          id: string
+        }
+        Insert: {
+          confidence_score?: number | null
+          created_at?: string | null
+          data_json: Json
+          data_type: string
+          farmer_id?: string | null
+          id?: string
+        }
+        Update: {
+          confidence_score?: number | null
+          created_at?: string | null
+          data_json?: Json
+          data_type?: string
+          farmer_id?: string | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessment_data_sources_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      farmer_profiles: {
+        Row: {
+          community_network_size: number | null
+          created_at: string | null
+          farm_location: string | null
+          farm_size_acres: number | null
+          full_name: string
+          id: string
+          phone_number: string | null
+          primary_crops: string[] | null
+          updated_at: string | null
+          user_id: string | null
+          years_farming: number | null
+        }
+        Insert: {
+          community_network_size?: number | null
+          created_at?: string | null
+          farm_location?: string | null
+          farm_size_acres?: number | null
+          full_name: string
+          id?: string
+          phone_number?: string | null
+          primary_crops?: string[] | null
+          updated_at?: string | null
+          user_id?: string | null
+          years_farming?: number | null
+        }
+        Update: {
+          community_network_size?: number | null
+          created_at?: string | null
+          farm_location?: string | null
+          farm_size_acres?: number | null
+          full_name?: string
+          id?: string
+          phone_number?: string | null
+          primary_crops?: string[] | null
+          updated_at?: string | null
+          user_id?: string | null
+          years_farming?: number | null
+        }
+        Relationships: []
+      }
+      farmer_trust_scores: {
+        Row: {
+          ai_analysis: string | null
+          confidence_percentage: number | null
+          created_at: string | null
+          farmer_id: string | null
+          id: string
+          loan_recommendation: string | null
+          overall_score: number
+          risk_level: string | null
+          satellite_score: number | null
+          social_score: number | null
+          soil_score: number | null
+          transaction_score: number | null
+          weather_score: number | null
+          yield_prediction_score: number | null
+        }
+        Insert: {
+          ai_analysis?: string | null
+          confidence_percentage?: number | null
+          created_at?: string | null
+          farmer_id?: string | null
+          id?: string
+          loan_recommendation?: string | null
+          overall_score: number
+          risk_level?: string | null
+          satellite_score?: number | null
+          social_score?: number | null
+          soil_score?: number | null
+          transaction_score?: number | null
+          weather_score?: number | null
+          yield_prediction_score?: number | null
+        }
+        Update: {
+          ai_analysis?: string | null
+          confidence_percentage?: number | null
+          created_at?: string | null
+          farmer_id?: string | null
+          id?: string
+          loan_recommendation?: string | null
+          overall_score?: number
+          risk_level?: string | null
+          satellite_score?: number | null
+          social_score?: number | null
+          soil_score?: number | null
+          transaction_score?: number | null
+          weather_score?: number | null
+          yield_prediction_score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "farmer_trust_scores_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loan_applications: {
+        Row: {
+          ai_recommendation: string | null
+          created_at: string | null
+          farmer_id: string | null
+          id: string
+          loan_amount: number
+          purpose: string
+          status: string | null
+          trust_score_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          ai_recommendation?: string | null
+          created_at?: string | null
+          farmer_id?: string | null
+          id?: string
+          loan_amount: number
+          purpose: string
+          status?: string | null
+          trust_score_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          ai_recommendation?: string | null
+          created_at?: string | null
+          farmer_id?: string | null
+          id?: string
+          loan_amount?: number
+          purpose?: string
+          status?: string | null
+          trust_score_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loan_applications_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loan_applications_trust_score_id_fkey"
+            columns: ["trust_score_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_trust_scores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
