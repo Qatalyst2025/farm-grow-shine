@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      alert_subscriptions: {
+        Row: {
+          alert_type: string
+          created_at: string
+          delivery_method: string
+          farmer_id: string | null
+          id: string
+          is_active: boolean | null
+          preferences: Json | null
+        }
+        Insert: {
+          alert_type: string
+          created_at?: string
+          delivery_method: string
+          farmer_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          preferences?: Json | null
+        }
+        Update: {
+          alert_type?: string
+          created_at?: string
+          delivery_method?: string
+          farmer_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          preferences?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alert_subscriptions_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       assessment_data_sources: {
         Row: {
           confidence_score: number | null
@@ -483,6 +521,53 @@ export type Database = {
           },
         ]
       }
+      farmer_knowledge_base: {
+        Row: {
+          contributed_at: string
+          crop_type: string
+          farm_conditions: Json
+          farmer_id: string | null
+          id: string
+          outcomes: Json
+          practices_used: Json
+          success_score: number | null
+          verification_source: string | null
+          verified: boolean | null
+        }
+        Insert: {
+          contributed_at?: string
+          crop_type: string
+          farm_conditions: Json
+          farmer_id?: string | null
+          id?: string
+          outcomes: Json
+          practices_used: Json
+          success_score?: number | null
+          verification_source?: string | null
+          verified?: boolean | null
+        }
+        Update: {
+          contributed_at?: string
+          crop_type?: string
+          farm_conditions?: Json
+          farmer_id?: string | null
+          id?: string
+          outcomes?: Json
+          practices_used?: Json
+          success_score?: number | null
+          verification_source?: string | null
+          verified?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "farmer_knowledge_base_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       farmer_profiles: {
         Row: {
           community_network_size: number | null
@@ -577,6 +662,112 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "farmer_trust_scores_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      farming_advice_sessions: {
+        Row: {
+          context_data: Json | null
+          created_at: string
+          ended_at: string | null
+          farmer_id: string | null
+          id: string
+          language: string
+          messages: Json
+          session_type: string
+          updated_at: string
+        }
+        Insert: {
+          context_data?: Json | null
+          created_at?: string
+          ended_at?: string | null
+          farmer_id?: string | null
+          id?: string
+          language?: string
+          messages?: Json
+          session_type: string
+          updated_at?: string
+        }
+        Update: {
+          context_data?: Json | null
+          created_at?: string
+          ended_at?: string | null
+          farmer_id?: string | null
+          id?: string
+          language?: string
+          messages?: Json
+          session_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "farming_advice_sessions_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      farming_plans: {
+        Row: {
+          climate_data: Json | null
+          created_at: string
+          crop_type: string
+          estimated_revenue: number | null
+          estimated_yield: number | null
+          farmer_id: string | null
+          id: string
+          learning_source: Json | null
+          plan_data: Json
+          recommendations: Json
+          resource_assessment: Json | null
+          soil_analysis: Json | null
+          status: string | null
+          success_probability: number | null
+          updated_at: string
+        }
+        Insert: {
+          climate_data?: Json | null
+          created_at?: string
+          crop_type: string
+          estimated_revenue?: number | null
+          estimated_yield?: number | null
+          farmer_id?: string | null
+          id?: string
+          learning_source?: Json | null
+          plan_data: Json
+          recommendations: Json
+          resource_assessment?: Json | null
+          soil_analysis?: Json | null
+          status?: string | null
+          success_probability?: number | null
+          updated_at?: string
+        }
+        Update: {
+          climate_data?: Json | null
+          created_at?: string
+          crop_type?: string
+          estimated_revenue?: number | null
+          estimated_yield?: number | null
+          farmer_id?: string | null
+          id?: string
+          learning_source?: Json | null
+          plan_data?: Json
+          recommendations?: Json
+          resource_assessment?: Json | null
+          soil_analysis?: Json | null
+          status?: string | null
+          success_probability?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "farming_plans_farmer_id_fkey"
             columns: ["farmer_id"]
             isOneToOne: false
             referencedRelation: "farmer_profiles"
@@ -682,6 +873,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      market_alerts: {
+        Row: {
+          action_recommended: string | null
+          alert_type: string
+          created_at: string
+          crop_type: string
+          current_price: number | null
+          id: string
+          opportunity_details: Json
+          predicted_price: number | null
+          region: string | null
+          valid_until: string | null
+        }
+        Insert: {
+          action_recommended?: string | null
+          alert_type: string
+          created_at?: string
+          crop_type: string
+          current_price?: number | null
+          id?: string
+          opportunity_details: Json
+          predicted_price?: number | null
+          region?: string | null
+          valid_until?: string | null
+        }
+        Update: {
+          action_recommended?: string | null
+          alert_type?: string
+          created_at?: string
+          crop_type?: string
+          current_price?: number | null
+          id?: string
+          opportunity_details?: Json
+          predicted_price?: number | null
+          region?: string | null
+          valid_until?: string | null
+        }
+        Relationships: []
       }
       market_demand_forecasts: {
         Row: {
@@ -1120,6 +1350,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      weather_alerts: {
+        Row: {
+          alert_type: string
+          created_at: string
+          id: string
+          message: string
+          recommendations: Json | null
+          region: string
+          severity: string
+          title: string
+          valid_from: string
+          valid_until: string
+        }
+        Insert: {
+          alert_type: string
+          created_at?: string
+          id?: string
+          message: string
+          recommendations?: Json | null
+          region: string
+          severity: string
+          title: string
+          valid_from: string
+          valid_until: string
+        }
+        Update: {
+          alert_type?: string
+          created_at?: string
+          id?: string
+          message?: string
+          recommendations?: Json | null
+          region?: string
+          severity?: string
+          title?: string
+          valid_from?: string
+          valid_until?: string
+        }
+        Relationships: []
       }
     }
     Views: {

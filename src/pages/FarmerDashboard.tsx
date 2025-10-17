@@ -108,6 +108,15 @@ const FarmerDashboard = () => {
       priority: 1
     },
     {
+      id: 9,
+      title: "AI Agricultural Advisor",
+      description: "Get personalized farming advice with voice support in local languages",
+      icon: Brain,
+      color: "accent",
+      link: "/ai-advisor",
+      priority: 1
+    },
+    {
       id: 3,
       title: "AI Risk Assessment",
       description: "Get your AI-powered Farmer Trust Score and unlock better loan terms",
