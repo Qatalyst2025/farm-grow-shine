@@ -15,6 +15,7 @@ import CropProgress from "./pages/CropProgress";
 import LearningCenter from "./pages/LearningCenter";
 import CooperativeManagement from "./pages/CooperativeManagement";
 import RiskAssessment from "./pages/RiskAssessment";
+import CropHealthMonitor from "./pages/CropHealthMonitor";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/farmer/learn" element={<LearningCenter />} />
             <Route path="/farmer/cooperative" element={<CooperativeManagement />} />
             <Route path="/farmer/risk-assessment" element={<RiskAssessment />} />
+            <Route path="/farmer/crop-health/:cropId?" element={<CropHealthMonitor />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/marketplace" element={<Marketplace />} />
             <Route path="/buyer/profile" element={<BuyerProfile />} />

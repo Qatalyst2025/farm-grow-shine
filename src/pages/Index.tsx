@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Logo } from "@/components/ui/logo";
-import { Sprout, Users, TrendingUp, Shield, ArrowRight } from "lucide-react";
+import { Sprout, Users, TrendingUp, Shield, ArrowRight, Camera, Brain } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -64,10 +64,20 @@ const Index = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
           <Card className="p-8 border-l-4 border-l-primary hover:shadow-elevated transition-all hover:-translate-y-1 animate-fade-in">
             <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-              <TrendingUp className="h-7 w-7 text-primary" />
+              <Camera className="h-7 w-7 text-primary" />
+            </div>
+            <h3 className="text-2xl font-bold mb-3 text-card-foreground">AI Vision</h3>
+            <p className="text-muted-foreground leading-relaxed">
+              Upload crop photos for instant AI analysis. Detect pests, diseases, and growth stages automatically.
+            </p>
+          </Card>
+
+          <Card className="p-8 border-l-4 border-l-secondary hover:shadow-elevated transition-all hover:-translate-y-1 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+            <div className="h-14 w-14 rounded-full bg-secondary/10 flex items-center justify-center mb-6">
+              <TrendingUp className="h-7 w-7 text-secondary" />
             </div>
             <h3 className="text-2xl font-bold mb-3 text-card-foreground">Quick Loans</h3>
             <p className="text-muted-foreground leading-relaxed">
@@ -75,9 +85,9 @@ const Index = () => {
             </p>
           </Card>
 
-          <Card className="p-8 border-l-4 border-l-secondary hover:shadow-elevated transition-all hover:-translate-y-1 animate-fade-in" style={{ animationDelay: "0.1s" }}>
-            <div className="h-14 w-14 rounded-full bg-secondary/10 flex items-center justify-center mb-6">
-              <Sprout className="h-7 w-7 text-secondary" />
+          <Card className="p-8 border-l-4 border-l-accent hover:shadow-elevated transition-all hover:-translate-y-1 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+            <div className="h-14 w-14 rounded-full bg-accent/10 flex items-center justify-center mb-6">
+              <Sprout className="h-7 w-7 text-accent" />
             </div>
             <h3 className="text-2xl font-bold mb-3 text-card-foreground">Tokenize Crops</h3>
             <p className="text-muted-foreground leading-relaxed">
@@ -85,9 +95,9 @@ const Index = () => {
             </p>
           </Card>
 
-          <Card className="p-8 border-l-4 border-l-accent hover:shadow-elevated transition-all hover:-translate-y-1 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            <div className="h-14 w-14 rounded-full bg-accent/10 flex items-center justify-center mb-6">
-              <Shield className="h-7 w-7 text-accent" />
+          <Card className="p-8 border-l-4 border-l-primary hover:shadow-elevated transition-all hover:-translate-y-1 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+            <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+              <Shield className="h-7 w-7 text-primary" />
             </div>
             <h3 className="text-2xl font-bold mb-3 text-card-foreground">Secure & Transparent</h3>
             <p className="text-muted-foreground leading-relaxed">

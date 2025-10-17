@@ -72,6 +72,15 @@ const FarmerDashboard = () => {
   const actionCards = [
     {
       id: 1,
+      title: "Crop Health Monitor",
+      description: "AI-powered computer vision analysis for pests, diseases, and growth stages",
+      icon: Camera,
+      color: "primary",
+      link: "/farmer/crop-health",
+      priority: 1
+    },
+    {
+      id: 2,
       title: "AI Risk Assessment",
       description: "Get your AI-powered Farmer Trust Score and unlock better loan terms",
       icon: Brain,
@@ -80,22 +89,13 @@ const FarmerDashboard = () => {
       priority: 1
     },
     {
-      id: 2,
+      id: 3,
       title: "Continue Your Loan Application",
       description: "You're 2 steps away from getting funded!",
       icon: Clock,
       color: "warning",
       link: "/farmer/apply-loan",
       priority: 1
-    },
-    {
-      id: 3,
-      title: "Update Your Crop Progress",
-      description: "Add photos to increase your financial score by 5 points",
-      icon: Camera,
-      color: "primary",
-      link: "/farmer/crops",
-      priority: 2
     },
     {
       id: 4,
