@@ -1580,6 +1580,305 @@ export type Database = {
         }
         Relationships: []
       }
+      negotiation_documents: {
+        Row: {
+          blockchain_hash: string | null
+          created_at: string | null
+          document_type: string
+          document_url: string
+          file_name: string
+          file_size: number | null
+          id: string
+          room_id: string
+          uploaded_by: string
+          verification_notes: string | null
+          verified: boolean | null
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          blockchain_hash?: string | null
+          created_at?: string | null
+          document_type: string
+          document_url: string
+          file_name: string
+          file_size?: number | null
+          id?: string
+          room_id: string
+          uploaded_by: string
+          verification_notes?: string | null
+          verified?: boolean | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          blockchain_hash?: string | null
+          created_at?: string | null
+          document_type?: string
+          document_url?: string
+          file_name?: string
+          file_size?: number | null
+          id?: string
+          room_id?: string
+          uploaded_by?: string
+          verification_notes?: string | null
+          verified?: boolean | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "negotiation_documents_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "negotiation_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      negotiation_messages: {
+        Row: {
+          blockchain_hash: string | null
+          content: string | null
+          created_at: string | null
+          document_type: string | null
+          document_url: string | null
+          document_verified: boolean | null
+          id: string
+          is_read: boolean | null
+          location_description: string | null
+          location_lat: number | null
+          location_lng: number | null
+          message_type: Database["public"]["Enums"]["negotiation_message_type"]
+          metadata: Json | null
+          offer_amount: number | null
+          offer_expires_at: string | null
+          offer_terms: Json | null
+          quality_notes: string | null
+          quality_photo_url: string | null
+          quality_score: number | null
+          room_id: string
+          sender_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          blockchain_hash?: string | null
+          content?: string | null
+          created_at?: string | null
+          document_type?: string | null
+          document_url?: string | null
+          document_verified?: boolean | null
+          id?: string
+          is_read?: boolean | null
+          location_description?: string | null
+          location_lat?: number | null
+          location_lng?: number | null
+          message_type: Database["public"]["Enums"]["negotiation_message_type"]
+          metadata?: Json | null
+          offer_amount?: number | null
+          offer_expires_at?: string | null
+          offer_terms?: Json | null
+          quality_notes?: string | null
+          quality_photo_url?: string | null
+          quality_score?: number | null
+          room_id: string
+          sender_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          blockchain_hash?: string | null
+          content?: string | null
+          created_at?: string | null
+          document_type?: string | null
+          document_url?: string | null
+          document_verified?: boolean | null
+          id?: string
+          is_read?: boolean | null
+          location_description?: string | null
+          location_lat?: number | null
+          location_lng?: number | null
+          message_type?: Database["public"]["Enums"]["negotiation_message_type"]
+          metadata?: Json | null
+          offer_amount?: number | null
+          offer_expires_at?: string | null
+          offer_terms?: Json | null
+          quality_notes?: string | null
+          quality_photo_url?: string | null
+          quality_score?: number | null
+          room_id?: string
+          sender_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "negotiation_messages_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "negotiation_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      negotiation_participants: {
+        Row: {
+          can_accept_offers: boolean | null
+          can_make_offers: boolean | null
+          id: string
+          joined_at: string | null
+          last_read_at: string | null
+          role: string
+          room_id: string
+          user_id: string
+        }
+        Insert: {
+          can_accept_offers?: boolean | null
+          can_make_offers?: boolean | null
+          id?: string
+          joined_at?: string | null
+          last_read_at?: string | null
+          role: string
+          room_id: string
+          user_id: string
+        }
+        Update: {
+          can_accept_offers?: boolean | null
+          can_make_offers?: boolean | null
+          id?: string
+          joined_at?: string | null
+          last_read_at?: string | null
+          role?: string
+          room_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "negotiation_participants_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "negotiation_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      negotiation_rooms: {
+        Row: {
+          accepted_amount: number | null
+          blockchain_hash: string | null
+          buyer_id: string | null
+          completed_at: string | null
+          contract_signed_at: string | null
+          created_at: string | null
+          crop_listing_id: string | null
+          current_offer_amount: number | null
+          delivery_terms: Json | null
+          farmer_id: string
+          id: string
+          loan_application_id: string | null
+          loan_officer_id: string | null
+          metadata: Json | null
+          payment_terms: Json | null
+          room_type: Database["public"]["Enums"]["negotiation_room_type"]
+          status: Database["public"]["Enums"]["negotiation_status"] | null
+          subject: string
+          supply_batch_id: string | null
+          transporter_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          accepted_amount?: number | null
+          blockchain_hash?: string | null
+          buyer_id?: string | null
+          completed_at?: string | null
+          contract_signed_at?: string | null
+          created_at?: string | null
+          crop_listing_id?: string | null
+          current_offer_amount?: number | null
+          delivery_terms?: Json | null
+          farmer_id: string
+          id?: string
+          loan_application_id?: string | null
+          loan_officer_id?: string | null
+          metadata?: Json | null
+          payment_terms?: Json | null
+          room_type: Database["public"]["Enums"]["negotiation_room_type"]
+          status?: Database["public"]["Enums"]["negotiation_status"] | null
+          subject: string
+          supply_batch_id?: string | null
+          transporter_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          accepted_amount?: number | null
+          blockchain_hash?: string | null
+          buyer_id?: string | null
+          completed_at?: string | null
+          contract_signed_at?: string | null
+          created_at?: string | null
+          crop_listing_id?: string | null
+          current_offer_amount?: number | null
+          delivery_terms?: Json | null
+          farmer_id?: string
+          id?: string
+          loan_application_id?: string | null
+          loan_officer_id?: string | null
+          metadata?: Json | null
+          payment_terms?: Json | null
+          room_type?: Database["public"]["Enums"]["negotiation_room_type"]
+          status?: Database["public"]["Enums"]["negotiation_status"] | null
+          subject?: string
+          supply_batch_id?: string | null
+          transporter_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      payment_milestones: {
+        Row: {
+          amount: number
+          blockchain_tx_hash: string | null
+          created_at: string | null
+          description: string
+          due_date: string | null
+          id: string
+          milestone_number: number
+          paid_at: string | null
+          room_id: string
+          status: string | null
+        }
+        Insert: {
+          amount: number
+          blockchain_tx_hash?: string | null
+          created_at?: string | null
+          description: string
+          due_date?: string | null
+          id?: string
+          milestone_number: number
+          paid_at?: string | null
+          room_id: string
+          status?: string | null
+        }
+        Update: {
+          amount?: number
+          blockchain_tx_hash?: string | null
+          created_at?: string | null
+          description?: string
+          due_date?: string | null
+          id?: string
+          milestone_number?: number
+          paid_at?: string | null
+          room_id?: string
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_milestones_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "negotiation_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       planting_recommendations: {
         Row: {
           competition_level: string | null
@@ -2517,6 +2816,27 @@ export type Database = {
       chat_member_role: "member" | "moderator" | "admin"
       chat_room_type: "regional" | "crop_specific" | "cooperative" | "emergency"
       message_type: "text" | "voice" | "image" | "poll" | "alert"
+      negotiation_message_type:
+        | "offer"
+        | "counter_offer"
+        | "accept"
+        | "reject"
+        | "question"
+        | "document"
+        | "payment_proposal"
+        | "location_update"
+        | "quality_check"
+      negotiation_room_type:
+        | "farmer_buyer"
+        | "loan_application"
+        | "supply_chain"
+      negotiation_status:
+        | "active"
+        | "accepted"
+        | "rejected"
+        | "completed"
+        | "cancelled"
+        | "pending_verification"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -2647,6 +2967,30 @@ export const Constants = {
       chat_member_role: ["member", "moderator", "admin"],
       chat_room_type: ["regional", "crop_specific", "cooperative", "emergency"],
       message_type: ["text", "voice", "image", "poll", "alert"],
+      negotiation_message_type: [
+        "offer",
+        "counter_offer",
+        "accept",
+        "reject",
+        "question",
+        "document",
+        "payment_proposal",
+        "location_update",
+        "quality_check",
+      ],
+      negotiation_room_type: [
+        "farmer_buyer",
+        "loan_application",
+        "supply_chain",
+      ],
+      negotiation_status: [
+        "active",
+        "accepted",
+        "rejected",
+        "completed",
+        "cancelled",
+        "pending_verification",
+      ],
     },
   },
 } as const

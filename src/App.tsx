@@ -22,6 +22,7 @@ import NotFound from "./pages/NotFound";
 import VerificationCenter from "./pages/VerificationCenter";
 import CreditAssessment from "./pages/CreditAssessment";
 import Community from "./pages/Community";
+import Negotiations from "./pages/Negotiations";
 
 // Lazy load AIAdvisor to prevent i18n initialization issues
 const AIAdvisor = lazy(() => import("./pages/AIAdvisor"));
@@ -54,6 +55,7 @@ const App = () => (
             <Route path="/ai-advisor" element={<AIAdvisor />} />
             <Route path="/credit-assessment" element={<CreditAssessment />} />
             <Route path="/community" element={<Community />} />
+            <Route path="/negotiations" element={<Negotiations />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
