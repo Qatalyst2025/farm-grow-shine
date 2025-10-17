@@ -50,3 +50,15 @@ verify_jwt = true
 
 [functions.optimize-logistics]
 verify_jwt = true
+
+[functions.deepseek-nlp]
+verify_jwt = true
+
+[functions.deepseek-vision]
+verify_jwt = true
+
+[functions.deepseek-predictions]
+verify_jwt = true
+
+[functions.deepseek-recommendations]
+verify_jwt = true
