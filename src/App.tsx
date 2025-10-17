@@ -18,6 +18,7 @@ import RiskAssessment from "./pages/RiskAssessment";
 import CropHealthMonitor from "./pages/CropHealthMonitor";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import VerificationCenter from "./pages/VerificationCenter";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/marketplace" element={<Marketplace />} />
             <Route path="/buyer/profile" element={<BuyerProfile />} />
+            <Route path="/verification" element={<VerificationCenter />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

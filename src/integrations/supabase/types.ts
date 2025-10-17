@@ -49,6 +49,48 @@ export type Database = {
           },
         ]
       }
+      behavioral_biometrics: {
+        Row: {
+          anomaly_details: Json | null
+          anomaly_detected: boolean | null
+          biometric_data: Json
+          biometric_type: string
+          created_at: string | null
+          device_fingerprint: Json | null
+          id: string
+          location_data: Json | null
+          risk_score: number | null
+          session_id: string
+          user_id: string | null
+        }
+        Insert: {
+          anomaly_details?: Json | null
+          anomaly_detected?: boolean | null
+          biometric_data: Json
+          biometric_type: string
+          created_at?: string | null
+          device_fingerprint?: Json | null
+          id?: string
+          location_data?: Json | null
+          risk_score?: number | null
+          session_id: string
+          user_id?: string | null
+        }
+        Update: {
+          anomaly_details?: Json | null
+          anomaly_detected?: boolean | null
+          biometric_data?: Json
+          biometric_type?: string
+          created_at?: string | null
+          device_fingerprint?: Json | null
+          id?: string
+          location_data?: Json | null
+          risk_score?: number | null
+          session_id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       buyer_profiles: {
         Row: {
           average_order_size: number | null
@@ -542,6 +584,54 @@ export type Database = {
           },
         ]
       }
+      fraud_detection_logs: {
+        Row: {
+          ai_confidence: number | null
+          created_at: string | null
+          detection_method: string
+          entity_id: string
+          entity_type: string
+          fraud_indicators: Json
+          fraud_score: number
+          id: string
+          investigated_by: string | null
+          investigation_notes: string | null
+          resolved_at: string | null
+          risk_level: string
+          status: string | null
+        }
+        Insert: {
+          ai_confidence?: number | null
+          created_at?: string | null
+          detection_method: string
+          entity_id: string
+          entity_type: string
+          fraud_indicators: Json
+          fraud_score: number
+          id?: string
+          investigated_by?: string | null
+          investigation_notes?: string | null
+          resolved_at?: string | null
+          risk_level: string
+          status?: string | null
+        }
+        Update: {
+          ai_confidence?: number | null
+          created_at?: string | null
+          detection_method?: string
+          entity_id?: string
+          entity_type?: string
+          fraud_indicators?: Json
+          fraud_score?: number
+          id?: string
+          investigated_by?: string | null
+          investigation_notes?: string | null
+          resolved_at?: string | null
+          risk_level?: string
+          status?: string | null
+        }
+        Relationships: []
+      }
       loan_applications: {
         Row: {
           ai_recommendation: string | null
@@ -753,6 +843,277 @@ export type Database = {
           },
           {
             foreignKeyName: "purchase_history_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transaction_monitoring: {
+        Row: {
+          amount: number
+          anomaly_reasons: Json | null
+          anomaly_score: number | null
+          behavioral_patterns: Json | null
+          created_at: string | null
+          currency: string | null
+          from_user_id: string | null
+          id: string
+          network_analysis: Json | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string | null
+          to_user_id: string | null
+          transaction_data: Json | null
+          transaction_id: string | null
+          transaction_type: string
+        }
+        Insert: {
+          amount: number
+          anomaly_reasons?: Json | null
+          anomaly_score?: number | null
+          behavioral_patterns?: Json | null
+          created_at?: string | null
+          currency?: string | null
+          from_user_id?: string | null
+          id?: string
+          network_analysis?: Json | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          to_user_id?: string | null
+          transaction_data?: Json | null
+          transaction_id?: string | null
+          transaction_type: string
+        }
+        Update: {
+          amount?: number
+          anomaly_reasons?: Json | null
+          anomaly_score?: number | null
+          behavioral_patterns?: Json | null
+          created_at?: string | null
+          currency?: string | null
+          from_user_id?: string | null
+          id?: string
+          network_analysis?: Json | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          to_user_id?: string | null
+          transaction_data?: Json | null
+          transaction_id?: string | null
+          transaction_type?: string
+        }
+        Relationships: []
+      }
+      trust_network_edges: {
+        Row: {
+          created_at: string | null
+          from_node_id: string | null
+          id: string
+          interaction_count: number | null
+          last_interaction: string | null
+          relationship_type: string
+          successful_interactions: number | null
+          to_node_id: string | null
+          trust_weight: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          from_node_id?: string | null
+          id?: string
+          interaction_count?: number | null
+          last_interaction?: string | null
+          relationship_type: string
+          successful_interactions?: number | null
+          to_node_id?: string | null
+          trust_weight?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          from_node_id?: string | null
+          id?: string
+          interaction_count?: number | null
+          last_interaction?: string | null
+          relationship_type?: string
+          successful_interactions?: number | null
+          to_node_id?: string | null
+          trust_weight?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trust_network_edges_from_node_id_fkey"
+            columns: ["from_node_id"]
+            isOneToOne: false
+            referencedRelation: "trust_network_nodes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trust_network_edges_to_node_id_fkey"
+            columns: ["to_node_id"]
+            isOneToOne: false
+            referencedRelation: "trust_network_nodes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trust_network_nodes: {
+        Row: {
+          created_at: string | null
+          current_trust_score: number | null
+          failed_transactions: number | null
+          fraud_reports: number | null
+          historical_behavior: Json | null
+          id: string
+          initial_trust_score: number | null
+          last_activity: string | null
+          network_connections: number | null
+          peer_ratings: Json | null
+          successful_transactions: number | null
+          trust_level: string | null
+          updated_at: string | null
+          user_id: string | null
+          user_type: string
+          verification_count: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          current_trust_score?: number | null
+          failed_transactions?: number | null
+          fraud_reports?: number | null
+          historical_behavior?: Json | null
+          id?: string
+          initial_trust_score?: number | null
+          last_activity?: string | null
+          network_connections?: number | null
+          peer_ratings?: Json | null
+          successful_transactions?: number | null
+          trust_level?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          user_type: string
+          verification_count?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          current_trust_score?: number | null
+          failed_transactions?: number | null
+          fraud_reports?: number | null
+          historical_behavior?: Json | null
+          id?: string
+          initial_trust_score?: number | null
+          last_activity?: string | null
+          network_connections?: number | null
+          peer_ratings?: Json | null
+          successful_transactions?: number | null
+          trust_level?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          user_type?: string
+          verification_count?: number | null
+        }
+        Relationships: []
+      }
+      verification_quality_checks: {
+        Row: {
+          ai_analysis: Json | null
+          check_result: string
+          check_type: string
+          created_at: string | null
+          id: string
+          issues_found: Json | null
+          quality_score: number | null
+          recommendations: Json | null
+          submission_id: string | null
+        }
+        Insert: {
+          ai_analysis?: Json | null
+          check_result: string
+          check_type: string
+          created_at?: string | null
+          id?: string
+          issues_found?: Json | null
+          quality_score?: number | null
+          recommendations?: Json | null
+          submission_id?: string | null
+        }
+        Update: {
+          ai_analysis?: Json | null
+          check_result?: string
+          check_type?: string
+          created_at?: string | null
+          id?: string
+          issues_found?: Json | null
+          quality_score?: number | null
+          recommendations?: Json | null
+          submission_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verification_quality_checks_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "verification_submissions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      verification_submissions: {
+        Row: {
+          ai_analysis: Json | null
+          created_at: string | null
+          farmer_id: string | null
+          fraud_flags: Json | null
+          geolocation: Json | null
+          id: string
+          image_urls: string[] | null
+          metadata: Json | null
+          submission_type: string
+          updated_at: string | null
+          verification_score: number | null
+          verification_status: string | null
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          ai_analysis?: Json | null
+          created_at?: string | null
+          farmer_id?: string | null
+          fraud_flags?: Json | null
+          geolocation?: Json | null
+          id?: string
+          image_urls?: string[] | null
+          metadata?: Json | null
+          submission_type: string
+          updated_at?: string | null
+          verification_score?: number | null
+          verification_status?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          ai_analysis?: Json | null
+          created_at?: string | null
+          farmer_id?: string | null
+          fraud_flags?: Json | null
+          geolocation?: Json | null
+          id?: string
+          image_urls?: string[] | null
+          metadata?: Json | null
+          submission_type?: string
+          updated_at?: string | null
+          verification_score?: number | null
+          verification_status?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verification_submissions_farmer_id_fkey"
             columns: ["farmer_id"]
             isOneToOne: false
             referencedRelation: "farmer_profiles"

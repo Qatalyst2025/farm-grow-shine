@@ -100,6 +100,15 @@ const FarmerDashboard = () => {
     },
     {
       id: 2,
+      title: "AI Verification Center",
+      description: "Verify farm ownership and build your trust network with AI-powered security",
+      icon: Brain,
+      color: "secondary",
+      link: "/verification",
+      priority: 1
+    },
+    {
+      id: 3,
       title: "AI Risk Assessment",
       description: "Get your AI-powered Farmer Trust Score and unlock better loan terms",
       icon: Brain,
@@ -108,7 +117,7 @@ const FarmerDashboard = () => {
       priority: 1
     },
     {
-      id: 3,
+      id: 4,
       title: "Continue Your Loan Application",
       description: "You're 2 steps away from getting funded!",
       icon: Clock,
@@ -117,7 +126,7 @@ const FarmerDashboard = () => {
       priority: 1
     },
     {
-      id: 4,
+      id: 5,
       title: "Explore the Marketplace",
       description: "See buyer offers for your crops and connect with customers",
       icon: Package,
