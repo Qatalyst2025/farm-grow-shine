@@ -183,6 +183,67 @@ export type Database = {
         }
         Relationships: []
       }
+      buyer_ratings: {
+        Row: {
+          buyer_id: string
+          communication_rating: number | null
+          created_at: string
+          farmer_id: string
+          id: string
+          match_id: string | null
+          payment_speed_rating: number | null
+          rating: number
+          reliability_rating: number | null
+          review_text: string | null
+        }
+        Insert: {
+          buyer_id: string
+          communication_rating?: number | null
+          created_at?: string
+          farmer_id: string
+          id?: string
+          match_id?: string | null
+          payment_speed_rating?: number | null
+          rating: number
+          reliability_rating?: number | null
+          review_text?: string | null
+        }
+        Update: {
+          buyer_id?: string
+          communication_rating?: number | null
+          created_at?: string
+          farmer_id?: string
+          id?: string
+          match_id?: string | null
+          payment_speed_rating?: number | null
+          rating?: number
+          reliability_rating?: number | null
+          review_text?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "buyer_ratings_buyer_id_fkey"
+            columns: ["buyer_id"]
+            isOneToOne: false
+            referencedRelation: "buyer_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "buyer_ratings_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "buyer_ratings_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_buyer_matches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       credit_assessment_dimensions: {
         Row: {
           assessment_date: string
@@ -705,6 +766,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      crop_price_history: {
+        Row: {
+          created_at: string
+          crop_type: string
+          id: string
+          price_per_kg: number
+          quality_grade: string | null
+          recorded_date: string
+          region: string | null
+          source: string
+          volume_kg: number | null
+        }
+        Insert: {
+          created_at?: string
+          crop_type: string
+          id?: string
+          price_per_kg: number
+          quality_grade?: string | null
+          recorded_date?: string
+          region?: string | null
+          source: string
+          volume_kg?: number | null
+        }
+        Update: {
+          created_at?: string
+          crop_type?: string
+          id?: string
+          price_per_kg?: number
+          quality_grade?: string | null
+          recorded_date?: string
+          region?: string | null
+          source?: string
+          volume_kg?: number | null
+        }
+        Relationships: []
       }
       crops: {
         Row: {
@@ -1260,6 +1357,45 @@ export type Database = {
         }
         Relationships: []
       }
+      market_trends: {
+        Row: {
+          analysis_date: string
+          confidence_score: number | null
+          created_at: string
+          crop_type: string
+          forecast_period: string | null
+          id: string
+          region: string | null
+          trend_data: Json
+          trend_direction: string
+          trend_type: string
+        }
+        Insert: {
+          analysis_date?: string
+          confidence_score?: number | null
+          created_at?: string
+          crop_type: string
+          forecast_period?: string | null
+          id?: string
+          region?: string | null
+          trend_data: Json
+          trend_direction: string
+          trend_type: string
+        }
+        Update: {
+          analysis_date?: string
+          confidence_score?: number | null
+          created_at?: string
+          crop_type?: string
+          forecast_period?: string | null
+          id?: string
+          region?: string | null
+          trend_data?: Json
+          trend_direction?: string
+          trend_type?: string
+        }
+        Relationships: []
+      }
       planting_recommendations: {
         Row: {
           competition_level: string | null
@@ -1315,6 +1451,47 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "planting_recommendations_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      price_alerts: {
+        Row: {
+          alert_condition: string
+          created_at: string
+          crop_type: string
+          farmer_id: string
+          id: string
+          is_active: boolean | null
+          target_price: number
+          triggered_at: string | null
+        }
+        Insert: {
+          alert_condition: string
+          created_at?: string
+          crop_type: string
+          farmer_id: string
+          id?: string
+          is_active?: boolean | null
+          target_price: number
+          triggered_at?: string | null
+        }
+        Update: {
+          alert_condition?: string
+          created_at?: string
+          crop_type?: string
+          farmer_id?: string
+          id?: string
+          is_active?: boolean | null
+          target_price?: number
+          triggered_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "price_alerts_farmer_id_fkey"
             columns: ["farmer_id"]
             isOneToOne: false
             referencedRelation: "farmer_profiles"

@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SmartRecommendations } from "@/components/marketplace/SmartRecommendations";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Search, 
   SlidersHorizontal, 
@@ -11,20 +12,30 @@ import {
   List,
   MapPin,
   ShoppingBag,
-  User
+  User,
+  TrendingUp,
+  DollarSign,
+  Sparkles
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { MapView } from "@/components/marketplace/MapView";
 import { FilterSidebar } from "@/components/marketplace/FilterSidebar";
 import { CropListingCard } from "@/components/marketplace/CropListingCard";
+import { MarketPulseDashboard } from "@/components/marketplace/MarketPulseDashboard";
+import { PriceAnalysisTool } from "@/components/marketplace/PriceAnalysisTool";
+import { SmartOffersPanel } from "@/components/marketplace/SmartOffersPanel";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MobileLayout } from "@/components/mobile/MobileLayout";
 import { PullToRefresh } from "@/components/mobile/PullToRefresh";
+import { useToast } from "@/hooks/use-toast";
 
 const Marketplace = () => {
+  const { toast } = useToast();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [showMap, setShowMap] = useState(true);
   const [farmerProfile, setFarmerProfile] = useState<any>(null);
+  const [marketInsights, setMarketInsights] = useState<any>(null);
+  const [loadingInsights, setLoadingInsights] = useState(false);
 
   // Fetch farmer profile for recommendations
   useEffect(() => {
@@ -37,12 +48,36 @@ const Marketplace = () => {
           .eq('user_id', user.id)
           .maybeSingle();
         setFarmerProfile(data);
+        
+        // Load market insights for farmers
+        if (data) {
+          loadMarketInsights(data.id);
+        }
       }
     };
     fetchFarmerProfile();
   }, []);
 
+  const loadMarketInsights = async (farmerId: string) => {
+    setLoadingInsights(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('generate-market-insights', {
+        body: { farmerId }
+      });
+
+      if (error) throw error;
+      setMarketInsights(data.insights);
+    } catch (error: any) {
+      console.error('Error loading insights:', error);
+    } finally {
+      setLoadingInsights(false);
+    }
+  };
+
   const handleRefresh = async () => {
+    if (farmerProfile) {
+      await loadMarketInsights(farmerProfile.id);
+    }
     await new Promise(resolve => setTimeout(resolve, 1500));
   };
 
@@ -166,28 +201,51 @@ const Marketplace = () => {
       </header>
 
       <div className="container mx-auto px-4 py-6">
-        {/* Stats Bar */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-card p-4 rounded-lg border">
-            <div className="text-2xl font-bold text-primary">{listings.length}</div>
-            <div className="text-sm text-muted-foreground">Active Listings</div>
-          </div>
-          <div className="bg-card p-4 rounded-lg border">
-            <div className="text-2xl font-bold text-success">47</div>
-            <div className="text-sm text-muted-foreground">Verified Farmers</div>
-          </div>
-          <div className="bg-card p-4 rounded-lg border">
-            <div className="text-2xl font-bold text-warning">$425</div>
-            <div className="text-sm text-muted-foreground">Avg Price/ton</div>
-          </div>
-          <div className="bg-card p-4 rounded-lg border">
-            <div className="text-2xl font-bold text-info">15km</div>
-            <div className="text-sm text-muted-foreground">Avg Distance</div>
-          </div>
-        </div>
+        <Tabs defaultValue="marketplace" className="space-y-6">
+          <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4">
+            <TabsTrigger value="marketplace">
+              <ShoppingBag className="mr-2 h-4 w-4" />
+              Marketplace
+            </TabsTrigger>
+            <TabsTrigger value="insights">
+              <TrendingUp className="mr-2 h-4 w-4" />
+              Insights
+            </TabsTrigger>
+            <TabsTrigger value="pricing">
+              <DollarSign className="mr-2 h-4 w-4" />
+              Pricing
+            </TabsTrigger>
+            {farmerProfile && (
+              <TabsTrigger value="offers">
+                <Sparkles className="mr-2 h-4 w-4" />
+                Offers
+              </TabsTrigger>
+            )}
+          </TabsList>
 
-        {/* Main Content Area */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <TabsContent value="marketplace" className="space-y-6">
+            {/* Stats Bar */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-card p-4 rounded-lg border">
+                <div className="text-2xl font-bold text-primary">{listings.length}</div>
+                <div className="text-sm text-muted-foreground">Active Listings</div>
+              </div>
+              <div className="bg-card p-4 rounded-lg border">
+                <div className="text-2xl font-bold text-success">47</div>
+                <div className="text-sm text-muted-foreground">Verified Farmers</div>
+              </div>
+              <div className="bg-card p-4 rounded-lg border">
+                <div className="text-2xl font-bold text-warning">$425</div>
+                <div className="text-sm text-muted-foreground">Avg Price/ton</div>
+              </div>
+              <div className="bg-card p-4 rounded-lg border">
+                <div className="text-2xl font-bold text-info">15km</div>
+                <div className="text-sm text-muted-foreground">Avg Distance</div>
+              </div>
+            </div>
+
+            {/* Main Content Area */}
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Filter Sidebar - Desktop */}
           <div className="hidden lg:block">
             <FilterSidebar />
@@ -262,16 +320,45 @@ const Marketplace = () => {
                 Load More Crops
               </Button>
             </div>
+            </div>
           </div>
-        </div>
 
-        {/* Smart Recommendations for Farmers */}
+          {/* Smart Recommendations for Farmers */}
+          {farmerProfile && (
+            <div className="mt-8">
+              <SmartRecommendations farmerId={farmerProfile.id} />
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="insights" className="space-y-6">
+          {loadingInsights ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            </div>
+          ) : marketInsights ? (
+            <MarketPulseDashboard insights={marketInsights} />
+          ) : (
+            <div className="text-center py-12">
+              <TrendingUp className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+              <p className="text-muted-foreground">
+                Market insights will appear here once available
+              </p>
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="pricing" className="space-y-6">
+          <PriceAnalysisTool />
+        </TabsContent>
+
         {farmerProfile && (
-          <div className="mt-8">
-            <SmartRecommendations farmerId={farmerProfile.id} />
-          </div>
+          <TabsContent value="offers" className="space-y-6">
+            <SmartOffersPanel farmerId={farmerProfile.id} />
+          </TabsContent>
         )}
-      </div>
+      </Tabs>
+    </div>
         </div>
       </PullToRefresh>
     </MobileLayout>
