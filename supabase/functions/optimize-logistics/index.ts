@@ -72,7 +72,7 @@ Destination:
 - Buyer Type: ${batch.buyer_profiles?.buyer_type || 'Unknown'}
 
 Quality Status:
-${qualityChecks?.length > 0 ? `- Latest Quality Grade: ${qualityChecks[0].quality_grade}
+${qualityChecks && qualityChecks.length > 0 ? `- Latest Quality Grade: ${qualityChecks[0].quality_grade}
 - Quality Score: ${qualityChecks[0].quality_score}
 - Freshness Score: ${qualityChecks[0].freshness_score}` : '- No quality checks yet'}
 
