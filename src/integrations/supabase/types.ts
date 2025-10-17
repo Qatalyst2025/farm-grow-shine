@@ -1615,6 +1615,355 @@ export type Database = {
           },
         ]
       }
+      supply_chain_batches: {
+        Row: {
+          actual_delivery_date: string | null
+          batch_number: string
+          blockchain_topic_id: string | null
+          blockchain_transaction_id: string | null
+          buyer_id: string | null
+          created_at: string
+          crop_id: string | null
+          current_location_lat: number | null
+          current_location_lng: number | null
+          current_status: string
+          destination_lat: number | null
+          destination_lng: number | null
+          estimated_delivery_date: string | null
+          farmer_id: string | null
+          harvest_date: string
+          id: string
+          initial_quality_grade: string | null
+          quantity_kg: number
+          spoilage_risk_score: number | null
+          updated_at: string
+        }
+        Insert: {
+          actual_delivery_date?: string | null
+          batch_number: string
+          blockchain_topic_id?: string | null
+          blockchain_transaction_id?: string | null
+          buyer_id?: string | null
+          created_at?: string
+          crop_id?: string | null
+          current_location_lat?: number | null
+          current_location_lng?: number | null
+          current_status?: string
+          destination_lat?: number | null
+          destination_lng?: number | null
+          estimated_delivery_date?: string | null
+          farmer_id?: string | null
+          harvest_date: string
+          id?: string
+          initial_quality_grade?: string | null
+          quantity_kg: number
+          spoilage_risk_score?: number | null
+          updated_at?: string
+        }
+        Update: {
+          actual_delivery_date?: string | null
+          batch_number?: string
+          blockchain_topic_id?: string | null
+          blockchain_transaction_id?: string | null
+          buyer_id?: string | null
+          created_at?: string
+          crop_id?: string | null
+          current_location_lat?: number | null
+          current_location_lng?: number | null
+          current_status?: string
+          destination_lat?: number | null
+          destination_lng?: number | null
+          estimated_delivery_date?: string | null
+          farmer_id?: string | null
+          harvest_date?: string
+          id?: string
+          initial_quality_grade?: string | null
+          quantity_kg?: number
+          spoilage_risk_score?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "supply_chain_batches_buyer_id_fkey"
+            columns: ["buyer_id"]
+            isOneToOne: false
+            referencedRelation: "buyer_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supply_chain_batches_crop_id_fkey"
+            columns: ["crop_id"]
+            isOneToOne: false
+            referencedRelation: "crops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supply_chain_batches_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      supply_chain_checkpoints: {
+        Row: {
+          batch_id: string
+          checkpoint_type: string
+          created_at: string
+          id: string
+          image_urls: string[] | null
+          location_accuracy: number | null
+          location_lat: number
+          location_lng: number
+          metadata: Json | null
+          notes: string | null
+          tampering_detected: boolean | null
+          tampering_indicators: Json | null
+          timestamp: string
+          verification_method: string
+          verification_score: number | null
+          verification_status: string
+          verified_by: string | null
+        }
+        Insert: {
+          batch_id: string
+          checkpoint_type: string
+          created_at?: string
+          id?: string
+          image_urls?: string[] | null
+          location_accuracy?: number | null
+          location_lat: number
+          location_lng: number
+          metadata?: Json | null
+          notes?: string | null
+          tampering_detected?: boolean | null
+          tampering_indicators?: Json | null
+          timestamp?: string
+          verification_method: string
+          verification_score?: number | null
+          verification_status?: string
+          verified_by?: string | null
+        }
+        Update: {
+          batch_id?: string
+          checkpoint_type?: string
+          created_at?: string
+          id?: string
+          image_urls?: string[] | null
+          location_accuracy?: number | null
+          location_lat?: number
+          location_lng?: number
+          metadata?: Json | null
+          notes?: string | null
+          tampering_detected?: boolean | null
+          tampering_indicators?: Json | null
+          timestamp?: string
+          verification_method?: string
+          verification_score?: number | null
+          verification_status?: string
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "supply_chain_checkpoints_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "supply_chain_batches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      supply_chain_documents: {
+        Row: {
+          ai_analysis: Json | null
+          batch_id: string
+          compliance_issues: string[] | null
+          compliance_status: string | null
+          created_at: string
+          document_number: string | null
+          document_type: string
+          document_url: string
+          expiry_date: string | null
+          id: string
+          issue_date: string | null
+          issuer: string | null
+          metadata: Json | null
+          verification_method: string | null
+          verification_status: string
+          verified_at: string | null
+        }
+        Insert: {
+          ai_analysis?: Json | null
+          batch_id: string
+          compliance_issues?: string[] | null
+          compliance_status?: string | null
+          created_at?: string
+          document_number?: string | null
+          document_type: string
+          document_url: string
+          expiry_date?: string | null
+          id?: string
+          issue_date?: string | null
+          issuer?: string | null
+          metadata?: Json | null
+          verification_method?: string | null
+          verification_status?: string
+          verified_at?: string | null
+        }
+        Update: {
+          ai_analysis?: Json | null
+          batch_id?: string
+          compliance_issues?: string[] | null
+          compliance_status?: string | null
+          created_at?: string
+          document_number?: string | null
+          document_type?: string
+          document_url?: string
+          expiry_date?: string | null
+          id?: string
+          issue_date?: string | null
+          issuer?: string | null
+          metadata?: Json | null
+          verification_method?: string | null
+          verification_status?: string
+          verified_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "supply_chain_documents_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "supply_chain_batches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      supply_chain_logistics: {
+        Row: {
+          batch_id: string
+          created_at: string
+          delivery_priority: string
+          estimated_cost: number | null
+          estimated_duration_hours: number | null
+          handling_requirements: string[] | null
+          id: string
+          optimization_score: number | null
+          optimized_route: Json | null
+          route_plan: Json
+          spoilage_risk_factors: Json | null
+          temperature_requirements: Json | null
+          updated_at: string
+        }
+        Insert: {
+          batch_id: string
+          created_at?: string
+          delivery_priority?: string
+          estimated_cost?: number | null
+          estimated_duration_hours?: number | null
+          handling_requirements?: string[] | null
+          id?: string
+          optimization_score?: number | null
+          optimized_route?: Json | null
+          route_plan: Json
+          spoilage_risk_factors?: Json | null
+          temperature_requirements?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          batch_id?: string
+          created_at?: string
+          delivery_priority?: string
+          estimated_cost?: number | null
+          estimated_duration_hours?: number | null
+          handling_requirements?: string[] | null
+          id?: string
+          optimization_score?: number | null
+          optimized_route?: Json | null
+          route_plan?: Json
+          spoilage_risk_factors?: Json | null
+          temperature_requirements?: Json | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "supply_chain_logistics_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "supply_chain_batches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      supply_chain_quality_checks: {
+        Row: {
+          ai_confidence: number | null
+          batch_id: string
+          check_type: string
+          checkpoint_id: string | null
+          contamination_detected: boolean | null
+          contamination_type: string | null
+          created_at: string
+          freshness_score: number | null
+          id: string
+          image_analysis: Json | null
+          quality_grade: string
+          quality_score: number
+          recommendations: string[] | null
+          storage_conditions: Json | null
+          visual_indicators: Json | null
+        }
+        Insert: {
+          ai_confidence?: number | null
+          batch_id: string
+          check_type: string
+          checkpoint_id?: string | null
+          contamination_detected?: boolean | null
+          contamination_type?: string | null
+          created_at?: string
+          freshness_score?: number | null
+          id?: string
+          image_analysis?: Json | null
+          quality_grade: string
+          quality_score: number
+          recommendations?: string[] | null
+          storage_conditions?: Json | null
+          visual_indicators?: Json | null
+        }
+        Update: {
+          ai_confidence?: number | null
+          batch_id?: string
+          check_type?: string
+          checkpoint_id?: string | null
+          contamination_detected?: boolean | null
+          contamination_type?: string | null
+          created_at?: string
+          freshness_score?: number | null
+          id?: string
+          image_analysis?: Json | null
+          quality_grade?: string
+          quality_score?: number
+          recommendations?: string[] | null
+          storage_conditions?: Json | null
+          visual_indicators?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "supply_chain_quality_checks_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "supply_chain_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supply_chain_quality_checks_checkpoint_id_fkey"
+            columns: ["checkpoint_id"]
+            isOneToOne: false
+            referencedRelation: "supply_chain_checkpoints"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       transaction_monitoring: {
         Row: {
           amount: number

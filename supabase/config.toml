@@ -38,3 +38,15 @@ verify_jwt = false
 
 [functions.whatsapp-webhook]
 verify_jwt = false
+
+[functions.verify-geolocation]
+verify_jwt = true
+
+[functions.verify-quality]
+verify_jwt = true
+
+[functions.process-supply-chain-document]
+verify_jwt = true
+
+[functions.optimize-logistics]
+verify_jwt = true
