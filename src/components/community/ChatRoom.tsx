@@ -3,12 +3,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Users, Pin, Settings, Award } from "lucide-react";
+import { Users, Pin, Award, BarChart3, Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import ChatMessage from "./ChatMessage";
 import MessageInput from "./MessageInput";
 import WisdomPointsCard from "./WisdomPointsCard";
 import MembersList from "./MembersList";
+import PollCard from "./PollCard";
+import ScheduledSessionCard from "./ScheduledSessionCard";
+import CreatePollDialog from "./CreatePollDialog";
 import { useToast } from "@/hooks/use-toast";
 
 interface ChatRoomProps {
@@ -43,7 +46,13 @@ export default function ChatRoom({ roomId }: ChatRoomProps) {
   const [roomInfo, setRoomInfo] = useState<RoomInfo | null>(null);
   const [isMember, setIsMember] = useState(false);
   const [showMembers, setShowMembers] = useState(false);
+  const [showPolls, setShowPolls] = useState(false);
+  const [showSessions, setShowSessions] = useState(false);
+  const [showCreatePoll, setShowCreatePoll] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [polls, setPolls] = useState<any[]>([]);
+  const [sessions, setSessions] = useState<any[]>([]);
+  const [expertProfiles, setExpertProfiles] = useState<Record<string, any>>({});
   const scrollRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -51,9 +60,11 @@ export default function ChatRoom({ roomId }: ChatRoomProps) {
     loadRoom();
     checkMembership();
     loadMessages();
+    loadPolls();
+    loadSessions();
 
     // Subscribe to new messages
-    const channel = supabase
+    const messagesChannel = supabase
       .channel(`room:${roomId}`)
       .on(
         'postgres_changes',
@@ -70,8 +81,26 @@ export default function ChatRoom({ roomId }: ChatRoomProps) {
       )
       .subscribe();
 
+    // Subscribe to polls
+    const pollsChannel = supabase
+      .channel(`polls:${roomId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'chat_polls',
+          filter: `room_id=eq.${roomId}`
+        },
+        (payload) => {
+          setPolls(prev => [payload.new, ...prev]);
+        }
+      )
+      .subscribe();
+
     return () => {
-      supabase.removeChannel(channel);
+      supabase.removeChannel(messagesChannel);
+      supabase.removeChannel(pollsChannel);
     };
   }, [roomId]);
 
@@ -112,9 +141,57 @@ export default function ChatRoom({ roomId }: ChatRoomProps) {
 
     if (!error && data) {
       setMessages(data);
+      // Load expert profiles for message senders
+      const userIds = [...new Set(data.map(m => m.user_id))];
+      loadExpertProfiles(userIds);
       setTimeout(scrollToBottom, 100);
     }
     setLoading(false);
+  };
+
+  const loadExpertProfiles = async (userIds: string[]) => {
+    if (userIds.length === 0) return;
+    
+    const { data } = await supabase
+      .from('expert_profiles')
+      .select('*')
+      .in('user_id', userIds)
+      .eq('verified', true);
+
+    if (data) {
+      const profilesMap: Record<string, any> = {};
+      data.forEach(profile => {
+        profilesMap[profile.user_id] = profile;
+      });
+      setExpertProfiles(profilesMap);
+    }
+  };
+
+  const loadPolls = async () => {
+    const { data } = await supabase
+      .from('chat_polls')
+      .select('*')
+      .eq('room_id', roomId)
+      .eq('is_active', true)
+      .order('created_at', { ascending: false });
+
+    if (data) {
+      setPolls(data);
+    }
+  };
+
+  const loadSessions = async () => {
+    const { data } = await supabase
+      .from('scheduled_sessions')
+      .select('*')
+      .eq('room_id', roomId)
+      .gte('scheduled_end', new Date().toISOString())
+      .order('scheduled_start', { ascending: true })
+      .limit(5);
+
+    if (data) {
+      setSessions(data);
+    }
   };
 
   const joinRoom = async () => {
@@ -179,13 +256,85 @@ export default function ChatRoom({ roomId }: ChatRoomProps) {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setShowMembers(!showMembers)}
+              onClick={() => {
+                setShowPolls(!showPolls);
+                setShowMembers(false);
+                setShowSessions(false);
+              }}
+            >
+              <BarChart3 className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setShowSessions(!showSessions);
+                setShowMembers(false);
+                setShowPolls(false);
+              }}
+            >
+              <Calendar className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setShowMembers(!showMembers);
+                setShowPolls(false);
+                setShowSessions(false);
+              }}
             >
               <Users className="h-4 w-4" />
             </Button>
           </div>
         </div>
       </div>
+
+      {/* Sidebar Content */}
+      {(showMembers || showPolls || showSessions) && (
+        <div className="border-b bg-muted/30 p-4 max-h-80 overflow-y-auto">
+          {showMembers && <MembersList roomId={roomId} onClose={() => setShowMembers(false)} />}
+          
+          {showPolls && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="font-semibold text-sm">Active Polls & Quizzes</h4>
+                <Button
+                  size="sm"
+                  onClick={() => setShowCreatePoll(true)}
+                  variant="outline"
+                >
+                  Create Poll
+                </Button>
+              </div>
+              {polls.length === 0 ? (
+                <p className="text-sm text-muted-foreground text-center py-4">
+                  No active polls
+                </p>
+              ) : (
+                polls.map(poll => (
+                  <PollCard key={poll.id} poll={poll} />
+                ))
+              )}
+            </div>
+          )}
+
+          {showSessions && (
+            <div className="space-y-3">
+              <h4 className="font-semibold text-sm mb-3">Upcoming Sessions</h4>
+              {sessions.length === 0 ? (
+                <p className="text-sm text-muted-foreground text-center py-4">
+                  No upcoming sessions
+                </p>
+              ) : (
+                sessions.map(session => (
+                  <ScheduledSessionCard key={session.id} session={session} />
+                ))
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Pinned Messages */}
       {pinnedMessages.length > 0 && (
@@ -212,7 +361,12 @@ export default function ChatRoom({ roomId }: ChatRoomProps) {
         ) : (
           <div className="space-y-4">
             {messages.map(message => (
-              <ChatMessage key={message.id} message={message} roomId={roomId} />
+              <ChatMessage 
+                key={message.id} 
+                message={message} 
+                roomId={roomId}
+                expertProfile={expertProfiles[message.user_id]}
+              />
             ))}
             <div ref={scrollRef} />
           </div>
@@ -242,6 +396,12 @@ export default function ChatRoom({ roomId }: ChatRoomProps) {
           <MembersList roomId={roomId} onClose={() => setShowMembers(false)} />
         </div>
       )}
+
+      <CreatePollDialog
+        open={showCreatePoll}
+        onOpenChange={setShowCreatePoll}
+        roomId={roomId}
+      />
     </Card>
   );
 }

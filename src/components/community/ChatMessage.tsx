@@ -11,13 +11,17 @@ import {
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import ExpertBadge from "./ExpertBadge";
+import MessageRating from "./MessageRating";
+import AchievementBadges from "./AchievementBadges";
 
 interface ChatMessageProps {
   message: any;
   roomId: string;
+  expertProfile?: any;
 }
 
-export default function ChatMessage({ message, roomId }: ChatMessageProps) {
+export default function ChatMessage({ message, roomId, expertProfile }: ChatMessageProps) {
   const [reactions, setReactions] = useState<Record<string, number>>({});
   const [playing, setPlaying] = useState(false);
   const { toast } = useToast();
@@ -92,8 +96,23 @@ export default function ChatMessage({ message, roomId }: ChatMessageProps) {
         </Avatar>
 
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
             <span className="font-semibold text-sm">Farmer {message.user_id.slice(0, 6)}</span>
+            
+            {/* Expert Badge */}
+            {expertProfile && expertProfile.verified && (
+              <ExpertBadge
+                verificationLevel={expertProfile.verification_level}
+                expertiseAreas={expertProfile.expertise_areas}
+                averageRating={expertProfile.average_rating}
+                totalResponses={expertProfile.total_responses}
+                yearsExperience={expertProfile.years_experience}
+              />
+            )}
+
+            {/* Achievement Badges */}
+            <AchievementBadges userId={message.user_id} compact />
+            
             <span className="text-xs text-muted-foreground">
               {formatDistanceToNow(new Date(message.created_at), { addSuffix: true })}
             </span>
@@ -156,7 +175,7 @@ export default function ChatMessage({ message, roomId }: ChatMessageProps) {
           )}
 
           {/* Actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <Button
               variant="ghost"
               size="sm"
@@ -185,6 +204,11 @@ export default function ChatMessage({ message, roomId }: ChatMessageProps) {
               <Reply className="h-3 w-3 mr-1" />
               Reply
             </Button>
+
+            {/* Message Rating for Expert Responses */}
+            {expertProfile && (
+              <MessageRating messageId={message.id} compact />
+            )}
           </div>
         </div>
       </div>
