@@ -244,6 +244,190 @@ export type Database = {
           },
         ]
       }
+      chat_members: {
+        Row: {
+          id: string
+          joined_at: string | null
+          last_read_at: string | null
+          role: Database["public"]["Enums"]["chat_member_role"] | null
+          room_id: string
+          user_id: string
+          wisdom_points: number | null
+        }
+        Insert: {
+          id?: string
+          joined_at?: string | null
+          last_read_at?: string | null
+          role?: Database["public"]["Enums"]["chat_member_role"] | null
+          room_id: string
+          user_id: string
+          wisdom_points?: number | null
+        }
+        Update: {
+          id?: string
+          joined_at?: string | null
+          last_read_at?: string | null
+          role?: Database["public"]["Enums"]["chat_member_role"] | null
+          room_id?: string
+          user_id?: string
+          wisdom_points?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_members_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "chat_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_messages: {
+        Row: {
+          ai_analysis: Json | null
+          content: string | null
+          created_at: string | null
+          id: string
+          image_url: string | null
+          is_alert: boolean | null
+          is_pinned: boolean | null
+          message_type: Database["public"]["Enums"]["message_type"] | null
+          metadata: Json | null
+          reply_to: string | null
+          room_id: string
+          updated_at: string | null
+          user_id: string
+          voice_url: string | null
+        }
+        Insert: {
+          ai_analysis?: Json | null
+          content?: string | null
+          created_at?: string | null
+          id?: string
+          image_url?: string | null
+          is_alert?: boolean | null
+          is_pinned?: boolean | null
+          message_type?: Database["public"]["Enums"]["message_type"] | null
+          metadata?: Json | null
+          reply_to?: string | null
+          room_id: string
+          updated_at?: string | null
+          user_id: string
+          voice_url?: string | null
+        }
+        Update: {
+          ai_analysis?: Json | null
+          content?: string | null
+          created_at?: string | null
+          id?: string
+          image_url?: string | null
+          is_alert?: boolean | null
+          is_pinned?: boolean | null
+          message_type?: Database["public"]["Enums"]["message_type"] | null
+          metadata?: Json | null
+          reply_to?: string | null
+          room_id?: string
+          updated_at?: string | null
+          user_id?: string
+          voice_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_reply_to_fkey"
+            columns: ["reply_to"]
+            isOneToOne: false
+            referencedRelation: "chat_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_messages_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "chat_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_reactions: {
+        Row: {
+          created_at: string | null
+          id: string
+          message_id: string
+          reaction: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          message_id: string
+          reaction: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          message_id?: string
+          reaction?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_reactions_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "chat_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_rooms: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          crop_type: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          language: string | null
+          member_count: number | null
+          metadata: Json | null
+          name: string
+          region: string | null
+          room_type: Database["public"]["Enums"]["chat_room_type"]
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          crop_type?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          language?: string | null
+          member_count?: number | null
+          metadata?: Json | null
+          name: string
+          region?: string | null
+          room_type: Database["public"]["Enums"]["chat_room_type"]
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          crop_type?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          language?: string | null
+          member_count?: number | null
+          metadata?: Json | null
+          name?: string
+          region?: string | null
+          room_type?: Database["public"]["Enums"]["chat_room_type"]
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       credit_assessment_dimensions: {
         Row: {
           assessment_date: string
@@ -2274,6 +2458,54 @@ export type Database = {
         }
         Relationships: []
       }
+      wisdom_points_log: {
+        Row: {
+          created_at: string | null
+          giver_id: string
+          id: string
+          message_id: string | null
+          points: number
+          reason: string | null
+          recipient_id: string
+          room_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          giver_id: string
+          id?: string
+          message_id?: string | null
+          points: number
+          reason?: string | null
+          recipient_id: string
+          room_id: string
+        }
+        Update: {
+          created_at?: string | null
+          giver_id?: string
+          id?: string
+          message_id?: string | null
+          points?: number
+          reason?: string | null
+          recipient_id?: string
+          room_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wisdom_points_log_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "chat_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wisdom_points_log_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "chat_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -2282,7 +2514,9 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      chat_member_role: "member" | "moderator" | "admin"
+      chat_room_type: "regional" | "crop_specific" | "cooperative" | "emergency"
+      message_type: "text" | "voice" | "image" | "poll" | "alert"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -2409,6 +2643,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      chat_member_role: ["member", "moderator", "admin"],
+      chat_room_type: ["regional", "crop_specific", "cooperative", "emergency"],
+      message_type: ["text", "voice", "image", "poll", "alert"],
+    },
   },
 } as const
