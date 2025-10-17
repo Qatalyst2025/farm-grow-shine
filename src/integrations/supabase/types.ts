@@ -49,6 +49,274 @@ export type Database = {
           },
         ]
       }
+      crop_alerts: {
+        Row: {
+          action_required: string | null
+          alert_type: string
+          created_at: string | null
+          crop_id: string | null
+          farmer_id: string | null
+          id: string
+          is_read: boolean | null
+          is_resolved: boolean | null
+          message: string
+          severity: string
+          title: string
+        }
+        Insert: {
+          action_required?: string | null
+          alert_type: string
+          created_at?: string | null
+          crop_id?: string | null
+          farmer_id?: string | null
+          id?: string
+          is_read?: boolean | null
+          is_resolved?: boolean | null
+          message: string
+          severity: string
+          title: string
+        }
+        Update: {
+          action_required?: string | null
+          alert_type?: string
+          created_at?: string | null
+          crop_id?: string | null
+          farmer_id?: string | null
+          id?: string
+          is_read?: boolean | null
+          is_resolved?: boolean | null
+          message?: string
+          severity?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crop_alerts_crop_id_fkey"
+            columns: ["crop_id"]
+            isOneToOne: false
+            referencedRelation: "crops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crop_alerts_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crop_forecasts: {
+        Row: {
+          confidence_score: number | null
+          created_at: string | null
+          crop_id: string | null
+          forecast_date: string
+          forecast_type: string
+          id: string
+          predicted_value: Json
+        }
+        Insert: {
+          confidence_score?: number | null
+          created_at?: string | null
+          crop_id?: string | null
+          forecast_date: string
+          forecast_type: string
+          id?: string
+          predicted_value: Json
+        }
+        Update: {
+          confidence_score?: number | null
+          created_at?: string | null
+          crop_id?: string | null
+          forecast_date?: string
+          forecast_type?: string
+          id?: string
+          predicted_value?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crop_forecasts_crop_id_fkey"
+            columns: ["crop_id"]
+            isOneToOne: false
+            referencedRelation: "crops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crop_health_analysis: {
+        Row: {
+          ai_analysis: Json | null
+          created_at: string | null
+          crop_id: string | null
+          disease_detected: boolean | null
+          disease_severity: string | null
+          disease_type: string | null
+          growth_stage: string | null
+          health_score: number | null
+          id: string
+          image_id: string | null
+          nutrient_deficiency: string[] | null
+          pest_detected: boolean | null
+          pest_severity: string | null
+          pest_type: string | null
+          recommendations: string[] | null
+          vegetation_index: number | null
+          water_stress_level: string | null
+        }
+        Insert: {
+          ai_analysis?: Json | null
+          created_at?: string | null
+          crop_id?: string | null
+          disease_detected?: boolean | null
+          disease_severity?: string | null
+          disease_type?: string | null
+          growth_stage?: string | null
+          health_score?: number | null
+          id?: string
+          image_id?: string | null
+          nutrient_deficiency?: string[] | null
+          pest_detected?: boolean | null
+          pest_severity?: string | null
+          pest_type?: string | null
+          recommendations?: string[] | null
+          vegetation_index?: number | null
+          water_stress_level?: string | null
+        }
+        Update: {
+          ai_analysis?: Json | null
+          created_at?: string | null
+          crop_id?: string | null
+          disease_detected?: boolean | null
+          disease_severity?: string | null
+          disease_type?: string | null
+          growth_stage?: string | null
+          health_score?: number | null
+          id?: string
+          image_id?: string | null
+          nutrient_deficiency?: string[] | null
+          pest_detected?: boolean | null
+          pest_severity?: string | null
+          pest_type?: string | null
+          recommendations?: string[] | null
+          vegetation_index?: number | null
+          water_stress_level?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crop_health_analysis_crop_id_fkey"
+            columns: ["crop_id"]
+            isOneToOne: false
+            referencedRelation: "crops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crop_health_analysis_image_id_fkey"
+            columns: ["image_id"]
+            isOneToOne: false
+            referencedRelation: "crop_images"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crop_images: {
+        Row: {
+          analysis_status: string | null
+          captured_at: string | null
+          created_at: string | null
+          crop_id: string | null
+          farmer_id: string | null
+          id: string
+          image_type: string
+          image_url: string
+        }
+        Insert: {
+          analysis_status?: string | null
+          captured_at?: string | null
+          created_at?: string | null
+          crop_id?: string | null
+          farmer_id?: string | null
+          id?: string
+          image_type: string
+          image_url: string
+        }
+        Update: {
+          analysis_status?: string | null
+          captured_at?: string | null
+          created_at?: string | null
+          crop_id?: string | null
+          farmer_id?: string | null
+          id?: string
+          image_type?: string
+          image_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crop_images_crop_id_fkey"
+            columns: ["crop_id"]
+            isOneToOne: false
+            referencedRelation: "crops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crop_images_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crops: {
+        Row: {
+          created_at: string | null
+          crop_name: string
+          crop_type: string
+          expected_harvest_date: string | null
+          farmer_id: string | null
+          id: string
+          land_area_acres: number | null
+          planting_date: string
+          predicted_harvest_date: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          crop_name: string
+          crop_type: string
+          expected_harvest_date?: string | null
+          farmer_id?: string | null
+          id?: string
+          land_area_acres?: number | null
+          planting_date: string
+          predicted_harvest_date?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          crop_name?: string
+          crop_type?: string
+          expected_harvest_date?: string | null
+          farmer_id?: string | null
+          id?: string
+          land_area_acres?: number | null
+          planting_date?: string
+          predicted_harvest_date?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crops_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       farmer_profiles: {
         Row: {
           community_network_size: number | null
