@@ -14,7 +14,8 @@ import {
   CloudRain,
   Sun,
   MapPin,
-  Brain
+  Brain,
+  Leaf
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { CropPortfolioCard } from "@/components/dashboard/CropPortfolioCard";
@@ -93,9 +94,9 @@ const FarmerDashboard = () => {
       id: 1,
       title: "Crop Health Monitor",
       description: "AI-powered computer vision analysis for pests, diseases, and growth stages",
-      icon: Camera,
-      color: "primary",
-      link: "/farmer/crop-health",
+      icon: Leaf,
+      color: "success",
+      link: "/crop-health",
       priority: 1
     },
     {

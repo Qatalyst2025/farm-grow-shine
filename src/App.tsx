@@ -43,9 +43,10 @@ const App = () => (
               <Route path="/farmer/crops/:cropId" element={<CropProgress />} />
               <Route path="/farmer/learn" element={<LearningCenter />} />
               <Route path="/farmer/cooperative" element={<CooperativeManagement />} />
-              <Route path="/farmer/risk-assessment" element={<RiskAssessment />} />
-              <Route path="/farmer/crop-health/:cropId?" element={<CropHealthMonitor />} />
-              <Route path="/auth" element={<Auth />} />
+            <Route path="/farmer/risk-assessment" element={<RiskAssessment />} />
+            <Route path="/farmer/crop-health/:cropId?" element={<CropHealthMonitor />} />
+            <Route path="/crop-health" element={<CropHealthMonitor />} />
+            <Route path="/auth" element={<Auth />} />
               <Route path="/marketplace" element={<Marketplace />} />
               <Route path="/buyer/profile" element={<BuyerProfile />} />
             <Route path="/verification" element={<VerificationCenter />} />
