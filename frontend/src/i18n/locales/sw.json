@@ -1,0 +1,109 @@
+{
+  "common": {
+    "welcome": "Karibu",
+    "login": "Ingia",
+    "logout": "Toka",
+    "save": "Hifadhi",
+    "cancel": "Ghairi",
+    "delete": "Futa",
+    "edit": "Hariri",
+    "close": "Funga",
+    "search": "Tafuta",
+    "filter": "Chuja",
+    "loading": "Inapakia...",
+    "error": "Kosa",
+    "success": "Mafanikio"
+  },
+  "nav": {
+    "home": "Nyumbani",
+    "myCrops": "Mazao Yangu",
+    "loans": "Mikopo",
+    "market": "Soko",
+    "profile": "Wasifu",
+    "learn": "Jifunze",
+    "cooperative": "Ushirika"
+  },
+  "dashboard": {
+    "title": "Dashibodi ya Mkulima",
+    "totalRevenue": "Mapato Jumla",
+    "activeCrops": "Mazao Hai",
+    "pendingOrders": "Maagizo Yanayosubiri",
+    "cropHealth": "Afya ya Mazao",
+    "location": "Eneo Lako",
+    "quickActions": "Vitendo vya Haraka",
+    "takePhoto": "Piga Picha",
+    "recentActivity": "Shughuli za Hivi Karibuni"
+  },
+  "crops": {
+    "progress": "Maendeleo ya Mazao",
+    "health": "Hali ya Afya",
+    "planted": "Ilipandwa",
+    "harvest": "Mavuno Yanayotarajiwa",
+    "timeline": "Ratiba ya Ukuaji",
+    "addPhoto": "Ongeza Picha",
+    "logData": "Rekodi Data",
+    "viewJournal": "Angalia Jarida"
+  },
+  "loans": {
+    "apply": "Omba Mkopo",
+    "amount": "Kiasi cha Mkopo",
+    "purpose": "Madhumuni",
+    "term": "Muda wa Mkopo",
+    "submit": "Wasilisha Ombi",
+    "status": "Hali ya Ombi",
+    "approved": "Imeidhinishwa",
+    "pending": "Inasubiri"
+  },
+  "marketplace": {
+    "title": "Soko",
+    "buyNow": "Nunua Sasa",
+    "addToCart": "Ongeza Kwenye Kikapu",
+    "price": "Bei",
+    "quantity": "Kiasi",
+    "seller": "Muuzaji",
+    "location": "Eneo"
+  },
+  "accessibility": {
+    "menu": "Mipangilio ya Ufikiaji",
+    "highContrast": "Hali ya Utofauti Mkubwa",
+    "textSize": "Ukubwa wa Maandishi",
+    "reducedMotion": "Punguza Mwendo",
+    "language": "Lugha",
+    "small": "Ndogo",
+    "medium": "Wastani",
+    "large": "Kubwa",
+    "extraLarge": "Kubwa Sana"
+  },
+  "voice": {
+    "listening": "Inasikiliza...",
+    "tapToSpeak": "Gusa kusema",
+    "commands": {
+      "takePhoto": "Piga picha",
+      "applyLoan": "Omba mkopo",
+      "viewCrops": "Angalia mazao yangu",
+      "goToMarket": "Nenda sokoni"
+    }
+  },
+  "aiAdvisor": {
+    "title": "Mshauri wa Kilimo wa AI",
+    "subtitle": "Msaidizi wako binafsi wa kilimo",
+    "askAnything": "Niulize chochote kuhusu kilimo!",
+    "canHelp": "Ninaweza kusaidia na kupanda, kudhibiti wadudu, hali ya hewa, na zaidi.",
+    "quickTips": "Kidokezo cha Kilimo cha Kila Siku",
+    "successStories": "Hadithi za Mafanikio kutoka kwa Wakulima Kama Wewe",
+    "learningPath": "Njia Yako ya Kujifunza",
+    "nextTip": "Kidokezo Kijacho"
+  },
+  "errors": {
+    "required": "Sehemu hii inahitajika",
+    "invalidEmail": "Tafadhali weka barua pepe halali",
+    "invalidPhone": "Tafadhali weka nambari ya simu halali",
+    "networkError": "Kosa la mtandao. Angalia muunganisho wako.",
+    "tryAgain": "Tafadhali jaribu tena"
+  },
+  "offline": {
+    "youAreOffline": "Uko nje ya mtandao",
+    "pending": "inasubiri",
+    "syncingData": "Inalinganisha data..."
+  }
+}

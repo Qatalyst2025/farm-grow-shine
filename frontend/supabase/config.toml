@@ -1,0 +1,64 @@
+project_id = "buaulwagkuahlchqqitp"
+
+[functions.analyze-crop-image]
+verify_jwt = true
+
+[functions.analyze-market-pricing]
+verify_jwt = false
+
+[functions.generate-market-insights]
+verify_jwt = true
+
+[functions.assess-farmer-risk]
+verify_jwt = true
+
+[functions.calculate-credit-score]
+verify_jwt = true
+
+[functions.detect-loan-fraud]
+verify_jwt = true
+
+[functions.generate-buyer-matches]
+verify_jwt = true
+
+[functions.generate-farming-plan]
+verify_jwt = true
+
+[functions.generate-planting-recommendations]
+verify_jwt = true
+
+[functions.ai-farming-advisor]
+verify_jwt = true
+
+[functions.verify-farm-ownership]
+verify_jwt = true
+
+[functions.ussd-webhook]
+verify_jwt = false
+
+[functions.whatsapp-webhook]
+verify_jwt = false
+
+[functions.verify-geolocation]
+verify_jwt = true
+
+[functions.verify-quality]
+verify_jwt = true
+
+[functions.process-supply-chain-document]
+verify_jwt = true
+
+[functions.optimize-logistics]
+verify_jwt = true
+
+[functions.deepseek-nlp]
+verify_jwt = true
+
+[functions.deepseek-vision]
+verify_jwt = true
+
+[functions.deepseek-predictions]
+verify_jwt = true
+
+[functions.deepseek-recommendations]
+verify_jwt = true

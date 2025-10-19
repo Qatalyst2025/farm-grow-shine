@@ -1,0 +1,109 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "login": "Login",
+    "logout": "Logout",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "nav": {
+    "home": "Home",
+    "myCrops": "My Crops",
+    "loans": "Loans",
+    "market": "Market",
+    "profile": "Profile",
+    "learn": "Learn",
+    "cooperative": "Cooperative"
+  },
+  "dashboard": {
+    "title": "Farmer Dashboard",
+    "totalRevenue": "Total Revenue",
+    "activeCrops": "Active Crops",
+    "pendingOrders": "Pending Orders",
+    "cropHealth": "Crop Health",
+    "location": "Your Location",
+    "quickActions": "Quick Actions",
+    "takePhoto": "Take Photo",
+    "recentActivity": "Recent Activity"
+  },
+  "crops": {
+    "progress": "Crop Progress",
+    "health": "Health Status",
+    "planted": "Planted",
+    "harvest": "Expected Harvest",
+    "timeline": "Growth Timeline",
+    "addPhoto": "Add Photo",
+    "logData": "Log Data",
+    "viewJournal": "View Journal"
+  },
+  "loans": {
+    "apply": "Apply for Loan",
+    "amount": "Loan Amount",
+    "purpose": "Purpose",
+    "term": "Loan Term",
+    "submit": "Submit Application",
+    "status": "Application Status",
+    "approved": "Approved",
+    "pending": "Pending"
+  },
+  "marketplace": {
+    "title": "Marketplace",
+    "buyNow": "Buy Now",
+    "addToCart": "Add to Cart",
+    "price": "Price",
+    "quantity": "Quantity",
+    "seller": "Seller",
+    "location": "Location"
+  },
+  "accessibility": {
+    "menu": "Accessibility Settings",
+    "highContrast": "High Contrast Mode",
+    "textSize": "Text Size",
+    "reducedMotion": "Reduce Motion",
+    "language": "Language",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "extraLarge": "Extra Large"
+  },
+  "voice": {
+    "listening": "Listening...",
+    "tapToSpeak": "Tap to speak",
+    "commands": {
+      "takePhoto": "Take photo",
+      "applyLoan": "Apply for loan",
+      "viewCrops": "View my crops",
+      "goToMarket": "Go to marketplace"
+    }
+  },
+  "aiAdvisor": {
+    "title": "AI Agricultural Advisor",
+    "subtitle": "Your personal farming assistant",
+    "askAnything": "Ask me anything about farming!",
+    "canHelp": "I can help with planting, pest control, weather, and more.",
+    "quickTips": "Daily Farming Tip",
+    "successStories": "Success Stories from Farmers Like You",
+    "learningPath": "Your Learning Path",
+    "nextTip": "Next Tip"
+  },
+  "errors": {
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email",
+    "invalidPhone": "Please enter a valid phone number",
+    "networkError": "Network error. Please check your connection.",
+    "tryAgain": "Please try again"
+  },
+  "offline": {
+    "youAreOffline": "You're offline",
+    "pending": "pending",
+    "syncingData": "Syncing data..."
+  }
+}
