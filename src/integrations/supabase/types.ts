@@ -506,6 +506,44 @@ export type Database = {
         }
         Relationships: []
       }
+      conversation_participants: {
+        Row: {
+          conversation_id: string
+          id: string
+          is_blocked: boolean | null
+          joined_at: string
+          last_read_at: string | null
+          notification_enabled: boolean | null
+          user_id: string
+        }
+        Insert: {
+          conversation_id: string
+          id?: string
+          is_blocked?: boolean | null
+          joined_at?: string
+          last_read_at?: string | null
+          notification_enabled?: boolean | null
+          user_id: string
+        }
+        Update: {
+          conversation_id?: string
+          id?: string
+          is_blocked?: boolean | null
+          joined_at?: string
+          last_read_at?: string | null
+          notification_enabled?: boolean | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_participants_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "private_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       credit_assessment_dimensions: {
         Row: {
           assessment_date: string
@@ -1878,6 +1916,50 @@ export type Database = {
           },
         ]
       }
+      message_reports: {
+        Row: {
+          created_at: string
+          id: string
+          message_id: string
+          report_details: string | null
+          report_reason: string
+          reported_by: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message_id: string
+          report_details?: string | null
+          report_reason: string
+          reported_by: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message_id?: string
+          report_details?: string | null
+          report_reason?: string
+          reported_by?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "message_reports_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "private_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       negotiation_contracts: {
         Row: {
           blockchain_contract_address: string | null
@@ -2373,6 +2455,151 @@ export type Database = {
             columns: ["farmer_id"]
             isOneToOne: false
             referencedRelation: "farmer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      private_conversations: {
+        Row: {
+          conversation_hash: string | null
+          created_at: string
+          encryption_enabled: boolean | null
+          id: string
+          last_message_at: string | null
+          metadata: Json | null
+          updated_at: string
+        }
+        Insert: {
+          conversation_hash?: string | null
+          created_at?: string
+          encryption_enabled?: boolean | null
+          id?: string
+          last_message_at?: string | null
+          metadata?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          conversation_hash?: string | null
+          created_at?: string
+          encryption_enabled?: boolean | null
+          id?: string
+          last_message_at?: string | null
+          metadata?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      private_message_reactions: {
+        Row: {
+          created_at: string
+          id: string
+          message_id: string
+          reaction: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message_id: string
+          reaction: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message_id?: string
+          reaction?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "private_message_reactions_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "private_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      private_messages: {
+        Row: {
+          contains_suspicious_content: boolean | null
+          content: string | null
+          conversation_id: string
+          created_at: string
+          deal_amount: number | null
+          deal_status: string | null
+          delivered_at: string | null
+          document_url: string | null
+          edited_at: string | null
+          encrypted_content: string | null
+          expires_at: string | null
+          flagged_reason: string | null
+          forwarding_disabled: boolean | null
+          id: string
+          is_edited: boolean | null
+          media_url: string | null
+          meeting_datetime: string | null
+          meeting_location: string | null
+          message_type: Database["public"]["Enums"]["private_message_type"]
+          metadata: Json | null
+          read_at: string | null
+          sender_id: string
+        }
+        Insert: {
+          contains_suspicious_content?: boolean | null
+          content?: string | null
+          conversation_id: string
+          created_at?: string
+          deal_amount?: number | null
+          deal_status?: string | null
+          delivered_at?: string | null
+          document_url?: string | null
+          edited_at?: string | null
+          encrypted_content?: string | null
+          expires_at?: string | null
+          flagged_reason?: string | null
+          forwarding_disabled?: boolean | null
+          id?: string
+          is_edited?: boolean | null
+          media_url?: string | null
+          meeting_datetime?: string | null
+          meeting_location?: string | null
+          message_type?: Database["public"]["Enums"]["private_message_type"]
+          metadata?: Json | null
+          read_at?: string | null
+          sender_id: string
+        }
+        Update: {
+          contains_suspicious_content?: boolean | null
+          content?: string | null
+          conversation_id?: string
+          created_at?: string
+          deal_amount?: number | null
+          deal_status?: string | null
+          delivered_at?: string | null
+          document_url?: string | null
+          edited_at?: string | null
+          encrypted_content?: string | null
+          expires_at?: string | null
+          flagged_reason?: string | null
+          forwarding_disabled?: boolean | null
+          id?: string
+          is_edited?: boolean | null
+          media_url?: string | null
+          meeting_datetime?: string | null
+          meeting_location?: string | null
+          message_type?: Database["public"]["Enums"]["private_message_type"]
+          metadata?: Json | null
+          read_at?: string | null
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "private_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "private_conversations"
             referencedColumns: ["id"]
           },
         ]
@@ -3163,6 +3390,51 @@ export type Database = {
         }
         Relationships: []
       }
+      user_verification: {
+        Row: {
+          created_at: string
+          credentials_certified: boolean | null
+          id: string
+          id_verified: boolean | null
+          meeting_attended: boolean | null
+          phone_verified: boolean | null
+          updated_at: string
+          user_id: string
+          verification_documents: Json | null
+          verification_level: Database["public"]["Enums"]["verification_level"]
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          credentials_certified?: boolean | null
+          id?: string
+          id_verified?: boolean | null
+          meeting_attended?: boolean | null
+          phone_verified?: boolean | null
+          updated_at?: string
+          user_id: string
+          verification_documents?: Json | null
+          verification_level?: Database["public"]["Enums"]["verification_level"]
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          credentials_certified?: boolean | null
+          id?: string
+          id_verified?: boolean | null
+          meeting_attended?: boolean | null
+          phone_verified?: boolean | null
+          updated_at?: string
+          user_id?: string
+          verification_documents?: Json | null
+          verification_level?: Database["public"]["Enums"]["verification_level"]
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: []
+      }
       verification_quality_checks: {
         Row: {
           ai_analysis: Json | null
@@ -3385,6 +3657,15 @@ export type Database = {
         | "completed"
         | "cancelled"
         | "pending_verification"
+      private_message_type:
+        | "text"
+        | "image"
+        | "voice"
+        | "document"
+        | "deal_offer"
+        | "meeting_request"
+        | "payment"
+      verification_level: "basic" | "trusted" | "premium" | "expert"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -3539,6 +3820,16 @@ export const Constants = {
         "cancelled",
         "pending_verification",
       ],
+      private_message_type: [
+        "text",
+        "image",
+        "voice",
+        "document",
+        "deal_offer",
+        "meeting_request",
+        "payment",
+      ],
+      verification_level: ["basic", "trusted", "premium", "expert"],
     },
   },
 } as const
