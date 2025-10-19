@@ -26,6 +26,7 @@ import Negotiations from "./pages/Negotiations";
 
 // Lazy load AIAdvisor to prevent i18n initialization issues
 const AIAdvisor = lazy(() => import("./pages/AIAdvisor"));
+const Messages = lazy(() => import("./pages/Messages"));
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ const App = () => (
             <Route path="/credit-assessment" element={<CreditAssessment />} />
             <Route path="/community" element={<Community />} />
             <Route path="/negotiations" element={<Negotiations />} />
+            <Route path="/messages" element={<Messages />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
