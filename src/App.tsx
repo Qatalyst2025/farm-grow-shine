@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import { AccessibilityMenu } from "@/components/accessibility/AccessibilityMenu";
+import { EmergencyAlertBanner } from "@/components/alerts/EmergencyAlertBanner";
 import Index from "./pages/Index";
 import FarmerDashboard from "./pages/FarmerDashboard";
 import LoanApplication from "./pages/LoanApplication";
@@ -37,6 +38,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <EmergencyAlertBanner />
           <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
             <Routes>
               <Route path="/" element={<Index />} />

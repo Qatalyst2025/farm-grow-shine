@@ -1,14 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Users, MessageSquare, Sprout, Shield, AlertCircle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import ChatRoomList from "@/components/community/ChatRoomList";
 import ChatRoom from "@/components/community/ChatRoom";
+import { supabase } from "@/integrations/supabase/client";
+import { useSearchParams } from "react-router-dom";
+import { CreateAlertDialog } from "@/components/alerts/CreateAlertDialog";
+import { AlertsFeed } from "@/components/alerts/AlertsFeed";
 
 export default function Community() {
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("regional");
+  const [isAuthority, setIsAuthority] = useState(false);
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    checkUserRole();
+    const tab = searchParams.get("tab");
+    if (tab === "alerts") {
+      setActiveTab("alerts");
+    }
+  }, [searchParams]);
+
+  const checkUserRole = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const { data: roles } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id)
+      .in("role", ["admin", "authority"]);
+
+    setIsAuthority((roles?.length || 0) > 0);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-primary/5">
@@ -87,8 +114,8 @@ export default function Community() {
           <div className="lg:col-span-4">
             <Card className="overflow-hidden bg-gradient-to-br from-card to-card/80 border-primary/10">
               <Tabs value={activeTab} onValueChange={setActiveTab}>
-                <div className="border-b bg-muted/30">
-                  <TabsList className="w-full grid grid-cols-3 h-auto p-1">
+                <div className="border-b bg-muted/30 p-2">
+                  <TabsList className="w-full grid grid-cols-4 h-auto p-1">
                     <TabsTrigger value="regional" className="text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                       <Users className="h-3 w-3 mr-1" />
                       Regional
@@ -97,11 +124,20 @@ export default function Community() {
                       <Sprout className="h-3 w-3 mr-1" />
                       Crops
                     </TabsTrigger>
-                    <TabsTrigger value="emergency" className="text-xs data-[state=active]:bg-destructive data-[state=active]:text-destructive-foreground">
+                    <TabsTrigger value="learning" className="text-xs data-[state=active]:bg-primary-light data-[state=active]:text-primary-foreground">
+                      <MessageSquare className="h-3 w-3 mr-1" />
+                      Learning
+                    </TabsTrigger>
+                    <TabsTrigger value="alerts" className="text-xs data-[state=active]:bg-destructive data-[state=active]:text-destructive-foreground">
                       <AlertCircle className="h-3 w-3 mr-1" />
                       Alerts
                     </TabsTrigger>
                   </TabsList>
+                  {isAuthority && activeTab === "alerts" && (
+                    <div className="mt-2">
+                      <CreateAlertDialog />
+                    </div>
+                  )}
                 </div>
 
                 <TabsContent value="regional" className="mt-0">
@@ -118,12 +154,15 @@ export default function Community() {
                     onSelectRoom={setSelectedRoom}
                   />
                 </TabsContent>
-                <TabsContent value="emergency" className="mt-0">
+                <TabsContent value="learning" className="mt-0">
                   <ChatRoomList 
-                    roomType="emergency" 
+                    roomType="learning" 
                     selectedRoom={selectedRoom}
                     onSelectRoom={setSelectedRoom}
                   />
+                </TabsContent>
+                <TabsContent value="alerts" className="mt-0 p-4">
+                  <AlertsFeed />
                 </TabsContent>
               </Tabs>
             </Card>
@@ -131,9 +170,9 @@ export default function Community() {
 
           {/* Chat Area */}
           <div className="lg:col-span-8">
-            {selectedRoom ? (
+            {selectedRoom && activeTab !== "alerts" ? (
               <ChatRoom roomId={selectedRoom} />
-            ) : (
+            ) : !selectedRoom && activeTab !== "alerts" ? (
               <Card className="h-[600px] flex items-center justify-center bg-gradient-to-br from-card to-primary/5 border-dashed">
                 <div className="text-center space-y-3">
                   <div className="h-20 w-20 mx-auto rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
@@ -149,7 +188,7 @@ export default function Community() {
                   </Badge>
                 </div>
               </Card>
-            )}
+            ) : null}
           </div>
         </div>
       </div>

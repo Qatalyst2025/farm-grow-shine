@@ -14,6 +14,85 @@ export type Database = {
   }
   public: {
     Tables: {
+      alert_acknowledgements: {
+        Row: {
+          acknowledged_at: string
+          alert_id: string
+          id: string
+          location_data: Json | null
+          notes: string | null
+          user_id: string
+        }
+        Insert: {
+          acknowledged_at?: string
+          alert_id: string
+          id?: string
+          location_data?: Json | null
+          notes?: string | null
+          user_id: string
+        }
+        Update: {
+          acknowledged_at?: string
+          alert_id?: string
+          id?: string
+          location_data?: Json | null
+          notes?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alert_acknowledgements_alert_id_fkey"
+            columns: ["alert_id"]
+            isOneToOne: false
+            referencedRelation: "emergency_alerts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      alert_actions: {
+        Row: {
+          action_data: Json | null
+          action_status: string | null
+          action_type: string
+          alert_id: string
+          completed_at: string | null
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          action_data?: Json | null
+          action_status?: string | null
+          action_type: string
+          alert_id: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          action_data?: Json | null
+          action_status?: string | null
+          action_type?: string
+          alert_id?: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alert_actions_alert_id_fkey"
+            columns: ["alert_id"]
+            isOneToOne: false
+            referencedRelation: "emergency_alerts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       alert_subscriptions: {
         Row: {
           alert_type: string
@@ -1152,6 +1231,63 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      emergency_alerts: {
+        Row: {
+          acknowledgement_required: boolean | null
+          action_items: Json | null
+          affected_users_count: number | null
+          alert_type: Database["public"]["Enums"]["alert_type"]
+          created_at: string
+          created_by: string
+          expires_at: string | null
+          id: string
+          is_active: boolean | null
+          message: string
+          metadata: Json | null
+          severity: Database["public"]["Enums"]["alert_severity"]
+          target_crop_types: string[] | null
+          target_regions: string[] | null
+          title: string
+          translations: Json | null
+        }
+        Insert: {
+          acknowledgement_required?: boolean | null
+          action_items?: Json | null
+          affected_users_count?: number | null
+          alert_type: Database["public"]["Enums"]["alert_type"]
+          created_at?: string
+          created_by: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          message: string
+          metadata?: Json | null
+          severity: Database["public"]["Enums"]["alert_severity"]
+          target_crop_types?: string[] | null
+          target_regions?: string[] | null
+          title: string
+          translations?: Json | null
+        }
+        Update: {
+          acknowledgement_required?: boolean | null
+          action_items?: Json | null
+          affected_users_count?: number | null
+          alert_type?: Database["public"]["Enums"]["alert_type"]
+          created_at?: string
+          created_by?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          message?: string
+          metadata?: Json | null
+          severity?: Database["public"]["Enums"]["alert_severity"]
+          target_crop_types?: string[] | null
+          target_regions?: string[] | null
+          title?: string
+          translations?: Json | null
+        }
+        Relationships: []
       }
       expert_profiles: {
         Row: {
@@ -3390,6 +3526,30 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          granted_at: string
+          granted_by: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          granted_at?: string
+          granted_by?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          granted_at?: string
+          granted_by?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_verification: {
         Row: {
           created_at: string
@@ -3630,9 +3790,23 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
+      alert_severity: "info" | "warning" | "critical" | "emergency"
+      alert_type:
+        | "weather"
+        | "pest_disease"
+        | "market_price"
+        | "government_program"
+        | "general"
+      app_role: "admin" | "authority" | "expert" | "farmer" | "buyer"
       chat_member_role: "member" | "moderator" | "admin"
       chat_room_type: "regional" | "crop_specific" | "cooperative" | "emergency"
       message_type: "text" | "voice" | "image" | "poll" | "alert"
@@ -3793,6 +3967,15 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      alert_severity: ["info", "warning", "critical", "emergency"],
+      alert_type: [
+        "weather",
+        "pest_disease",
+        "market_price",
+        "government_program",
+        "general",
+      ],
+      app_role: ["admin", "authority", "expert", "farmer", "buyer"],
       chat_member_role: ["member", "moderator", "admin"],
       chat_room_type: ["regional", "crop_specific", "cooperative", "emergency"],
       message_type: ["text", "voice", "image", "poll", "alert"],
