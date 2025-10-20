@@ -7,8 +7,11 @@ import {
   ContractCreateFlow,
   ContractExecuteTransaction,
   ContractFunctionParameters,
+  ContractCreateTransaction,
   Hbar,
   PrivateKey,
+  ContractByteCodeQuery,
+  ContractId,
 } from '@hashgraph/sdk';
 import fs from 'fs';
 import path from 'path';
@@ -33,32 +36,42 @@ export class ContractsService {
 
     const contractJson = JSON.parse(fs.readFileSync(contractPath, 'utf8'));
 
-    // ✅ Extract proper bytecode format (Foundry uses { object: "0x..." })
-    const bytecode =
-      contractJson.bytecode?.object || contractJson.bytecode || '';
+    // ✅ Use the creation bytecode, NOT deployedBytecode
+    const bytecode = contractJson.bytecode.object;
 
-    if (!bytecode || typeof bytecode !== 'string') {
-      throw new Error('❌ Invalid contract bytecode format.');
+    if (!bytecode || typeof bytecode !== 'string' || !bytecode.startsWith('0x')) {
+      throw new Error('❌ Invalid bytecode format. Must start with 0x.');
     }
 
+    console.log('🔍 Bytecode length:', bytecode.length);
+    console.log('🔍 Bytecode starts with:', bytecode.substring(0, 50));
+
     // ✅ Convert hex bytecode string to Buffer
-    const bytecodeBuffer = Buffer.from(
-      bytecode.replace(/^0x/, ''), // remove 0x if exists
-      'hex',
-    );
+    const bytecodeBuffer = Buffer.from(bytecode.slice(2), 'hex');
 
-    // ✅ Create the contract deployment transaction
-    const contractTx = new ContractCreateFlow()
+    if (bytecodeBuffer.length < 100) {
+      throw new Error('❌ Bytecode too short — likely not raw EVM bytecode.');
+    }
+
+    // ✅ Use ContractCreateTransaction instead of ContractCreateFlow
+    const contractTx = new ContractCreateTransaction()
       .setBytecode(bytecodeBuffer)
-      .setGas(200_000)
-      .setAdminKey(operatorKey)
-      .setInitialBalance(new Hbar(5));
+      .setGas(2_000_000) // Increased gas limit
+      .setAdminKey(operatorKey);
 
-    const contractResponse = await contractTx.execute(client);
+    console.log('🚀 Deploying contract...');
+  
+    // Freeze, sign and execute the transaction
+    const frozenTx = await contractTx.freezeWith(client);
+    const signTx = await frozenTx.sign(operatorKey);
+    const contractResponse = await signTx.execute(client);
     const receipt = await contractResponse.getReceipt(client);
     const contractId = receipt.contractId?.toString();
 
-    if (!contractId) throw new Error('❌ Contract deployment failed.');
+    if (!contractId) {
+      console.error('❌ Contract deployment failed. Receipt status:', receipt.status.toString());
+      throw new Error('❌ Contract deployment failed.');
+    }
 
     console.log('✅ Contract deployed successfully:', contractId);
 
@@ -72,7 +85,6 @@ export class ContractsService {
 
     return { contractId };
   }
-
   /**
    * Call a contract function (state-changing)
    */
@@ -125,6 +137,41 @@ export class ContractsService {
     console.log(`📊 Query Result from ${func}:`, value);
 
     return { value };
+  }
+  
+  async verifyContract(contractId: string) {
+    const client = getHederaClient();
+
+    console.log(`🔍 Verifying contract ${contractId}...`);
+
+    const onChainBytecode = await new ContractByteCodeQuery()
+      .setContractId(ContractId.fromString(contractId))
+      .execute(client);
+
+    // 2️⃣ Get local build artifact (from Foundry output)
+    const artifactPath = path.resolve(
+      __dirname,
+      "../src/blockchain/contracts-foundry/out/SimpleStorage.sol/SimpleStorage.json"
+      // /home/abel/Desktop/hedera/backend/src/blockchain/contracts-foundry/out/SimpleStorage.sol/
+    );
+
+    if (!fs.existsSync(artifactPath)) {
+      throw new Error(`❌ Artifact not found at ${artifactPath}`);
+    }
+
+    const artifact = JSON.parse(fs.readFileSync(artifactPath, "utf8"));
+    const localBytecode = artifact.bytecode?.object || artifact.bytecode;
+
+    const isMatch = onChainBytecode.toString("hex") === localBytecode.replace(/^0x/, "");
+
+    console.log(isMatch ? "✅ Bytecode verified!" : "❌ Bytecode mismatch!");
+
+    return {
+      contractId,
+      verified: isMatch,
+      onChainBytecodeLength: onChainBytecode.length,
+      localBytecodeLength: localBytecode.length / 2,
+    };
   }
 }
 

@@ -25,4 +25,9 @@ export class ContractsController {
   async read(@Query('contractId') id: string, @Query('func') func: string) {
     return this.contractsService.queryContractValue(id, func);
   }
+  
+  @Get("verify")
+  async verifyContract(@Query("contractId") contractId: string) {
+    return this.contractsService.verifyContract(contractId);
+  }
 }
