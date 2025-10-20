@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Users, MessageSquare, Sprout, Shield, AlertCircle } from "lucide-react";
+import { Users, MessageSquare, Sprout, Shield, AlertCircle, Rocket, Trophy, Sparkles } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +9,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSearchParams } from "react-router-dom";
 import { CreateAlertDialog } from "@/components/alerts/CreateAlertDialog";
 import { AlertsFeed } from "@/components/alerts/AlertsFeed";
+import LearningChallenges from "@/components/community/LearningChallenges";
+import YouthSuccessStories from "@/components/community/YouthSuccessStories";
+import CareerPathways from "@/components/community/CareerPathways";
+import StartupFunding from "@/components/community/StartupFunding";
 
 export default function Community() {
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
@@ -115,7 +119,7 @@ export default function Community() {
             <Card className="overflow-hidden bg-gradient-to-br from-card to-card/80 border-primary/10">
               <Tabs value={activeTab} onValueChange={setActiveTab}>
                 <div className="border-b bg-muted/30 p-2">
-                  <TabsList className="w-full grid grid-cols-4 h-auto p-1">
+                  <TabsList className="w-full grid grid-cols-3 lg:grid-cols-6 h-auto p-1 gap-1">
                     <TabsTrigger value="regional" className="text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                       <Users className="h-3 w-3 mr-1" />
                       Regional
@@ -127,6 +131,14 @@ export default function Community() {
                     <TabsTrigger value="learning" className="text-xs data-[state=active]:bg-primary-light data-[state=active]:text-primary-foreground">
                       <MessageSquare className="h-3 w-3 mr-1" />
                       Learning
+                    </TabsTrigger>
+                    <TabsTrigger value="youth" className="text-xs data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-rose-500 data-[state=active]:text-white">
+                      <Rocket className="h-3 w-3 mr-1" />
+                      Youth
+                    </TabsTrigger>
+                    <TabsTrigger value="careers" className="text-xs data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
+                      <Trophy className="h-3 w-3 mr-1" />
+                      Careers
                     </TabsTrigger>
                     <TabsTrigger value="alerts" className="text-xs data-[state=active]:bg-destructive data-[state=active]:text-destructive-foreground">
                       <AlertCircle className="h-3 w-3 mr-1" />
@@ -161,6 +173,14 @@ export default function Community() {
                     onSelectRoom={setSelectedRoom}
                   />
                 </TabsContent>
+                <TabsContent value="youth" className="mt-0 p-4 space-y-4">
+                  <LearningChallenges />
+                  <YouthSuccessStories />
+                  <StartupFunding />
+                </TabsContent>
+                <TabsContent value="careers" className="mt-0 p-4">
+                  <CareerPathways />
+                </TabsContent>
                 <TabsContent value="alerts" className="mt-0 p-4">
                   <AlertsFeed />
                 </TabsContent>
@@ -170,9 +190,9 @@ export default function Community() {
 
           {/* Chat Area */}
           <div className="lg:col-span-8">
-            {selectedRoom && activeTab !== "alerts" ? (
+            {selectedRoom && !['alerts', 'youth', 'careers'].includes(activeTab) ? (
               <ChatRoom roomId={selectedRoom} />
-            ) : !selectedRoom && activeTab !== "alerts" ? (
+            ) : !selectedRoom && !['alerts', 'youth', 'careers'].includes(activeTab) ? (
               <Card className="h-[600px] flex items-center justify-center bg-gradient-to-br from-card to-primary/5 border-dashed">
                 <div className="text-center space-y-3">
                   <div className="h-20 w-20 mx-auto rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
