@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Users, MessageSquare, Sprout, Shield, AlertCircle, Rocket, Trophy, Sparkles } from "lucide-react";
+import { Users, MessageSquare, Sprout, Shield, AlertCircle, Rocket, Trophy, Sparkles, Globe, BookOpen, Heart, Bell, Briefcase } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +13,7 @@ import LearningChallenges from "@/components/community/LearningChallenges";
 import YouthSuccessStories from "@/components/community/YouthSuccessStories";
 import CareerPathways from "@/components/community/CareerPathways";
 import StartupFunding from "@/components/community/StartupFunding";
+import { InternationalExportHub } from "@/components/community/InternationalExportHub";
 
 export default function Community() {
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
@@ -119,7 +120,7 @@ export default function Community() {
             <Card className="overflow-hidden bg-gradient-to-br from-card to-card/80 border-primary/10">
               <Tabs value={activeTab} onValueChange={setActiveTab}>
                 <div className="border-b bg-muted/30 p-2">
-                  <TabsList className="w-full grid grid-cols-3 lg:grid-cols-6 h-auto p-1 gap-1">
+                  <TabsList className="w-full grid grid-cols-3 lg:grid-cols-7 h-auto p-1 gap-1">
                     <TabsTrigger value="regional" className="text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                       <Users className="h-3 w-3 mr-1" />
                       Regional
@@ -140,8 +141,12 @@ export default function Community() {
                       <Trophy className="h-3 w-3 mr-1" />
                       Careers
                     </TabsTrigger>
+                    <TabsTrigger value="export" className="text-xs data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">
+                      <Globe className="h-3 w-3 mr-1" />
+                      Export
+                    </TabsTrigger>
                     <TabsTrigger value="alerts" className="text-xs data-[state=active]:bg-destructive data-[state=active]:text-destructive-foreground">
-                      <AlertCircle className="h-3 w-3 mr-1" />
+                      <Bell className="h-3 w-3 mr-1" />
                       Alerts
                     </TabsTrigger>
                   </TabsList>
@@ -181,6 +186,9 @@ export default function Community() {
                 <TabsContent value="careers" className="mt-0 p-4">
                   <CareerPathways />
                 </TabsContent>
+                <TabsContent value="export" className="mt-0 p-4">
+                  <InternationalExportHub />
+                </TabsContent>
                 <TabsContent value="alerts" className="mt-0 p-4">
                   <AlertsFeed />
                 </TabsContent>
@@ -190,9 +198,9 @@ export default function Community() {
 
           {/* Chat Area */}
           <div className="lg:col-span-8">
-            {selectedRoom && !['alerts', 'youth', 'careers'].includes(activeTab) ? (
+            {selectedRoom && !['alerts', 'youth', 'careers', 'export'].includes(activeTab) ? (
               <ChatRoom roomId={selectedRoom} />
-            ) : !selectedRoom && !['alerts', 'youth', 'careers'].includes(activeTab) ? (
+            ) : !selectedRoom && !['alerts', 'youth', 'careers', 'export'].includes(activeTab) ? (
               <Card className="h-[600px] flex items-center justify-center bg-gradient-to-br from-card to-primary/5 border-dashed">
                 <div className="text-center space-y-3">
                   <div className="h-20 w-20 mx-auto rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
