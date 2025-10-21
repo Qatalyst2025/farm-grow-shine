@@ -8,6 +8,5 @@ import { DbModule } from '../db/db.module';
   providers: [ContractsService],
   controllers: [ContractsController],
   exports: [ContractsService],
-  
 })
 export class ContractsModule {}

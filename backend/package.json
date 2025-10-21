@@ -28,6 +28,7 @@
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/serve-static": "^5.0.4",
     "@nestjs/typeorm": "^11.0.0",
+    "class-validator": "^0.14.2",
     "dotenv": "^17.2.3",
     "drizzle-kit": "^0.31.5",
     "drizzle-orm": "^0.44.6",
