@@ -1,20 +1,85 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Logo } from "@/components/ui/logo";
-import { Sprout, Users, TrendingUp, Shield, ArrowRight, Camera, Brain } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Sprout, Users, TrendingUp, Shield, ArrowRight, Camera, Brain, LogIn } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Index = () => {
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Check if user is authenticated
+    const token = localStorage.getItem("access_token") || localStorage.getItem("token");
+    const role = localStorage.getItem("user_role");
+    
+    setIsAuthenticated(!!token);
+    setUserRole(role);
+  }, []);
+
+  const handleFarmerClick = () => {
+    if (isAuthenticated && userRole === "FARMER") {
+      navigate("/farmer");
+    } else if (isAuthenticated && userRole === "BUYER") {
+      // Buyer trying to access farmer dashboard
+      navigate("/marketplace");
+    } else {
+      // Not authenticated or wrong role - go to auth
+      navigate("/auth");
+    }
+  };
+
+  const handleBuyerClick = () => {
+    if (isAuthenticated && userRole === "BUYER") {
+      navigate("/marketplace");
+    } else if (isAuthenticated && userRole === "FARMER") {
+      // Farmer trying to access marketplace
+      navigate("/farmer");
+    } else {
+      // Not authenticated or wrong role - go to auth
+      navigate("/auth");
+    }
+  };
+
+  const handleSignInClick = () => {
+    navigate("/auth");
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      {/* Navigation Header */}
+      <header className="container mx-auto px-4 pt-6 relative z-10">
+        <div className="flex items-center justify-between">
+          <Logo size="lg" className="text-primary-foreground [&_span]:text-primary-foreground" />
+          <div className="flex items-center gap-4">
+            {isAuthenticated ? (
+              <Button 
+                onClick={() => userRole === "FARMER" ? navigate("/farmer") : navigate("/marketplace")}
+                variant="outline" 
+                className="bg-white/10 backdrop-blur-sm text-primary-foreground border-white/30 hover:bg-white/20"
+              >
+                <LogIn className="h-4 w-4 mr-2" />
+                Go to Dashboard
+              </Button>
+            ) : (
+              <Button 
+                onClick={handleSignInClick}
+                variant="outline" 
+                className="bg-white/10 backdrop-blur-sm text-primary-foreground border-white/30 hover:bg-white/20"
+              >
+                <LogIn className="h-4 w-4 mr-2" />
+                Sign In
+              </Button>
+            )}
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary-light to-primary-glow">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
-        
-        {/* Logo Header */}
-        <div className="container mx-auto px-4 pt-6 relative z-10">
-          <Logo size="lg" className="text-primary-foreground [&_span]:text-primary-foreground" />
-        </div>
 
         <div className="container mx-auto px-4 py-16 relative z-10">
           <div className="max-w-4xl mx-auto text-center text-primary-foreground animate-fade-in">
@@ -34,19 +99,41 @@ const Index = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/farmer">
-                <Button size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-lg hover:shadow-xl transition-all hover:scale-105 text-lg px-8 py-6">
-                  I'm a Farmer
-                  <Sprout className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link to="/marketplace">
-                <Button size="lg" variant="outline" className="bg-white/10 backdrop-blur-sm text-primary-foreground border-white/30 hover:bg-white/20 text-lg px-8 py-6">
-                  I'm a Buyer
-                  <Users className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
+              <Button 
+                size="lg" 
+                onClick={handleFarmerClick}
+                className="bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-lg hover:shadow-xl transition-all hover:scale-105 text-lg px-8 py-6"
+              >
+                I'm a Farmer
+                <Sprout className="ml-2 h-5 w-5" />
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                onClick={handleBuyerClick}
+                className="bg-white/10 backdrop-blur-sm text-primary-foreground border-white/30 hover:bg-white/20 text-lg px-8 py-6"
+              >
+                I'm a Buyer
+                <Users className="ml-2 h-5 w-5" />
+              </Button>
             </div>
+
+            {isAuthenticated && (
+              <p className="text-sm text-primary-foreground/70 mt-4">
+                Signed in as {userRole?.toLowerCase()} •{" "}
+                <button 
+                  onClick={() => {
+                    localStorage.removeItem("access_token");
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user_role");
+                    window.location.reload();
+                  }}
+                  className="underline hover:no-underline"
+                >
+                  Sign out
+                </button>
+              </p>
+            )}
           </div>
         </div>
         
@@ -138,12 +225,14 @@ const Index = () => {
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
             Join thousands of farmers who are transforming their harvests into prosperity.
           </p>
-          <Link to="/farmer">
-            <Button size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-lg hover:shadow-xl transition-all hover:scale-105 text-lg px-8 py-6">
-              Start Your Journey
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
+          <Button 
+            size="lg" 
+            onClick={handleFarmerClick}
+            className="bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-lg hover:shadow-xl transition-all hover:scale-105 text-lg px-8 py-6"
+          >
+            Start Your Journey
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
         </Card>
       </section>
     </div>

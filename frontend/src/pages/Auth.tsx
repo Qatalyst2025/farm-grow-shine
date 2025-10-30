@@ -6,8 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Logo } from "@/components/ui/logo";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Sprout, ShoppingBag } from "lucide-react";
 
 const API_BASE = import.meta.env.REACT_APP_API_BASE || "http://localhost:3000";
 
@@ -17,6 +18,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [selectedRole, setSelectedRole] = useState<"farmer" | "buyer">("farmer");
 
   const redirectByRole = (role: string) => {
     const normalized = role.toLowerCase();
@@ -25,7 +27,7 @@ const Auth = () => {
         navigate("/farmer");
         break;
       case "buyer":
-        navigate("/buyer/profile");
+        navigate("/marketplace");
         break;
       default:
         navigate("/");
@@ -49,7 +51,12 @@ const Auth = () => {
       const res = await fetch(`${API_BASE}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, name, role: "farmer" }),
+        body: JSON.stringify({ 
+          email, 
+          password, 
+          name, 
+          role: selectedRole 
+        }),
       });
 
       const data = await res.json();
@@ -66,57 +73,57 @@ const Auth = () => {
   };
 
   const handleSignIn = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setIsLoading(true);
+    e.preventDefault();
+    setIsLoading(true);
 
-  try {
-    const res = await fetch(`${API_BASE}/api/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await res.json();
-    console.log("Login response:", data);
+      const data = await res.json();
+      console.log("Login response:", data);
 
-    // If login fails, throw error
-    if (!res.ok) {
-      throw new Error(data?.message || "Failed to sign in");
+      // If login fails, throw error
+      if (!res.ok) {
+        throw new Error(data?.message || "Failed to sign in");
+      }
+
+      // Extract token and user safely
+      const token = data?.access_token || data?.token;
+      const user = data?.user || data?.data?.user;
+
+      if (!token || !user || !user.role) {
+        throw new Error("Invalid login response");
+      }
+
+      // Save token and role in localStorage
+      localStorage.setItem("token", token);
+      localStorage.setItem("user_role", user.role.toUpperCase());
+
+      toast.success("Signed in successfully!");
+
+      // Redirect based on role
+      const role = user.role.toUpperCase();
+      switch (role) {
+        case "FARMER":
+          navigate("/farmer");
+          break;
+        case "BUYER":
+          navigate("/marketplace");
+          break;
+        default:
+          navigate("/");
+      }
+    } catch (err: any) {
+      console.error("Login failed:", err);
+      toast.error(err.message || "Failed to sign in");
+    } finally {
+      setIsLoading(false);
     }
-
-    // Extract token and user safely
-    const token = data?.access_token || data?.token;
-    const user = data?.user || data?.data?.user;
-
-    if (!token || !user || !user.role) {
-      throw new Error("Invalid login response");
-    }
-
-    // Save token and role in localStorage
-    localStorage.setItem("token", token);
-    localStorage.setItem("user_role", user.role.toUpperCase());
-
-    toast.success("Signed in successfully!");
-
-    // Redirect based on role
-    const role = user.role.toUpperCase();
-    switch (role) {
-      case "FARMER":
-        navigate("/farmer");
-        break;
-      case "BUYER":
-        navigate("/buyer/profile");
-        break;
-      default:
-        navigate("/");
-    }
-  } catch (err: any) {
-    console.error("Login failed:", err);
-    toast.error(err.message || "Failed to sign in");
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-secondary/10 flex items-center justify-center p-4">
@@ -212,6 +219,48 @@ const Auth = () => {
                 <p className="text-xs text-muted-foreground mt-1">Must be at least 6 characters</p>
               </div>
 
+              {/* Role Selection Section - Fixed */}
+              <div className="space-y-3">
+                <Label>I am a:</Label>
+                <RadioGroup 
+                  value={selectedRole} 
+                  onValueChange={(value: "farmer" | "buyer") => setSelectedRole(value)}
+                  className="grid grid-cols-2 gap-4"
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="farmer" id="role-farmer" />
+                    <Label 
+                      htmlFor="role-farmer" 
+                      className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer w-full"
+                    >
+                      <div className="flex flex-col items-center">
+                        <Sprout className="mb-2 h-6 w-6" />
+                        <span className="font-semibold">Farmer</span>
+                        <span className="text-xs text-muted-foreground text-center mt-1">
+                          Grow crops & get financing
+                        </span>
+                      </div>
+                    </Label>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="buyer" id="role-buyer" />
+                    <Label 
+                      htmlFor="role-buyer" 
+                      className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer w-full"
+                    >
+                      <div className="flex flex-col items-center">
+                        <ShoppingBag className="mb-2 h-6 w-6" />
+                        <span className="font-semibold">Buyer</span>
+                        <span className="text-xs text-muted-foreground text-center mt-1">
+                          Purchase quality crops
+                        </span>
+                      </div>
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
+
               <Button type="submit" disabled={isLoading} className="w-full">
                 {isLoading ? (
                   <>
@@ -241,4 +290,3 @@ const Auth = () => {
 };
 
 export default Auth;
-
