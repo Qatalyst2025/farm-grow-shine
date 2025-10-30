@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Skip to main content */
+.skip-to-main {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  z-index: 100;
+  padding: 8px 16px;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  text-decoration: none;
+}
+
+.skip-to-main:focus {
+  top: 0;
+}
+
+/* Mobile safe area support */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .safe-area-inset-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-area-inset-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .pb-safe-area {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
+  }
+}
+
+/* Touch optimization */
+.touch-manipulation {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Pull to refresh indicator */
+@keyframes pull-refresh {
+  0% { transform: translateY(-100%) rotate(0deg); }
+  100% { transform: translateY(0) rotate(360deg); }
+}
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* AgriLinka Brand Colors */
+    --background: 140 25% 96%; /* #F2F6F3 - Off-white */
+    --foreground: 148 50% 24%; /* #1D5C3A - Dark Green */
+
+    --card: 0 0% 100%;
+    --card-foreground: 148 50% 24%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 148 50% 24%;
+
+    /* Primary - AgriLinka Dark Green */
+    --primary: 148 50% 24%; /* #1D5C3A */
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 148 50% 35%;
+    --primary-glow: 148 60% 45%;
+
+    /* Secondary - AgriLinka Gold */
+    --secondary: 42 73% 56%; /* #E3B23C */
+    --secondary-foreground: 148 50% 24%;
+
+    /* Muted - Soft Neutrals */
+    --muted: 140 15% 92%;
+    --muted-foreground: 148 20% 40%;
+
+    /* Accent - Light Green */
+    --accent: 140 40% 85%;
+    --accent-foreground: 148 50% 24%;
+
+    /* Semantic Colors */
+    --success: 123 46% 50%;
+    --warning: 42 73% 56%;
+    --destructive: 348 83% 47%;
+    --destructive-foreground: 0 0% 100%;
+    --info: 207 90% 54%;
+
+    /* Borders & Inputs */
+    --border: 148 20% 85%;
+    --input: 148 20% 85%;
+    --ring: 148 50% 24%;
+
+    --radius: 0.75rem;
+
+    /* Gradients - Green to Gold */
+    --gradient-primary: linear-gradient(135deg, hsl(148 50% 24%), hsl(148 50% 35%));
+    --gradient-gold: linear-gradient(135deg, hsl(42 73% 56%), hsl(45 80% 65%));
+    --gradient-hero: linear-gradient(135deg, hsl(148 50% 24%), hsl(42 73% 56%));
+    --gradient-agrilinka: linear-gradient(135deg, hsl(148 50% 24%) 0%, hsl(148 50% 35%) 50%, hsl(42 73% 56%) 100%);
+    
+    /* Shadows */
+    --shadow-card: 0 4px 20px rgba(29, 92, 58, 0.08);
+    --shadow-elevated: 0 8px 30px rgba(29, 92, 58, 0.15);
+    --shadow-success: 0 4px 12px rgba(50, 205, 50, 0.3);
+    --shadow-gold: 0 4px 12px rgba(227, 178, 60, 0.3);
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    --background: 148 25% 8%;
+    --foreground: 0 0% 95%;
+
+    --card: 148 25% 10%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 148 25% 10%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 148 50% 35%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 42 73% 60%;
+    --secondary-foreground: 148 25% 10%;
+
+    --muted: 148 20% 15%;
+    --muted-foreground: 148 10% 60%;
+
+    --accent: 140 40% 30%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 348 83% 47%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 148 20% 20%;
+    --input: 148 20% 20%;
+    --ring: 148 50% 35%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Text size controls */
+html[data-text-size="small"] {
+  font-size: 14px;
+}
+
+html[data-text-size="medium"] {
+  font-size: 16px;
+}
+
+html[data-text-size="large"] {
+  font-size: 18px;
+}
+
+html[data-text-size="extraLarge"] {
+  font-size: 20px;
+}
+
+/* High contrast mode */
+.high-contrast {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --card: 0 0% 10%;
+  --card-foreground: 0 0% 100%;
+  --popover: 0 0% 10%;
+  --popover-foreground: 0 0% 100%;
+  --primary: 142 76% 36%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 20%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 0 0% 20%;
+  --muted-foreground: 0 0% 80%;
+  --accent: 142 76% 36%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 40%;
+  --input: 0 0% 40%;
+  --ring: 142 76% 36%;
+}
+
+.high-contrast * {
+  border-color: hsl(var(--border)) !important;
+}
+
+/* Reduced motion */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* RTL support */
+[dir="rtl"] {
+  direction: rtl;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+/* Focus visible for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Ensure touch targets are at least 44x44px */
+button, a, input, select, textarea {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+button:not([aria-label]):not([title]),
+a:not([aria-label]):not([title]) {
+  /* Ensure interactive elements have accessible labels */
+}
