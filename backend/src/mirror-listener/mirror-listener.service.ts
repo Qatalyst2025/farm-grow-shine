@@ -2,7 +2,7 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import axios from 'axios';
 import { CropsService } from '../crops/crops.service';
 import { TopicCreateTransaction } from '@hashgraph/sdk';
-import { getHederaClient } from '../../../blockchain/src/services/hedera.client';
+import { getHederaClient } from "../blockchain/hedera.client";
 
 @Injectable()
 export class MirrorListenerService implements OnModuleInit {

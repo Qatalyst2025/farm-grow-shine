@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DbService } from '../db/db.service';
-import { getHederaClient } from '../../../blockchain/src/services/hedera.client';
+import { getHederaClient } from "../blockchain/hedera.client";
 import {
   AccountId,
   ContractCallQuery,
