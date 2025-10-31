@@ -1,26 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
-import { Role } from '../enums/role.enum';
+import { pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { Role } from "../enums/role.enum.js";
 
-@Entity('users')
-export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export const users = pgTable("users", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  walletAddress: varchar("wallet_address", { length: 255 }).notNull().unique(),
+  email: varchar("email", { length: 255 }).unique(),
+  password: varchar("password", { length: 255 }),
+  name: varchar("name", { length: 255 }),
+  createdAt: timestamp("created_at").defaultNow(),
+  role: text("role").default(Role.FARMER),
+});
 
-  @Column({ name: 'wallet_address', length: 255, unique: true })
-  walletAddress: string;
-
-  @Column({ length: 255, unique: true, nullable: true })
-  email: string;
-
-  @Column({ length: 255, nullable: true })
-  password: string;
-
-  @Column({ length: 255, nullable: true })
-  name: string;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
-  @Column({ type: 'text', default: Role.FARMER })
-  role: Role;
-}
