@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Camera, Upload, Share2, CheckCircle2, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
+
 interface PhotoJournalProps {
   cropId: string;
 }
@@ -25,7 +27,7 @@ export const PhotoJournal = ({ cropId }: PhotoJournalProps) => {
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/crops/${cropId}/photos`);
+        const res = await fetch(`${API_BASE}/${cropId}/photos`);
         if (!res.ok) throw new Error("Failed to fetch photos");
         const data = await res.json();
         setPhotos(data);
@@ -52,7 +54,7 @@ export const PhotoJournal = ({ cropId }: PhotoJournalProps) => {
     formData.append("photo", file);
 
     try {
-      const res = await fetch(`http://localhost:3000/api/crops/${cropId}/photos`, {
+      const res = await fetch(`${API_BASE}/api/crops/${cropId}/photos`, {
         method: "POST",
         body: formData,
       });

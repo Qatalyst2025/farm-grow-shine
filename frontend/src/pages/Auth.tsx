@@ -10,7 +10,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "sonner";
 import { Loader2, Sprout, ShoppingBag } from "lucide-react";
 
-const API_BASE = import.meta.env.REACT_APP_API_BASE || "http://localhost:3000";
+const API_BASE = import.meta.env.VITE_APP_API_BASE || "http://localhost:3000";
 
 const Auth = () => {
   const navigate = useNavigate();
