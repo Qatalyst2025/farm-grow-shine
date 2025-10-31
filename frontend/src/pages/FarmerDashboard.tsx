@@ -32,7 +32,7 @@ import { useWallet } from "@/contexts/WalletContext";
 import { detectAvailableWallets } from "@/services/hedera";
 import { CreateCropModal } from "@/components/CreateCropModal";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://hedera-backend-7zk4.onrender.com" || "http://localhost:3000/api";
 
 const WalletDebug = () => {
   const { address, walletType, isConnecting } = useWallet();
