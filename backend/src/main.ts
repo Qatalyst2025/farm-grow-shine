@@ -14,6 +14,7 @@ async function bootstrap() {
       'http://localhost:8081',
       'http://localhost:3000', 
       'http://127.0.0.1:5173',
+      'https://hedera-frontend.onrender.com',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
