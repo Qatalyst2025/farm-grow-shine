@@ -43,6 +43,13 @@
       "when": 1761400530212,
       "tag": "0005_uneven_supreme_intelligence",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1761902145358,
+      "tag": "0006_daily_ser_duncan",
+      "breakpoints": true
     }
   ]
 }
