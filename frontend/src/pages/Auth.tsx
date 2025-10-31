@@ -100,7 +100,7 @@ const Auth = () => {
       }
 
       // Save token and role in localStorage
-      localStorage.setItem("token", token);
+      localStorage.setItem("access_token", token);
       localStorage.setItem("user_role", user.role.toUpperCase());
 
       toast.success("Signed in successfully!");
