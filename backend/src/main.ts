@@ -35,7 +35,7 @@ async function bootstrap() {
   // Set global prefix if you want /api
   app.setGlobalPrefix('api');
 
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 'https://hedera-backend-7zk4.onrender.com';
   await app.listen(port);
   
   console.log(`🚀 Application is running on: http://localhost:${port}`);
