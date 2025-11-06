@@ -222,9 +222,9 @@ const Index = () => {
               <span className="text-sm font-medium text-primary">Our Mission</span>
             </div>
             
-            <h2 className="text-4xl font-bold text-foreground leading-tight">
+            <h2 className="text-4xl font-bold text-secondary leading-tight">
               Transforming Agriculture Through
-              <span className="text-primary block">Blockchain Innovation</span>
+              <span className="text-foreground block">Blockchain Innovation</span>
             </h2>
             
             <p className="text-muted-foreground text-lg leading-relaxed">
@@ -327,7 +327,7 @@ const Index = () => {
 
       {/* Testimonials Section */}
       <section className="py-24 relative overflow-hidden">
-        {/* Background Pattern */}
+     
         <div className="absolute inset-0 bg-muted/30">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_100%,_var(--primary)_0%,_transparent_25%)] opacity-10"></div>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_0%,_var(--secondary)_0%,_transparent_25%)] opacity-10"></div>
@@ -495,19 +495,19 @@ const Index = () => {
 
 
 
-{/* Footer Section */}
+
       <footer className="bg-muted py-16 border-t border-border">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* Company Info */}
+          
             <div className="space-y-4">
-              <Logo size="lg" className="text-primary [&_span]:text-primary" />
+              <Logo size="lg" className="text-primary [&_span]:text-primary rounded-full" />
               <p className="text-sm text-muted-foreground">
                 Empowering farmers through blockchain technology and innovative financial solutions.
               </p>
             </div>
 
-            {/* Quick Links */}
+          
             <div>
               <h3 className="font-semibold text-foreground mb-4">Quick Links</h3>
               <ul className="space-y-2">
@@ -518,7 +518,7 @@ const Index = () => {
               </ul>
             </div>
 
-            {/* Resources */}
+            
             <div>
               <h3 className="font-semibold text-foreground mb-4">Resources</h3>
               <ul className="space-y-2">
@@ -529,7 +529,7 @@ const Index = () => {
               </ul>
             </div>
 
-            {/* Contact Info */}
+          
             <div>
               <h3 className="font-semibold text-foreground mb-4">Contact Us</h3>
               <ul className="space-y-2">
