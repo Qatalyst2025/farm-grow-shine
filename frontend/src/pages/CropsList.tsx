@@ -79,29 +79,20 @@ const CropsList = () => {
 
   if (loading) {
     return (
-      <MobileLayout title="My Crops" showBottomNav={true}>
+      <MobileLayout title="My Crops" showBottomNav={false}>
         <div className="p-6 text-center text-muted-foreground">Loading crops...</div>
       </MobileLayout>
     );
   }
 
   return (
-    <MobileLayout title="My Crops" showBottomNav={true}>
+    <MobileLayout title="My Crops" showBottomNav={false}>
       <PullToRefresh onRefresh={handleRefresh}>
         <div className="min-h-screen bg-background">
-          <header className="bg-gradient-to-r from-primary to-primary-light text-primary-foreground py-6 shadow-lg">
+          <header className="bg-primary text-primary-foreground py-6 shadow-lg">
             <div className="container mx-auto px-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="text-primary-foreground hover:bg-white/10"
-                    onClick={handleBackToDashboard}
-                  >
-                    <ArrowLeft className="h-4 w-4 mr-2" />
-                    Back to Dashboard
-                  </Button>
                   <div>
                     <h1 className="text-3xl font-bold mb-1">
                       My Crops

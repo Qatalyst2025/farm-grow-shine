@@ -6,7 +6,6 @@ import {
   Sprout,
   TrendingUp,
   DollarSign,
-  Camera,
   BookOpen,
   ArrowRight,
   CheckCircle2,
@@ -14,10 +13,8 @@ import {
   Cloud,
   CloudRain,
   Sun,
-  MapPin,
   Brain,
   Leaf,
-  Wallet,
   LogOut
 } from "lucide-react";
 import { CropPortfolioCard } from "@/components/dashboard/CropPortfolioCard";
@@ -28,36 +25,9 @@ import { MobileLayout } from "@/components/mobile/MobileLayout";
 import { CameraCapture } from "@/components/mobile/CameraCapture";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { useToast } from "@/hooks/use-toast";
-import { useWallet } from "@/contexts/WalletContext";
-import { detectAvailableWallets } from "@/services/hedera";
 import { CreateCropModal } from "@/components/CreateCropModal";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://hedera-backend-7zk4.onrender.com/api" || "http://localhost:3000/api";
-
-const WalletDebug = () => {
-  const { address, walletType, isConnecting } = useWallet();
-
-  return (
-    <div style={{
-      position: 'fixed',
-      top: '10px',
-      right: '10px',
-      background: 'rgba(0,0,0,0.8)',
-      color: 'white',
-      padding: '10px',
-      borderRadius: '5px',
-      fontSize: '12px',
-      zIndex: 1000,
-      maxWidth: '300px'
-    }}>
-      <div><strong>Wallet Debug:</strong></div>
-      <div>Address: {address || 'null'}</div>
-      <div>Type: {walletType || 'null'}</div>
-      <div>Connecting: {isConnecting ? 'Yes' : 'No'}</div>
-      <div>MetaMask: {typeof window !== 'undefined' && window.ethereum ? 'Installed' : 'Not Installed'}</div>
-    </div>
-  );
-};
 
 const FarmerDashboard = () => {
   const navigate = useNavigate();
@@ -68,29 +38,21 @@ const FarmerDashboard = () => {
   const [profileLoading, setProfileLoading] = useState(true);
   const [cropsLoading, setCropsLoading] = useState(true);
 
-  const { address, connect, isConnecting } = useWallet();
-
   const [farmerProfile, setFarmerProfile] = useState<any>(null);
   const [crops, setCrops] = useState<any[]>([]);
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
-  const [availableWallets, setAvailableWallets] = useState<string[]>([]);
-  const [showWalletSelector, setShowWalletSelector] = useState(false);
   const [isFarmerRole, setIsFarmerRole] = useState(false);
 
-  // local ref to detect changes in localStorage.crops for same-tab updates
   const lastLocalCropsRef = useRef<string | null>(null);
   const pollingRef = useRef<number | null>(null);
-
-  // Check if MetaMask is installed
-  const isMetaMaskInstalled = typeof window !== 'undefined' && !!window.ethereum;
 
   const readToken = () => {
     return (
       localStorage.getItem("access_token") ||
       localStorage.getItem("auth_token") ||
       localStorage.getItem("authToken") ||
-      localStorage.getItem("token") || // support earlier key used by modal
+      localStorage.getItem("token") ||
       null
     );
   };
@@ -156,16 +118,13 @@ const FarmerDashboard = () => {
         const arr = Array.isArray(data) ? data : data?.crops ?? [];
         const filtered = farmerId ? arr.filter((c: any) => c.farmerId === farmerId || c.farmer_id === farmerId) : arr;
         setCrops(filtered);
-
-        // keep a snapshot of localStorage.crops so polling can compare
         lastLocalCropsRef.current = JSON.stringify(filtered || []);
-        localStorage.setItem("crops", JSON.stringify(filtered || [])); // optionally keep local copy consistent
+        localStorage.setItem("crops", JSON.stringify(filtered || []));
       } catch (err: any) {
         if (err.message === "NO_TOKEN" || err.message === "UNAUTHORIZED") {
           forceLogout("Please sign in again");
           return;
         }
-        console.error("Failed to fetch crops:", err);
         toast({ title: "Error", description: "Failed to fetch crops", variant: "destructive" });
       } finally {
         setCropsLoading(false);
@@ -180,19 +139,13 @@ const FarmerDashboard = () => {
       try {
         const d = await authFetch(`/farmer/${farmerId}/dashboard`);
         setDashboardData(d);
-      } catch (err) {
+      } catch {
         setDashboardData(null);
       }
     },
     [authFetch]
   );
 
-  useEffect(() => {
-    const wallets = detectAvailableWallets();
-    setAvailableWallets(wallets);
-    console.log("📱 Available wallets detected:", wallets);
-  }, []);
-  
   useEffect(() => {
     const role = localStorage.getItem("user_role") || "";
     setIsFarmerRole(role.toUpperCase() === "FARMER");
@@ -219,7 +172,6 @@ const FarmerDashboard = () => {
     };
 
     init();
-    // cleanup on unmount
     return () => {
       if (pollingRef.current) {
         window.clearInterval(pollingRef.current);
@@ -238,74 +190,26 @@ const FarmerDashboard = () => {
     navigate("/login");
   };
 
-  const handleInstallMetaMask = () => {
-    window.open('https://metamask.io/download/', '_blank');
-  };
-
-  const handleConnectWallet = async (walletType?: string) => {
-    try {
-      if (!walletType && availableWallets.length === 1) {
-        walletType = availableWallets[0];
-      } else if (!walletType) {
-        setShowWalletSelector(true);
-        return;
-      }
-
-      await connect(walletType);
-      toast({
-        title: "Wallet Connected!",
-        description: "Your wallet has been successfully connected."
-      });
-      setShowWalletSelector(false);
-    } catch (error: any) {
-      console.error("Wallet connection failed:", error);
-      toast({
-        title: "Connection Failed",
-        description: error.message,
-        variant: "destructive"
-      });
-    }
-  };
-
-  useEffect(() => {
-    const handleClickOutside = () => setShowWalletSelector(false);
-
-    if (showWalletSelector) {
-      document.addEventListener('click', handleClickOutside);
-      return () => document.removeEventListener('click', handleClickOutside);
-    }
-  }, [showWalletSelector]);
-
-  // Live-refresh logic:
-  // 1) listen to storage events (other tabs)
-  // 2) poll localStorage.crops every second for same-tab updates (modal updates localStorage)
   useEffect(() => {
     const onStorage = (ev: StorageEvent) => {
       if (ev.key === "crops") {
-        // whenever local changes happen in other tabs
         try {
           const parsed = JSON.parse(String(ev.newValue || "[]"));
-          // only refresh if current farmer owns crops or if we can detect change
           if (farmerProfile?.id) {
-            // re-fetch from backend to maintain canonical state
             fetchCrops(farmerProfile.id);
           } else {
             setCrops(Array.isArray(parsed) ? parsed : []);
           }
-        } catch {
-          // ignore parse errors
-        }
+        } catch {}
       }
     };
     window.addEventListener("storage", onStorage);
 
-    // polling for same-tab changes (modal writes localStorage.crops)
     pollingRef.current = window.setInterval(() => {
       try {
         const local = localStorage.getItem("crops") || "[]";
         if (lastLocalCropsRef.current !== local) {
           lastLocalCropsRef.current = local;
-          // parse and refresh UI: prefer re-fetch from backend (authoritative)
           if (farmerProfile?.id) {
             fetchCrops(farmerProfile.id);
           } else {
@@ -313,9 +217,7 @@ const FarmerDashboard = () => {
             setCrops(Array.isArray(parsed) ? parsed : []);
           }
         }
-      } catch (err) {
-        // ignore
-      }
+      } catch {}
     }, 1000);
 
     return () => {
@@ -327,9 +229,7 @@ const FarmerDashboard = () => {
     };
   }, [farmerProfile, fetchCrops]);
 
-  // Compute UI values
   const farmerName = farmerProfile?.name || farmerProfile?.email || "Farmer";
-  const currentSeason = dashboardData?.currentSeason || "Planting Season";
   const financialScore = dashboardData?.financialScore ?? 78;
   const activeLoans = dashboardData?.activeLoans ?? 1;
   const growingCrops = crops.length;
@@ -346,7 +246,7 @@ const FarmerDashboard = () => {
     return (
       <MobileLayout title="Dashboard">
         <div className="min-h-screen bg-background">
-          <header className="bg-gradient-to-r from-primary to-primary-light text-primary-foreground py-6 shadow-lg">
+          <header className="bg-primary text-primary-foreground py-6 shadow-lg">
             <div className="container mx-auto px-4">
               <Skeleton className="h-10 w-64 bg-white/20" />
             </div>
@@ -385,107 +285,27 @@ const FarmerDashboard = () => {
     );
   }
 
-  // Determine if user is a farmer - use both profile data and localStorage as fallback
   const isFarmer = isFarmerRole || !!(farmerProfile?.role === "FARMER");
 
   return (
-    <MobileLayout title={`Welcome, ${farmerName}!`} showBottomNav={true}>
+    <MobileLayout showBottomNav={false}>
       <div className="min-h-screen bg-background">
-        <header className="bg-gradient-to-r from-primary to-primary-light text-primary-foreground py-6 shadow-lg">
+        
+
+        <header className="bg-primary text-primary-foreground py-6 shadow-lg">
           <div className="container mx-auto px-4">
             <div className="flex flex-col gap-3">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl md:text-3xl font-bold mb-2">Welcome back, {farmerName}! 👋</h1>
-                  <div className="flex flex-wrap items-center gap-3 text-sm md:text-base text-primary-foreground/90">
-                    <div className="flex items-center gap-2">
-                      <Sprout className="h-4 w-4" />
-                      <span>{currentSeason}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      {getWeatherIcon()}
-                      <span className="capitalize">{weatherCondition}</span>
-                    </div>
-                    {position && (
-                      <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4" />
-                        <span className="text-xs">
-                          {position.coords.latitude.toFixed(2)}°, {position.coords.longitude.toFixed(2)}°
-                        </span>
-                      </div>
-                    )}
-                  </div>
+                  <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2">Welcome back, {farmerName}! </h1>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                   {isFarmer && (
-                    // header create button (calls modal)
-                    <div className="mr-2">
+                    <div className="mr-0 sm:mr-2">
                       <CreateCropModal />
                     </div>
                   )}
-
-                  {farmerProfile?.hedera_account_id && (
-                    <div className="text-xs px-2 py-1 bg-white/10 rounded-md">
-                      Hedera: {farmerProfile.hedera_account_id}
-                    </div>
-                  )}
-
-                  {!address ? (
-                    <div className="relative">
-                      {!isMetaMaskInstalled ? (
-                        <Button onClick={handleInstallMetaMask} variant="secondary" size="sm">
-                          <Wallet className="h-4 w-4 mr-2" />
-                          Install MetaMask
-                        </Button>
-                      ) : (
-                        <>
-                          <Button onClick={(e) => { e.stopPropagation(); handleConnectWallet(); }} variant="secondary" size="sm" disabled={isConnecting}>
-                            {isConnecting ? (
-                              <>
-                                <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                                Connecting...
-                              </>
-                            ) : (
-                              <>
-                                <Wallet className="h-4 w-4 mr-2" />
-                                Connect Wallet
-                              </>
-                            )}
-                          </Button>
-
-                          {showWalletSelector && availableWallets.length > 0 && (
-                            <Card className="absolute top-full right-0 mt-2 w-48 z-50 shadow-lg" onClick={(e) => e.stopPropagation()}>
-                              <div className="p-2">
-                                <h4 className="text-sm font-semibold mb-2 text-foreground">Choose Wallet</h4>
-                                {availableWallets.map((wallet) => (
-                                  <Button key={wallet} variant="ghost" size="sm" className="w-full justify-start mb-1 text-foreground hover:bg-accent" onClick={() => handleConnectWallet(wallet)} disabled={isConnecting}>
-                                    {wallet === 'metamask' ? 'MetaMask' :
-                                      wallet === 'trustwallet' ? 'Trust Wallet' :
-                                        wallet === 'coinbase' ? 'Coinbase Wallet' : wallet}
-                                  </Button>
-                                ))}
-                              </div>
-                            </Card>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-2 bg-green-500/20 text-green-300 px-3 py-2 rounded-lg border border-green-500/30">
-                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                        <Wallet className="h-4 w-4" />
-                        <span className="text-sm font-mono font-medium">
-                          {address.slice(0, 6)}...{address.slice(-4)}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  <Button onClick={handleLogout} variant="ghost" size="sm" className="text-white/70 hover:text-white">
-                    <LogOut className="h-4 w-4" />
-                  </Button>
                 </div>
               </div>
             </div>
@@ -493,7 +313,7 @@ const FarmerDashboard = () => {
         </header>
 
         <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
             <Card className="p-6 border-l-4 border-l-primary hover:shadow-lg hover:scale-[1.02] transition-all cursor-pointer">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-muted-foreground">Active Loans</span>
@@ -526,22 +346,22 @@ const FarmerDashboard = () => {
             </Card>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            <div className="col-span-1 sm:col-span-2 space-y-4 sm:space-y-6">
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-foreground">Your Next Steps</h2>
                 <div className="space-y-4">
-                  {[
-                    { id: 1, title: "Crop Health Monitor", description: "AI-powered computer vision analysis for pests, diseases, and growth stages", icon: Leaf, color: "success", link: "/crop-health" },
-                    { id: 2, title: "AI Verification Center", description: "Verify farm ownership and build your trust network with AI-powered security", icon: Brain, color: "secondary", link: "/verification" },
+                  {[ 
+                    { id: 1, title: "Crop Health Monitor", description: "AI-powered computer vision analysis for pests and diseases", icon: Leaf, color: "success", link: "/crop-health" },
+                    { id: 2, title: "AI Verification Center", description: "Build trust with AI security", icon: Brain, color: "secondary", link: "/verification" },
                     { id: 3, title: "AI Advisor", description: "Personalized farming advice", icon: Brain, color: "accent", link: "/ai-advisor" },
                     { id: 4, title: "AI Credit Assessment", description: "View explainable credit score", icon: Brain, color: "primary", link: "/credit-assessment" },
-                    { id: 5, title: "Continue Loan Application", description: "You're 2 steps away from getting funded!", icon: Clock, color: "warning", link: "/farmer/apply-loan" }
+                    { id: 5, title: "Continue Loan Application", description: "You’re close to getting funded", icon: Clock, color: "warning", link: "/farmer/apply-loan" }
                   ].map((card) => (
-                    <Card key={card.id} className={`p-6 hover:shadow-elevated transition-all hover:-translate-y-1 border-l-4 ${card.color === 'warning' ? 'border-l-warning' : card.color === 'success' ? 'border-l-success' : 'border-l-primary'}`}>
+                    <Card key={card.id} className="p-6 hover:shadow-elevated transition-all hover:-translate-y-1 border-l-4 border-l-primary">
                       <div className="flex items-start gap-4">
-                        <div className={`h-12 w-12 rounded-full flex items-center justify-center ${card.color === 'warning' ? 'bg-warning/10' : card.color === 'success' ? 'bg-success/10' : 'bg-primary/10'}`}>
-                          <card.icon className={`h-6 w-6 ${card.color === 'warning' ? 'text-warning' : card.color === 'success' ? 'text-success' : 'text-primary'}`} />
+                        <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                          <card.icon className="h-6 w-6 text-primary" />
                         </div>
                         <div className="flex-1">
                           <h3 className="text-lg font-bold mb-1 text-card-foreground">{card.title}</h3>
@@ -560,7 +380,7 @@ const FarmerDashboard = () => {
               </div>
 
               <div>
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 mb-4">
                   <h2 className="text-2xl font-bold text-foreground">Your Crops</h2>
                   <Link to="/farmer/crops">
                     <Button variant="outline" size="sm">View All</Button>
@@ -578,7 +398,7 @@ const FarmerDashboard = () => {
                     <Sprout className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                     <h3 className="text-xl font-bold mb-2">No crops yet</h3>
                     <p className="text-muted-foreground mb-6">
-                      Start your farming journey by adding your first crop!
+                      Start your farming journey by adding your first crop.
                     </p>
 
                     {isFarmer && (
@@ -600,7 +420,7 @@ const FarmerDashboard = () => {
             </div>
 
             <div className="space-y-6">
-              <Card className="p-6 bg-gradient-to-br from-primary/5 to-success/5">
+              <Card className="p-6 bg-primary">
                 <h3 className="text-lg font-bold mb-4 text-card-foreground">Financial Health Score</h3>
                 <div className="relative h-32 flex items-center justify-center mb-4">
                   <div className="relative">
@@ -644,7 +464,7 @@ const FarmerDashboard = () => {
 
                 <div className="bg-info/10 rounded-lg p-3 border border-info/20">
                   <p className="text-sm text-muted-foreground">
-                    💡 <span className="font-medium">Tip:</span> Add one photo weekly to increase your score by 5 points
+                    💡 <span className="font-medium">Tip:</span> Add one photo weekly to increase your score.
                   </p>
                 </div>
               </Card>
@@ -654,7 +474,7 @@ const FarmerDashboard = () => {
                   <BookOpen className="h-5 w-5 text-primary" />
                   <h3 className="text-lg font-bold text-card-foreground">Learning Center</h3>
                 </div>
-                <p className="text-muted-foreground mb-4">Improve your farming with expert tips and guides</p>
+                <p className="text-muted-foreground mb-4">Improve your farming with expert tips.</p>
                 <Link to="/farmer/learn">
                   <Button variant="outline" className="w-full group">
                     Explore Resources

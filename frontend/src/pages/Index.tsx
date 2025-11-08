@@ -49,7 +49,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation Header */}
+    
 
       <header className="container mx-auto px-4 pt-6 relative z-10">
         <div className="flex items-center justify-between">
@@ -129,25 +129,6 @@ const Index = () => {
               </Button>
             </div>
 
-
-
-
-            {isAuthenticated && (
-              <p className="text-sm text-primary-foreground/70 mt-4">
-                Signed in as {userRole?.toLowerCase()} •{" "}
-                <button 
-                  onClick={() => {
-                    localStorage.removeItem("access_token");
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("user_role");
-                    window.location.reload();
-                  }}
-                  className="underline hover:no-underline"
-                >
-                  Sign out
-                </button>
-              </p>
-            )}
 
 
           </div>

@@ -13,13 +13,13 @@ export default function Negotiations() {
   const [showCreateDialog, setShowCreateDialog] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-primary/5">
+    <div className="min-h-screen bg-primary">
       <div className="container mx-auto p-4 lg:p-6">
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg">
+              <div className="h-12 w-12 rounded-full bg-primary flex items-center justify-center shadow-lg">
                 <Handshake className="h-6 w-6 text-primary-foreground" />
               </div>
               <div>
@@ -34,7 +34,7 @@ export default function Negotiations() {
 
             <Button
               onClick={() => setShowCreateDialog(true)}
-              className="bg-gradient-to-r from-primary to-secondary"
+              className="bg-primary"
             >
               <Plus className="h-4 w-4 mr-2" />
               New Negotiation
@@ -44,7 +44,7 @@ export default function Negotiations() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <Card className="p-4 bg-gradient-to-br from-card to-card/50 border-primary/20">
+          <Card className="p-4 bg-primary border-primary/20">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
                 <Handshake className="h-5 w-5 text-primary" />
@@ -56,7 +56,7 @@ export default function Negotiations() {
             </div>
           </Card>
 
-          <Card className="p-4 bg-gradient-to-br from-card to-card/50 border-secondary/20">
+          <Card className="p-4 bg-primary border-secondary/20">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 rounded-lg bg-secondary/10 flex items-center justify-center">
                 <FileText className="h-5 w-5 text-secondary" />

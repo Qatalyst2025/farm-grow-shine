@@ -14,6 +14,7 @@ import YouthSuccessStories from "@/components/community/YouthSuccessStories";
 import CareerPathways from "@/components/community/CareerPathways";
 import StartupFunding from "@/components/community/StartupFunding";
 import { InternationalExportHub } from "@/components/community/InternationalExportHub";
+import { MobileHeader } from "@/components/mobile/MobileHeader";
 
 export default function Community() {
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
@@ -43,20 +44,21 @@ export default function Community() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-primary/5">
+    <div className="min-h-screen bg-muted">
+      <MobileHeader />
       <div className="container mx-auto p-4 lg:p-6">
         {/* Header */}
         <div className="mb-6 space-y-2">
           <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg">
+            <div className="h-12 w-12 rounded-full bg-primary flex items-center justify-center shadow-lg">
               <Users className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-primary via-primary-light to-secondary bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold bg-primary bg-clip-text text-transparent">
                 Village Square
               </h1>
               <p className="text-muted-foreground">
-                Share wisdom, grow together 🌳
+                Share wisdom, grow together 
               </p>
             </div>
           </div>
@@ -64,50 +66,50 @@ export default function Community() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <Card className="p-4 bg-gradient-to-br from-card to-card/50 border-primary/20">
+          <Card className="p-4 bg-primary border-secondary/20">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Users className="h-5 w-5 text-primary" />
+              <div className="h-10 w-10 rounded-lg bg-secondary flex items-center justify-center">
+                <Users className="h-5 w-5 text-foreground" />
               </div>
               <div>
-                <p className="text-2xl font-bold">12,450</p>
-                <p className="text-xs text-muted-foreground">Active Farmers</p>
+                <p className="text-2xl font-bold text-secondary">12,450</p>
+                <p className="text-xs text-secondary">Active Farmers</p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4 bg-gradient-to-br from-card to-card/50 border-secondary/20">
+          <Card className="p-4 bg-primary border-secondary/20">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-secondary/10 flex items-center justify-center">
-                <MessageSquare className="h-5 w-5 text-secondary" />
+              <div className="h-10 w-10 rounded-lg bg-secondary flex items-center justify-center">
+                <MessageSquare className="h-5 w-5 text-foreground" />
               </div>
               <div>
-                <p className="text-2xl font-bold">847</p>
-                <p className="text-xs text-muted-foreground">Messages Today</p>
+                <p className="text-2xl font-bold text-secondary">847</p>
+                <p className="text-xs text-secondary">Messages Today</p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4 bg-gradient-to-br from-card to-card/50 border-primary-light/20">
+          <Card className="p-4 bg-primary border-secondary-light/20">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-primary-light/10 flex items-center justify-center">
-                <Sprout className="h-5 w-5 text-primary-light" />
+              <div className="h-10 w-10 rounded-lg bg-secondary flex items-center justify-center">
+                <Sprout className="h-5 w-5 text-foreground" />
               </div>
               <div>
-                <p className="text-2xl font-bold">234</p>
-                <p className="text-xs text-muted-foreground">Wisdom Shared</p>
+                <p className="text-2xl font-bold text-secondary">234</p>
+                <p className="text-xs text-secondary">Wisdom Shared</p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4 bg-gradient-to-br from-destructive/10 to-card border-destructive/20">
+          <Card className="p-4 bg-primary border-secondary/20">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-destructive/10 flex items-center justify-center animate-pulse">
-                <AlertCircle className="h-5 w-5 text-destructive" />
+              <div className="h-10 w-10 rounded-lg bg-secondary flex items-center justify-center">
+                <AlertCircle className="h-5 w-5 text-foreground" />
               </div>
               <div>
-                <p className="text-2xl font-bold">3</p>
-                <p className="text-xs text-muted-foreground">Active Alerts</p>
+                <p className="text-2xl font-bold text-secondary">3</p>
+                <p className="text-xs text-secondary">Active Alerts</p>
               </div>
             </div>
           </Card>
@@ -117,7 +119,7 @@ export default function Community() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Room List Sidebar */}
           <div className="lg:col-span-4">
-            <Card className="overflow-hidden bg-gradient-to-br from-card to-card/80 border-primary/10">
+            <Card className="overflow-hidden bg-primary border-primary/10">
               <Tabs value={activeTab} onValueChange={setActiveTab}>
                 <div className="border-b bg-muted/30 p-2">
                   <TabsList className="w-full grid grid-cols-3 lg:grid-cols-7 h-auto p-1 gap-1">
@@ -195,6 +197,8 @@ export default function Community() {
               </Tabs>
             </Card>
           </div>
+
+
 
           {/* Chat Area */}
           <div className="lg:col-span-8">

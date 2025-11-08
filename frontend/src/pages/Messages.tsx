@@ -3,12 +3,14 @@ import { ConversationList } from "@/components/messages/ConversationList";
 import { MessageThread } from "@/components/messages/MessageThread";
 import { Card } from "@/components/ui/card";
 import { MessageSquare } from "lucide-react";
+import { MobileHeader } from "@/components/mobile/MobileHeader";
 
 export default function Messages() {
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 p-4">
+      <MobileHeader />
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
           <h1 className="text-3xl font-bold mb-2">Private Messages</h1>
