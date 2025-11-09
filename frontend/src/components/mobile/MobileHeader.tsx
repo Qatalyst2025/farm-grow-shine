@@ -86,7 +86,6 @@ export const MobileHeader = ({
     localStorage.removeItem("auth_token");
     localStorage.removeItem("authToken");
     localStorage.removeItem("user_role");
-
     toast({ title: "Logged out", description: "You have been signed out successfully", variant: "destructive" });
     navigate("/login");
   };
@@ -198,6 +197,48 @@ export const MobileHeader = ({
                   {t(item.labelKey)}
                 </Link>
               ))}
+
+              <button className="p-1 text-muted-foreground hover:text-foreground relative w-full flex items-center gap-2">
+                <BellIcon className="h-6 w-6" />
+                {notificationCount > 0 && (
+                  <Badge
+                    variant="destructive"
+                    className="h-5 w-5 flex items-center justify-center p-0 text-xs"
+                  >
+                    {notificationCount > 9 ? "9+" : notificationCount}
+                  </Badge>
+                )}
+                Notifications
+              </button>
+
+              {!address ? (
+                !isMetaMaskInstalled ? (
+                  <Button onClick={handleInstallMetaMask} variant="secondary" size="sm" className="w-full">
+                    <Wallet className="h-4 w-4 mr-2" /> Install MetaMask
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => handleConnectWallet()}
+                    variant="secondary"
+                    size="sm"
+                    className="w-full"
+                    disabled={isConnecting}
+                  >
+                    {isConnecting ? "Connecting..." : <><Wallet className="h-4 w-4 mr-2" /> Connect Wallet</>}
+                  </Button>
+                )
+              ) : (
+                <div className="flex items-center gap-2 bg-green-500/20 text-green-800 px-3 py-2 rounded-lg border border-green-600/40">
+                  <Wallet className="h-4 w-4" />
+                  <span className="text-sm font-mono">{address.slice(0, 6)}...{address.slice(-4)}</span>
+                </div>
+              )}
+
+              {farmerProfile?.hedera_account_id && (
+                <div className="text-xs px-2 py-1 bg-white/10 rounded-md truncate max-w-[150px]">
+                  Hedera: {farmerProfile.hedera_account_id}
+                </div>
+              )}
 
               <Button onClick={handleLogout} variant="ghost" size="sm" className="w-full justify-start mt-2">
                 <LogOut className="h-4 w-4 mr-2" /> Logout
