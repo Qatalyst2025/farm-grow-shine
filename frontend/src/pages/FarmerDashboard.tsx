@@ -302,7 +302,7 @@ const FarmerDashboard = () => {
 
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                   {isFarmer && (
-                    <div className="mr-0 sm:mr-2">
+                    <div className="mr-0 sm:mr-2 ">
                       <CreateCropModal />
                     </div>
                   )}

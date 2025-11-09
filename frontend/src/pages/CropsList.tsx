@@ -90,33 +90,41 @@ const CropsList = () => {
       <PullToRefresh onRefresh={handleRefresh}>
         <div className="min-h-screen bg-background">
           <header className="bg-primary text-primary-foreground py-6 shadow-lg">
-            <div className="container mx-auto px-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div>
-                    <h1 className="text-3xl font-bold mb-1">
-                      My Crops
-                    </h1>
-                    <p className="text-primary-foreground/90">
-                      Manage and track all your crops in one place
-                    </p>
-                  </div>
-                </div>
+  <div className="container mx-auto px-4">
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div className="flex items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-bold mb-1">
+            My Crops
+          </h1>
+          <p className="text-primary-foreground/90">
+            Manage and track all your crops in one place
+          </p>
+        </div>
+      </div>
+  
+      <div className="flex flex-wrap gap-2 items-center md:justify-end">
+        <CreateCropModal onCropCreated={handleCropCreated} />
+        <Button
+          variant="outline"
+          className="bg-white/10 border-white/30 text-primary-foreground hover:bg-primary hover:text-secondary"
+        >
+          <FileText className="h-4 w-4 mr-2" />
+          Export Report
+        </Button>
+        <Button
+          variant="outline"
+          className="bg-white/10 border-white/30 text-primary-foreground hover:bg-primary hover:text-secondary"
+        >
+          <Award className="h-4 w-4 mr-2" />
+          Achievements
+        </Button>
+      </div>
 
-                <div className="flex gap-2 items-center">
-                  <CreateCropModal onCropCreated={handleCropCreated} />
-                  <Button variant="outline" className="bg-white/10 border-white/30 text-primary-foreground hover:bg-white/20">
-                    <FileText className="h-4 w-4 mr-2" />
-                    Export Report
-                  </Button>
-                  <Button variant="outline" className="bg-white/10 border-white/30 text-primary-foreground hover:bg-white/20">
-                    <Award className="h-4 w-4 mr-2" />
-                    Achievements
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </header>
+    </div>
+  </div>
+</header>
+
 
           <div className="container mx-auto px-4 py-8">
             {/* Stats Overview */}

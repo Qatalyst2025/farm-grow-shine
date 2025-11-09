@@ -107,7 +107,7 @@ export default function YouthSuccessStories() {
         </Badge>
       </div>
 
-      <Carousel className="w-full">
+      <Carousel className="lg:col-span-4">
         <CarouselContent>
           {stories.map((story) => (
             <CarouselItem key={story.id}>

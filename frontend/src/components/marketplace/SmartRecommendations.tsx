@@ -149,10 +149,11 @@ export const SmartRecommendations = ({ farmerId }: SmartRecommendationsProps) =>
           </h2>
           <p className="text-muted-foreground">AI-powered insights for optimal crop planning</p>
         </div>
+      
         <Button 
           onClick={generateRecommendations} 
           disabled={isGenerating}
-          className="gap-2"
+          className="gap-2 hidden sm:flex"
         >
           {isGenerating ? (
             <>
@@ -166,6 +167,7 @@ export const SmartRecommendations = ({ farmerId }: SmartRecommendationsProps) =>
             </>
           )}
         </Button>
+
       </div>
 
       {recommendations.length === 0 ? (

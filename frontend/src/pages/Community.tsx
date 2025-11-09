@@ -115,39 +115,42 @@ export default function Community() {
           </Card>
         </div>
 
+
+
+
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Room List Sidebar */}
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-12">
             <Card className="overflow-hidden bg-primary border-primary/10">
               <Tabs value={activeTab} onValueChange={setActiveTab}>
                 <div className="border-b bg-muted/30 p-2">
                   <TabsList className="w-full grid grid-cols-3 lg:grid-cols-7 h-auto p-1 gap-1">
-                    <TabsTrigger value="regional" className="text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                    <TabsTrigger value="regional" className="text-xs data-[state=active]:bg-secondary data-[state=active]:text-primary-foreground">
                       <Users className="h-3 w-3 mr-1" />
                       Regional
                     </TabsTrigger>
-                    <TabsTrigger value="crops" className="text-xs data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground">
+                    <TabsTrigger value="crops" className="text-xs data-[state=active]:bg-secondary data-[state=active]:text-primary-foreground">
                       <Sprout className="h-3 w-3 mr-1" />
                       Crops
                     </TabsTrigger>
-                    <TabsTrigger value="learning" className="text-xs data-[state=active]:bg-primary-light data-[state=active]:text-primary-foreground">
+                    <TabsTrigger value="learning" className="text-xs data-[state=active]:bg-secondary data-[state=active]:text-primary-foreground">
                       <MessageSquare className="h-3 w-3 mr-1" />
                       Learning
                     </TabsTrigger>
-                    <TabsTrigger value="youth" className="text-xs data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-rose-500 data-[state=active]:text-white">
+                    <TabsTrigger value="youth" className="text-xs data-[state=active]:bg-secondary data-[state=active]:from-orange-500 data-[state=active]:to-rose-500 data-[state=active]:text-white">
                       <Rocket className="h-3 w-3 mr-1" />
                       Youth
                     </TabsTrigger>
-                    <TabsTrigger value="careers" className="text-xs data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
+                    <TabsTrigger value="careers" className="text-xs data-[state=active]:bg-secondary data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
                       <Trophy className="h-3 w-3 mr-1" />
                       Careers
                     </TabsTrigger>
-                    <TabsTrigger value="export" className="text-xs data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">
+                    <TabsTrigger value="export" className="text-xs data-[state=active]:bg-secondary data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">
                       <Globe className="h-3 w-3 mr-1" />
                       Export
                     </TabsTrigger>
-                    <TabsTrigger value="alerts" className="text-xs data-[state=active]:bg-destructive data-[state=active]:text-destructive-foreground">
+                    <TabsTrigger value="alerts" className="text-xs data-[state=active]:bg-secondary data-[state=active]:text-destructive-foreground">
                       <Bell className="h-3 w-3 mr-1" />
                       Alerts
                     </TabsTrigger>
@@ -200,8 +203,11 @@ export default function Community() {
 
 
 
-          {/* Chat Area */}
-          <div className="lg:col-span-8">
+
+
+
+          
+          <div className="lg:col-span-12">
             {selectedRoom && !['alerts', 'youth', 'careers', 'export'].includes(activeTab) ? (
               <ChatRoom roomId={selectedRoom} />
             ) : !selectedRoom && !['alerts', 'youth', 'careers', 'export'].includes(activeTab) ? (
@@ -221,9 +227,15 @@ export default function Community() {
                 </div>
               </Card>
             ) : null}
+
           </div>
-        </div>
-      </div>
+        
+
+
+
+            </div>
+          </div>
+    
     </div>
   );
 }

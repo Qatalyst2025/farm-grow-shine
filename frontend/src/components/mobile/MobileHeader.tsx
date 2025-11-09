@@ -82,16 +82,11 @@ export const MobileHeader = ({
   };
 
   const handleLogout = () => {
-    // Clear all auth/session data
     localStorage.removeItem("access_token");
     localStorage.removeItem("auth_token");
     localStorage.removeItem("authToken");
     localStorage.removeItem("user_role");
 
-    // Optionally clear other sensitive localStorage items
-    // localStorage.removeItem("crops");
-
-    // Toast and redirect
     toast({ title: "Logged out", description: "You have been signed out successfully", variant: "destructive" });
     navigate("/login");
   };
@@ -100,15 +95,13 @@ export const MobileHeader = ({
     <Disclosure as="nav" className="bg-background border-b border-border sticky top-0 z-50">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-4">
+          <div className="w-full px-4">
             <div className="relative flex h-16 items-center justify-between">
-              {/* LEFT: Logo */}
               <div className="flex items-center flex-1">
                 <Logo size="lg" />
               </div>
 
-              {/* RIGHT: Desktop items */}
-              <div className="hidden sm:flex items-center gap-3">
+              <div className="hidden lg:flex items-center gap-3 flex-wrap">
                 {navigation.map((item) => (
                   <Link
                     key={item.path}
@@ -181,8 +174,7 @@ export const MobileHeader = ({
                 </Button>
               </div>
 
-              {/* Mobile Hamburger */}
-              <div className="sm:hidden flex items-center">
+              <div className="lg:hidden flex items-center">
                 <Disclosure.Button className="p-2 rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground">
                   {open ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
                 </Disclosure.Button>
@@ -190,8 +182,7 @@ export const MobileHeader = ({
             </div>
           </div>
 
-          {/* Mobile Panel */}
-          <Disclosure.Panel className="sm:hidden border-t border-border">
+          <Disclosure.Panel className="lg:hidden border-t border-border">
             <div className="space-y-1 px-2 py-3">
               {navigation.map((item) => (
                 <Link
@@ -201,54 +192,12 @@ export const MobileHeader = ({
                     location.pathname === item.path
                       ? "bg-primary text-primary-foreground"
                       : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
-                    "block rounded-md px-3 py-2 text-base font-medium"
+                    "block w-full rounded-md px-3 py-2 text-base font-medium"
                   )}
                 >
                   {t(item.labelKey)}
                 </Link>
               ))}
-
-              <button className="p-1 text-muted-foreground hover:text-foreground relative w-full flex items-center gap-2 animate-pulse">
-                <BellIcon className="h-6 w-6" />
-                {notificationCount > 0 && (
-                  <Badge
-                    variant="destructive"
-                    className="h-5 w-5 flex items-center justify-center p-0 text-xs"
-                  >
-                    {notificationCount > 9 ? "9+" : notificationCount}
-                  </Badge>
-                )}
-                Notifications
-              </button>
-
-              {!address ? (
-                !isMetaMaskInstalled ? (
-                  <Button onClick={handleInstallMetaMask} variant="secondary" size="sm" className="w-full">
-                    <Wallet className="h-4 w-4 mr-2" /> Install MetaMask
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={() => handleConnectWallet()}
-                    variant="secondary"
-                    size="sm"
-                    className="w-full"
-                    disabled={isConnecting}
-                  >
-                    {isConnecting ? "Connecting..." : <><Wallet className="h-4 w-4 mr-2" /> Connect Wallet</>}
-                  </Button>
-                )
-              ) : (
-                <div className="flex items-center gap-2 bg-green-500/20 text-green-800 px-3 py-2 rounded-lg border border-green-600/40">
-                  <Wallet className="h-4 w-4" />
-                  <span className="text-sm font-mono">{address.slice(0, 6)}...{address.slice(-4)}</span>
-                </div>
-              )}
-
-              {farmerProfile?.hedera_account_id && (
-                <div className="text-xs px-2 py-1 bg-white/10 rounded-md truncate max-w-[150px]">
-                  Hedera: {farmerProfile.hedera_account_id}
-                </div>
-              )}
 
               <Button onClick={handleLogout} variant="ghost" size="sm" className="w-full justify-start mt-2">
                 <LogOut className="h-4 w-4 mr-2" /> Logout
