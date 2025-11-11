@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import NegotiationRoomList from "@/components/negotiations/NegotiationRoomList";
 import NegotiationRoom from "@/components/negotiations/NegotiationRoom";
 import CreateNegotiationDialog from "@/components/negotiations/CreateNegotiationDialog";
+import { MobileHeader } from "@/components/mobile/MobileHeader";
 
 export default function Negotiations() {
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
@@ -13,17 +14,18 @@ export default function Negotiations() {
   const [showCreateDialog, setShowCreateDialog] = useState(false);
 
   return (
-    <div className="min-h-screen bg-primary">
+    <div className="min-h-screen bg-muted">
+      <MobileHeader />
       <div className="container mx-auto p-4 lg:p-6">
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="h-12 w-12 rounded-full bg-primary flex items-center justify-center shadow-lg">
+              <div className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center shadow-lg">
                 <Handshake className="h-6 w-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-primary via-primary-light to-secondary bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold bg-primary bg-clip-text text-transparent">
                   Deal Negotiations
                 </h1>
                 <p className="text-muted-foreground">
@@ -34,9 +36,9 @@ export default function Negotiations() {
 
             <Button
               onClick={() => setShowCreateDialog(true)}
-              className="bg-primary"
+               variant="secondary"
             >
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="h-4 w-4 " />
               New Negotiation
             </Button>
           </div>
@@ -44,14 +46,14 @@ export default function Negotiations() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <Card className="p-4 bg-primary border-primary/20">
+          <Card className="p-4 bg-primary border-secondary/20">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Handshake className="h-5 w-5 text-primary" />
+                <Handshake className="h-5 w-5 text-secondary" />
               </div>
               <div>
-                <p className="text-2xl font-bold">12</p>
-                <p className="text-xs text-muted-foreground">Active Deals</p>
+                <p className="text-2xl font-bold text-secondary">12</p>
+                <p className="text-xs text-secondary">Active Deals</p>
               </div>
             </div>
           </Card>
@@ -62,20 +64,20 @@ export default function Negotiations() {
                 <FileText className="h-5 w-5 text-secondary" />
               </div>
               <div>
-                <p className="text-2xl font-bold">$45,230</p>
-                <p className="text-xs text-muted-foreground">In Negotiation</p>
+                <p className="text-2xl font-bold text-secondary">$45,230</p>
+                <p className="text-xs text-secondary">In Negotiation</p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4 bg-gradient-to-br from-green-500/10 to-card border-green-500/20">
+          <Card className="p-4 bg-primary border-green-500/20">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 rounded-lg bg-green-500/10 flex items-center justify-center">
                 <Truck className="h-5 w-5 text-green-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold">8</p>
-                <p className="text-xs text-muted-foreground">Deals Closed</p>
+                <p className="text-2xl font-bold text-secondary">8</p>
+                <p className="text-xs text-secondary">Deals Closed</p>
               </div>
             </div>
           </Card>
@@ -136,14 +138,14 @@ export default function Negotiations() {
             ) : (
               <Card className="h-[600px] flex items-center justify-center bg-gradient-to-br from-card to-primary/5 border-dashed">
                 <div className="text-center space-y-3">
-                  <div className="h-20 w-20 mx-auto rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                    <Handshake className="h-10 w-10 text-primary" />
+                  <div className="h-20 w-20 mx-auto rounded-full bg-secondary  flex items-center justify-center">
+                    <Handshake className="h-10 w-10 text-foreground-muted" />
                   </div>
                   <p className="text-lg font-medium">Start a New Deal</p>
                   <p className="text-sm text-muted-foreground max-w-md">
                     Select an existing negotiation or create a new one to begin structured, secure deal-making
                   </p>
-                  <Button onClick={() => setShowCreateDialog(true)} className="mt-2">
+                  <Button onClick={() => setShowCreateDialog(true)} className="mt-2" variant="secondary">
                     <Plus className="h-4 w-4 mr-2" />
                     Create Negotiation
                   </Button>

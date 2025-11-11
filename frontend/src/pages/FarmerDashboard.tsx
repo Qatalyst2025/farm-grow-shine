@@ -360,7 +360,7 @@ const FarmerDashboard = () => {
                   ].map((card) => (
                     <Card key={card.id} className="p-6 hover:shadow-elevated transition-all hover:-translate-y-1 border-l-4 border-l-primary">
                       <div className="flex items-start gap-4">
-                        <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                        <div className="h-12 w-12 rounded-full bg-secondary/10 flex items-center justify-center">
                           <card.icon className="h-6 w-6 text-primary" />
                         </div>
                         <div className="flex-1">
@@ -420,8 +420,8 @@ const FarmerDashboard = () => {
             </div>
 
             <div className="space-y-6">
-              <Card className="p-6 bg-primary">
-                <h3 className="text-lg font-bold mb-4 text-card-foreground">Financial Health Score</h3>
+              <Card className="p-6 bg-primary-foreground">
+                <h3 className="text-lg font-bold mb-4 text-primary text-center">Financial Health Score</h3>
                 <div className="relative h-32 flex items-center justify-center mb-4">
                   <div className="relative">
                     <svg className="transform -rotate-90 w-32 h-32">
@@ -444,30 +444,32 @@ const FarmerDashboard = () => {
                   </div>
                 </div>
 
+
                 <div className="space-y-3 mb-4">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Payment History</span>
+                    <span className="text-primary">Payment History</span>
                     <div className="flex items-center gap-1">
                       <CheckCircle2 className="h-4 w-4 text-success" />
-                      <span className="font-medium">Excellent</span>
+                      <span className="font-medium text-primary">Excellent</span>
                     </div>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Crop Value</span>
-                    <span className="font-medium text-foreground">{dashboardData?.totalCropValue ?? "$1,850"}</span>
+                    <span className="text-primary">Crop Value</span>
+                    <span className="font-medium text-primary">{dashboardData?.totalCropValue ?? "$1,850"}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Market Demand</span>
-                    <span className="font-medium text-success">High</span>
+                    <span className="text-primary">Market Demand</span>
+                    <span className="font-medium text-primary">High</span>
                   </div>
                 </div>
 
                 <div className="bg-info/10 rounded-lg p-3 border border-info/20">
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-secondary">
                     💡 <span className="font-medium">Tip:</span> Add one photo weekly to increase your score.
                   </p>
                 </div>
               </Card>
+
 
               <Card className="p-6">
                 <div className="flex items-center gap-2 mb-4">

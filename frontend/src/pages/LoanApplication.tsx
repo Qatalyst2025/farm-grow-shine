@@ -84,8 +84,11 @@ const LoanApplication = () => {
       <header className="bg-primary text-primary-foreground py-6 shadow-lg">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <h1 className="text-3xl font-bold">Your Path to Growth 🌱</h1>
+            <div className="items-center gap-4">
+              <h1 className="text-3xl font-bold">Your Path to Growth </h1>
+               <p className="text-primary-foreground/90 mt-2">
+            Manage and track all your crops in one place
+          </p>
             </div>
           </div>
         </div>

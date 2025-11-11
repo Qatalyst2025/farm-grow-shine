@@ -18,6 +18,7 @@ import {
   Package
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { MobileHeader } from "@/components/mobile/MobileHeader";
 
 const BuyerProfile = () => {
   const buyerData = {
@@ -100,27 +101,9 @@ const BuyerProfile = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-primary to-success text-primary-foreground py-6 shadow-lg">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold">Buyer Profile</h1>
-            <div className="flex gap-3">
-              <Link to="/marketplace">
-                <Button variant="outline" className="bg-white/10 border-white/30 text-primary-foreground hover:bg-white/20">
-                  <ShoppingBag className="h-4 w-4 mr-2" />
-                  Marketplace
-                </Button>
-              </Link>
-              <Link to="/">
-                <Button variant="outline" className="bg-white/10 border-white/30 text-primary-foreground hover:bg-white/20">
-                  Home
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+      <MobileHeader />
+    
+     
 
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

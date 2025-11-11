@@ -35,7 +35,7 @@ const queryClient = new QueryClient();
 
 // Function to get user role
 const getUserRole = () => {
-  return localStorage.getItem("user_role") || "";
+  return (localStorage.getItem("user_role") || "").toUpperCase();
 };
 
 // Function to check authentication and role-based access

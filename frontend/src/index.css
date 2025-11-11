@@ -245,3 +245,10 @@ button:not([aria-label]):not([title]),
 a:not([aria-label]):not([title]) {
   /* Ensure interactive elements have accessible labels */
 }
+
+
+/* Fix overflowing buttons in tabs and small UIs */
+button, [role="tab"] {
+  min-height: unset;
+  min-width: unset;
+}

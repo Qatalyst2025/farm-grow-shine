@@ -58,8 +58,10 @@ export const MobileHeader = ({
   const isMetaMaskInstalled =
     typeof window !== "undefined" && !!(window as any).ethereum;
 
-  const navigation =
-    userRole === "FARMER" ? getFarmerNavItems() : getBuyerNavItems();
+    const storedRole = (localStorage.getItem("user_role") || "").toUpperCase();
+    const role = storedRole || userRole.toUpperCase();
+    const navigation = role === "FARMER" ? getFarmerNavItems() : getBuyerNavItems();
+
 
   useEffect(() => {
     setAvailableWallets(detectAvailableWallets());
@@ -87,7 +89,7 @@ export const MobileHeader = ({
     localStorage.removeItem("authToken");
     localStorage.removeItem("user_role");
     toast({ title: "Logged out", description: "You have been signed out successfully", variant: "destructive" });
-    navigate("/login");
+    navigate("/auth");
   };
 
   return (
@@ -101,20 +103,21 @@ export const MobileHeader = ({
               </div>
 
               <div className="hidden lg:flex items-center gap-3 flex-wrap">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className={classNames(
-                      location.pathname === item.path
-                        ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
-                      "rounded-md px-3 py-2 text-sm font-medium"
-                    )}
-                  >
-                    {t(item.labelKey)}
-                  </Link>
-                ))}
+              {navigation.map((item) => (
+              <Link
+              key={item.path}
+              to={item.path}
+              className={classNames(
+              location.pathname === item.path
+              ? "text-secondary relative before:absolute before:bottom-0 before:left-0 before:h-0.5 before:w-full before:bg-gradient-to-r before:from-secondary before:to-secondary before:rounded before:content-['']"
+              : "text-primary hover:text-secondary pb-1",
+              "px-3 py-2 text-sm font-medium"
+              )}
+              >
+              {t(item.labelKey)}
+              </Link>
+              ))}
+
 
                 <button className="p-1 text-muted-foreground hover:text-foreground relative">
                   <BellIcon className="h-6 w-6" />
@@ -198,7 +201,7 @@ export const MobileHeader = ({
                 </Link>
               ))}
 
-              <button className="p-1 text-muted-foreground hover:text-foreground relative w-full flex items-center gap-2">
+              <button className="p-1 text-secondary hover:text-foreground relative w-full flex items-center gap-2">
                 <BellIcon className="h-6 w-6" />
                 {notificationCount > 0 && (
                   <Badge
