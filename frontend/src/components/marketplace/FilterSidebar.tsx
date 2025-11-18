@@ -89,7 +89,7 @@ export const FilterSidebar = ({ onClose, isMobile = false }: FilterSidebarProps)
                   className="flex items-center gap-1 cursor-pointer text-sm font-medium"
                 >
                   {Array.from({ length: rating }).map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-warning text-warning" />
+                    <Star key={i} className="h-4 w-4 fill-warning text-secondary" />
                   ))}
                   <span className="ml-1 text-muted-foreground">& up</span>
                 </label>
@@ -130,7 +130,7 @@ export const FilterSidebar = ({ onClose, isMobile = false }: FilterSidebarProps)
               max={2000}
               min={0}
               step={50}
-              className="w-full"
+              className="w-full bg-foreground-muted"
             />
             <div className="flex items-center justify-between text-sm">
               <span className="font-medium">${priceRange[0]}</span>
@@ -158,11 +158,11 @@ export const FilterSidebar = ({ onClose, isMobile = false }: FilterSidebarProps)
 
         {/* Distance Radius */}
         <div>
-          <Label className="text-base font-semibold mb-3 flex items-center gap-2">
+          <Label className="text-primary font-semibold mb-3 flex items-center gap-2">
             <MapPin className="h-4 w-4" />
             Distance Radius
           </Label>
-          <div className="space-y-4">
+          <div className="space-y-4 ">
             <Slider
               value={distanceRadius}
               onValueChange={setDistanceRadius}

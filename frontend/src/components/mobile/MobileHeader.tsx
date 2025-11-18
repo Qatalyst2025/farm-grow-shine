@@ -20,6 +20,7 @@ const getFarmerNavItems = () => [
   { path: "/farmer", labelKey: "Home" },
   { path: "/farmer/crops", labelKey: "My Crops" },
   { path: "/farmer/apply-loan", labelKey: "Loans" },
+  { path: "/farmer/grants", labelKey: "Grants" },
   { path: "/community", labelKey: "Community" },
   { path: "/messages", labelKey: "Messages" },
 ];
@@ -99,7 +100,7 @@ export const MobileHeader = ({
           <div className="w-full px-4">
             <div className="relative flex h-16 items-center justify-between">
               <div className="flex items-center flex-1">
-                <Logo size="lg" />
+                <Logo size="sm" />
               </div>
 
               <div className="hidden lg:flex items-center gap-3 flex-wrap">

@@ -26,6 +26,8 @@ import CreditAssessment from "./pages/CreditAssessment";
 import Community from "./pages/Community";
 import Negotiations from "./pages/Negotiations";
 import CropsList from "./pages/CropsList";
+import 'leaflet/dist/leaflet.css';
+import GrantsPage from "./components/grant/grantPage";
 
 // Lazy load AIAdvisor and Messages
 const AIAdvisor = lazy(() => import("./pages/AIAdvisor"));
@@ -100,6 +102,7 @@ const App = () => (
                 {/* Public Routes - No authentication required */}
                 <Route path="/" element={<Index />} />
                 <Route path="/auth" element={<Auth />} />
+                
 
                 {/* Protected Routes with role-based access */}
                 <Route path="/*" element={
@@ -151,6 +154,12 @@ const App = () => (
                           <CropHealthMonitor />
                         </PrivateRoute>
                       } />
+
+                       <Route path="/farmer/grants" element={
+                        <PrivateRoute allowedRoles={["FARMER"]}>
+                          <GrantsPage />
+                        </PrivateRoute>} />
+
                       <Route path="/crop-health" element={
                         <PrivateRoute allowedRoles={["FARMER"]}>
                           <CropHealthMonitor />
@@ -171,6 +180,8 @@ const App = () => (
                           <CreditAssessment />
                         </PrivateRoute>
                       } />
+
+                     
 
                       {/* Buyer-only routes */}
                       <Route path="/marketplace" element={
