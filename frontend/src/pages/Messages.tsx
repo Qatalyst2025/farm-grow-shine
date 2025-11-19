@@ -5,6 +5,23 @@ import { Card } from "@/components/ui/card";
 import { MessageSquare } from "lucide-react";
 import { MobileHeader } from "@/components/mobile/MobileHeader";
 
+// Dummy message data
+const dummyMessages: Record<string, any[]> = {
+  "1": [
+    { id: "m1", sender: "u1", content: "Hey! How are you?", created_at: new Date().toISOString() },
+    { id: "m2", sender: "me", content: "I'm good, thanks! How about you?", created_at: new Date().toISOString() },
+    { id: "m3", sender: "u1", content: "All fine. Are you free tomorrow?", created_at: new Date().toISOString() },
+  ],
+  "2": [
+    { id: "m4", sender: "u2", content: "Can you send the files?", created_at: new Date().toISOString() },
+    { id: "m5", sender: "me", content: "Sure, sending now.", created_at: new Date().toISOString() },
+  ],
+  "3": [
+    { id: "m6", sender: "u3", content: "Meeting moved to 11AM.", created_at: new Date().toISOString() },
+    { id: "m7", sender: "me", content: "Got it, thanks!", created_at: new Date().toISOString() },
+  ],
+};
+
 export default function Messages() {
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
 
@@ -29,7 +46,10 @@ export default function Messages() {
 
           <div className="lg:col-span-2">
             {selectedConversationId ? (
-              <MessageThread conversationId={selectedConversationId} />
+              <MessageThread
+                conversationId={selectedConversationId}
+                dummyMessages={dummyMessages[selectedConversationId]}
+              />
             ) : (
               <Card className="h-full flex items-center justify-center">
                 <div className="text-center text-muted-foreground">
